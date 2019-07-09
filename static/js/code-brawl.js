@@ -1,12 +1,15 @@
 var id = window.location.pathname.substring(url.lastIndexOf('/') + 1);
 var challengeRef = db.collection('challenges').doc(id);
 
-function submit(fileURL) async {
-    var currentTime = firebase.firestore.FieldValue.serverTimestamp();
-    var startTime = await getTime();
+async function submit(fileURL) {
+    var remainingTime = await getRemainingTime();
+    if (remainingTime > 300) {
+        return;
+    }
+
     var player = getPlayer();
     var url = 'http://localhost:5000/code-brawl';
-    
+
     var data = {
         id: id,
         player: player,
@@ -27,10 +30,12 @@ function submit(fileURL) async {
     .catch(error => {
         console.log(error);
     })
+
+    // Show alert after code submission with submission details...
 }
 
-function getTime() {
-    challengeRef.get().then(function(doc) {
+async function getTime() {
+    await challengeRef.get().then(function(doc) {
 	    if (doc.exists) {
             return doc.data().startingTime;
 	        console.log("Document data:", doc.data());
@@ -42,10 +47,17 @@ function getTime() {
 	});
 }
 
+async function getRemainingTime() {
+    var currentTime = new Date();
+    var startingTime = await getTime();
+    return (currentTime.getTime() - startingTime.getTime()) / 1000;
+}
+
 function getPlayer() {
+    // Edit to get player from firebase auth.
     return 0;
 }
 
 function save() {
-
+    // save what? I forgot...
 }

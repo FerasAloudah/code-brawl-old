@@ -1,15 +1,15 @@
 var button = document.getElementById("Login");
 
 button.addEventListener("click", () => {
-findChallenge();
-swal({
-    title: "You successfully joined the room!",
-    text: " Waiting for your friend!",
-    icon: "success",
-    button: "Cancel",
-  }).then(() => {
-      cancelChallenge();
-  })
+    findChallenge();
+    swal({
+        title: "You successfully joined the room!",
+        text: " Waiting for your friend!",
+        icon: "success",
+        button: "Cancel",
+    }).then(() => {
+        cancelChallenge();
+    })
 })
 
 var currentChallenge = null;
@@ -17,7 +17,7 @@ var challengeListener = null;
 
 async function findChallenge() {
     var challenges = db.collection("challenges").where("status", "==", 'Waiting');
-	var challengeFound = false;
+    var challengeFound = false;
 
     await challenges.get().then(function(querySnapshot) {
         querySnapshot.forEach(function(doc) {
@@ -37,18 +37,17 @@ async function findChallenge() {
 }
 
 function createChallenge() {
-    var name = document.getElementById("name").value;
     var data = {
-        'playerOne': name,
-        'points': [0, 0],
+        'playerOne': firebase.auth().currentUser.uid,
+        'playerOnePoints': 0,
+        'playerOneProgress': 0,
         'questions': generateQuestions(),
-        'status': 'Waiting',
-        'progress': [0, 0]
+        'status': 'Waiting'
     }
 
     var newChallengeRef = db.collection("challenges").doc();
 
-	newChallengeRef.set(data)
+    newChallengeRef.set(data)
         .then(function() {
             console.log("Document successfully written!");
         })
@@ -61,6 +60,7 @@ function createChallenge() {
     newChallengeRef.onSnapshot(function(doc) {
         data = doc.data();
         if (data.status == 'Started') {
+            createUser();
             console.log(doc.data().playerTwo + ' Joined!');
             // Change page.
         }
@@ -72,24 +72,25 @@ function joinChallenge(id) {
     var name = document.getElementById("name").value;
 
     challengeRef.update({
-        'playerTwo': name,
+        'playerTwo': firebase.auth().currentUser.uid,
+        'playerTwoPoints': 0,
+        'playerTwoProgress': 0,
         'status': 'Started',
         'startingTime': firebase.firestore.FieldValue.serverTimestamp(),
-        'playerOneTime': firebase.firestore.FieldValue.serverTimestamp(),
-        'playerTwoTime': firebase.firestore.FieldValue.serverTimestamp()
     });
 
     challengeRef.get().then(function(doc) {
-	    if (doc.exists) {
-			console.log('You Joined ' + doc.data().playerOne + '!');
-	        console.log("Document data:", doc.data());
+        if (doc.exists) {
+            createUser();
+            console.log('You Joined ' + doc.data().playerOne + '!');
+            console.log("Document data:", doc.data());
             // Change page.
-	    } else {
-	        console.log("No such document!");
-	    }
-	}).catch(function(error) {
-	    console.log("Error getting document:", error);
-	});
+        } else {
+            console.log("No such document!");
+        }
+    }).catch(function(error) {
+        console.log("Error getting document:", error);
+    });
 }
 
 function cancelChallenge() {
@@ -98,6 +99,27 @@ function cancelChallenge() {
     }).catch(function(error) {
         console.error("Error removing document: ", error);
     });
+}
+
+function createUser() {
+    var name = document.getElementById("name").value;
+    var data = {
+        'name': name,
+        'java': 0,
+        'java-complete': 0,
+        'python': 0,
+        'python-completed': 0
+    }
+
+    var newUserRef = db.collection("users").doc(firebase.auth().currentUser.uid);
+
+    newUserRef.set(data)
+        .then(function() {
+            console.log("Document successfully written!");
+        })
+        .catch(function(error) {
+            console.error("Error writing document: ", error);
+        });;
 }
 
 function generateQuestions() {
