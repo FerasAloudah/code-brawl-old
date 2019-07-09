@@ -16,6 +16,8 @@ var currentChallenge = null;
 var challengeListener = null;
 
 async function findChallenge() {
+    await signOut();
+    await signIn();
     var challenges = db.collection("challenges").where("status", "==", 'Waiting');
     var challengeFound = false;
 
@@ -105,6 +107,7 @@ function createUser() {
     var name = document.getElementById("name").value;
     var data = {
         'name': name,
+        'points': 0,
         'java': 0,
         'java-complete': 0,
         'python': 0,
@@ -124,11 +127,9 @@ function createUser() {
 
 function generateQuestions() {
     var questions = []
-    while (questions.length < 3) {
-        var question = Math.floor(Math.random() * 30);
-        if (questions.indexOf(question) === -1) {
-            questions.push(question);
-        }
+    for (var i = 0; i < 3; i++) {
+        var question = Math.floor(Math.random() * 15);
+        questions.push(question + 15 * i);
     }
     return questions;
 }

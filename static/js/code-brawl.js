@@ -3,12 +3,14 @@ var challengeRef = db.collection('challenges').doc(id);
 
 async function submit(fileURL) {
     var remainingTime = await getRemainingTime();
+
     if (remainingTime > 300) {
+        console.log("Time's up!");
         return;
     }
 
     var player = getPlayer();
-    var url = 'http://localhost:5000/code-brawl';
+    var url = 'http://localhost:5000/code-brawl'; // API url.
 
     var data = {
         id: id,
@@ -55,7 +57,7 @@ async function getRemainingTime() {
 
 function getPlayer() {
     // Edit to get player from firebase auth.
-    return 0;
+    return firebase.auth().currentUser.uid;
 }
 
 function save() {
