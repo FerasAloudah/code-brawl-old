@@ -38,7 +38,7 @@ async function findChallenge() {
     }
 }
 
-function createChallenge() {
+async function createChallenge() {
     var data = {
         'playerOne': firebase.auth().currentUser.uid,
         'playerOnePoints': 0,
@@ -59,21 +59,24 @@ function createChallenge() {
 
     currentChallenge = newChallengeRef;
 
-    newChallengeRef.onSnapshot(function(doc) {
+    newChallengeRef.onSnapshot(async function(doc) {
         data = doc.data();
         if (data.status == 'Started') {
-            createUser();
+            await createUser();
             console.log(doc.data().playerTwo + ' Joined!');
+
             // Change page.
+            var url = Flask.url_for("challenge", {match_id: doc.id}).substring(1);
+            window.location.replace(window.location.href + url);
         }
     });
 }
 
-function joinChallenge(id) {
+async function joinChallenge(id) {
     var challengeRef = db.collection("challenges").doc(id);
     var name = document.getElementById("name").value;
 
-    challengeRef.update({
+    await challengeRef.update({
         'playerTwo': firebase.auth().currentUser.uid,
         'playerTwoPoints': 0,
         'playerTwoProgress': 0,
@@ -81,12 +84,15 @@ function joinChallenge(id) {
         'startingTime': firebase.firestore.FieldValue.serverTimestamp(),
     });
 
-    challengeRef.get().then(function(doc) {
+    challengeRef.get().then(async function(doc) {
         if (doc.exists) {
-            createUser();
+            await createUser();
             console.log('You Joined ' + doc.data().playerOne + '!');
             console.log("Document data:", doc.data());
+
             // Change page.
+            var url = Flask.url_for("challenge", {match_id: doc.id}).substring(1);
+            window.location.replace(window.location.href + url);
         } else {
             console.log("No such document!");
         }
@@ -132,4 +138,8 @@ function generateQuestions() {
         questions.push(question + 15 * i);
     }
     return questions;
+}
+
+function test() {
+
 }

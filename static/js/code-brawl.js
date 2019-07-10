@@ -1,7 +1,8 @@
-var id = window.location.pathname.substring(url.lastIndexOf('/') + 1);
-var challengeRef = db.collection('challenges').doc(id);
+// var url = window.location.href;
+// var id = window.location.pathname.substring(url.lastIndexOf('/') + 1);
+var challengeRef = db.collection('challenges').doc(match_id);
 
-async function submit(fileURL) {
+async function submit() {
     var remainingTime = await getRemainingTime();
 
     if (remainingTime > 300) {
@@ -9,15 +10,8 @@ async function submit(fileURL) {
         return;
     }
 
-    var player = getPlayer();
     var url = 'http://localhost:5000/code-brawl'; // API url.
-
-    var data = {
-        id: id,
-        player: player,
-        url: fileURL,
-        time_left: currentTime.seconds - startTime.seconds,
-    };
+    var data = getData(remainingTime);
 
     axios({
         method: post,
@@ -34,6 +28,21 @@ async function submit(fileURL) {
     })
 
     // Show alert after code submission with submission details...
+}
+
+function getData(remainingTime) {
+    var player = getPlayer();
+
+    var data = {
+        id: match_id,
+        player: player,
+        data: editor.getValue(),
+        time_left: remainingTime,
+    };
+
+    console.log(editor.getValue());
+
+    console.log(data);
 }
 
 async function getTime() {

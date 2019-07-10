@@ -1,13 +1,24 @@
-from flask import Flask, request, session, render_template, url_for, request
+from flask import Flask, request, session, render_template, url_for, request, redirect
 from flask_restful import Resource, Api
+from flask_jsglue import JSGlue
 
 app = Flask(__name__)
 api = Api(app)
+jsglue = JSGlue(app)
 
 
 @app.route('/')
 def home():
     return render_template('main.html')
+
+
+@app.route('/challenge/')
+@app.route('/challenge/<path:match_id>/')
+def challenge(match_id=None):
+    if not match_id:
+        return redirect(url_for('home'))
+
+    return render_template('challenge.html', match_id=match_id)
 
 
 @app.route('/match/<path:match_id>/', methods=['GET', 'POST'])
