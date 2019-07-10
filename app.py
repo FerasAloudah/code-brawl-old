@@ -47,7 +47,11 @@ class CodeBrawl(Resource):
 
     def post(self):
         json = request.get_json()
-        print(json.get('name'))
+        extension = '.java' if json.get('language') == 'java' else '.py'
+        fileName = json.get('player') + extension
+        with open(fileName, 'w+') as file:
+            file.write(json.get('data'))
+
         return json, 201
 
 api.add_resource(CodeBrawl, '/code-brawl')

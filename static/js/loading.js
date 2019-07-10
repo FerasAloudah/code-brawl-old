@@ -27,14 +27,20 @@ async function checkPlayer() {
             if (result) {
                 document.getElementById('form').submit();
             } else {
-                window.location.replace("http://localhost:5000");
+                changeWindow();
             }
 
             console.log("Document data:", doc.data());
         } else {
+            changeWindow();
             console.log("No such document!");
         }
     }).catch(function(error) {
         console.log("Error getting document:", error);
     });
+}
+
+function changeWindow() {
+    // Change to error page later?
+    window.location.replace("http://localhost:5000");
 }

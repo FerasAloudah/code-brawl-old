@@ -18,46 +18,42 @@ async function checkUser() {
 }
 
 async function submit() {
-    var remainingTime = await getRemainingTime();
-
-    if (remainingTime > 300) {
-        console.log("Time's up!");
-        return;
-    }
+    // var remainingTime = await getRemainingTime();
+    //
+    // if (remainingTime > 300) {
+    //     console.log("Time's up!");
+    //     return;
+    // }
 
     var url = 'http://localhost:5000/code-brawl'; // API url.
-    var data = getData(remainingTime);
+    var data = getData();
+    var otherPram = {
+        headers: {
+            "content-type": "application/json; charset=UTF-8"
+        },
+        body: JSON.stringify(data)  ,
+        method: "POST"
+    };
 
-    axios({
-        method: post,
-        url: url,
-        data: {
-            data
-        }
-      })
-    .then(data => {
-        console.log(data);
-    })
-    .catch(error => {
-        console.log(error);
-    })
+    fetch(url, otherPram)
+    .then(data => {return data.json()})
+    .then(res => console.log(res))
+    .catch(error => console.log(error))
 
     // Show alert after code submission with submission details...
 }
 
-function getData(remainingTime) {
+function getData() {
     var player = getPlayer();
 
     var data = {
-        id: match_id,
-        player: player,
-        data: editor.getValue(),
-        time_left: remainingTime,
+        'id': match_id,
+        'player': player,
+        'data': editor.getValue(),
+        'language': getLanguage()
     };
 
-    console.log(editor.getValue());
-
-    console.log(data);
+    return data;
 }
 
 async function getTime() {
@@ -80,11 +76,15 @@ async function getRemainingTime() {
 }
 
 function getPlayer() {
-    if firebase.auth().currentUser == null {
+    if (firebase.auth().currentUser == null) {
         return null;
     }
 
     return firebase.auth().currentUser.uid;
+}
+
+function getLanguage() {
+    return editor.session.getMode().$id.split('/')[2];
 }
 
 function save() {
