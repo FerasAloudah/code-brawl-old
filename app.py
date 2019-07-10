@@ -21,7 +21,8 @@ def challenge(match_id=None):
     if request.method == 'POST':
         return render_template('challenge.html', match_id=match_id)
 
-    return render_template('loading.html', match_id=match_id)
+    # Change to loading.html later
+    return render_template('challenge.html', match_id=match_id)
 
 
 @app.route('/match/<path:match_id>/', methods=['GET', 'POST'])

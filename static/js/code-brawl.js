@@ -90,7 +90,3 @@ function getPlayer() {
 function save() {
     // save what? I forgot...
 }
-
-function checkPlayer() {
-
-}

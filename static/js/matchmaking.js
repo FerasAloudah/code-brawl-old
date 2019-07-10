@@ -139,7 +139,3 @@ function generateQuestions() {
     }
     return questions;
 }
-
-function checkPlayer() {
-
-}

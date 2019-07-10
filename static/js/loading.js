@@ -2,6 +2,10 @@ var challengeRef = db.collection('challenges').doc(match_id);
 var playerOne = "";
 var playerTwo = "";
 
+firebase.auth().onAuthStateChanged(function(user) {
+    checkPlayer();
+});
+
 function getPlayer() {
     if (firebase.auth().currentUser == null) {
         return null;
