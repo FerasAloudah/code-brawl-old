@@ -140,6 +140,6 @@ function generateQuestions() {
     return questions;
 }
 
-function test() {
+function checkPlayer() {
 
 }

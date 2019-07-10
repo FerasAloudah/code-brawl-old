@@ -1,6 +1,21 @@
-// var url = window.location.href;
-// var id = window.location.pathname.substring(url.lastIndexOf('/') + 1);
 var challengeRef = db.collection('challenges').doc(match_id);
+
+async function checkUser() {
+    await challengeRef.get().then(function(doc) {
+	    if (doc.exists) {
+            var data = doc.data();
+            var player = getPlayer();
+
+            return player == data.
+
+	        console.log("Document data:", doc.data());
+	    } else {
+	        console.log("No such document!");
+	    }
+	}).catch(function(error) {
+	    console.log("Error getting document:", error);
+	});
+}
 
 async function submit() {
     var remainingTime = await getRemainingTime();
@@ -65,10 +80,17 @@ async function getRemainingTime() {
 }
 
 function getPlayer() {
-    // Edit to get player from firebase auth.
+    if firebase.auth().currentUser == null {
+        return null;
+    }
+
     return firebase.auth().currentUser.uid;
 }
 
 function save() {
     // save what? I forgot...
+}
+
+function checkPlayer() {
+
 }

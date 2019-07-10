@@ -13,12 +13,15 @@ def home():
 
 
 @app.route('/challenge/')
-@app.route('/challenge/<path:match_id>/')
+@app.route('/challenge/<path:match_id>/', methods=['GET', 'POST'])
 def challenge(match_id=None):
     if not match_id:
         return redirect(url_for('home'))
 
-    return render_template('challenge.html', match_id=match_id)
+    if request.method == 'POST':
+        return render_template('challenge.html', match_id=match_id)
+
+    return render_template('loading.html', match_id=match_id)
 
 
 @app.route('/match/<path:match_id>/', methods=['GET', 'POST'])
