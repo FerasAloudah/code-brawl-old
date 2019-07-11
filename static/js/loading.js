@@ -25,6 +25,7 @@ async function checkPlayer() {
             var result = player == playerOne || player == playerTwo;
 
             if (result) {
+                document.getElementById('player').value = player;
                 document.getElementById('form').submit();
             } else {
                 changeWindow();

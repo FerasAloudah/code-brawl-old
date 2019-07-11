@@ -1,48 +1,51 @@
 #editor {
     position: absolute;
-    top: 60px;
+    top: 10%;
     right: 0;
     bottom: 0;
     left: 0;
 }
+
 body {
-font-family: Arial;
-color: white;
+    font-family: Arial;
+    color: white;
 }
 
 .split {
-height: 100%;
-width: 50%;
-position: fixed;
-z-index: 1;
-top: 0;
-overflow-x: hidden;
-padding-top: 20px;
+    height: 100%;
+    width: 50%;
+    position: fixed;
+    z-index: 1;
+    top: 10%;
+    overflow-x: hidden;
+    padding-top: 20px;
 }
 
 .left {
-left: 0;
-background-color: #111;
+    left: 0;
+    background-color: #111;
 }
 
 .right {
-right: 0;
-background-color: white;
+    right: 0;
+    background-color: #111;
 }
 
 .centered {
-position: absolute;
-top: 50%;
-left: 50%;
-transform: translate(-50%, -50%);
-text-align: center;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    /* text-align: center; */
+
 }
 
 .centered img {
-width: 150px;
-border-radius: 50%;
+    width: 150px;
+    border-radius: 50%;
 }
+
 #example {
-color: #111;
-font-size: 50px ;
+    color: #111;
+    font-size: 50px;
 }

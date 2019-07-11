@@ -12,28 +12,17 @@ def home():
     return render_template('main.html')
 
 
-@app.route('/challenge/')
-@app.route('/challenge/<path:match_id>/', methods=['GET', 'POST'])
+@app.route('/match/')
+@app.route('/match/<path:match_id>/', methods=['GET', 'POST'])
 def challenge(match_id=None):
     if not match_id:
         return redirect(url_for('home'))
 
     if request.method == 'POST':
-        return render_template('challenge.html', match_id=match_id)
+        return render_template('challenge.html', match_id=match_id, player_id=request.form['player'])
 
     # Change to loading.html later
     return render_template('challenge.html', match_id=match_id)
-
-
-@app.route('/match/<path:match_id>/', methods=['GET', 'POST'])
-def match(match_id):
-    if request.method == 'POST':
-        session[match_id] = request.form['host']
-        return render_template('match.html', id=match_id)
-    elif session[match_id]:
-        return render_template('match.html', id=match_id)
-    else:
-        return render_template('no_match.html')
 
 
 @app.route('/leaderboard/')
