@@ -1,9 +1,10 @@
 #editor {
     position: absolute;
-    top: 10%;
+    top: 8%;
     right: 0;
     bottom: 0;
     left: 0;
+    margin-right: 51%;
 }
 
 body {
@@ -18,17 +19,23 @@ body {
     z-index: 1;
     top: 10%;
     overflow-x: hidden;
-    padding-top: 20px;
+    padding-top: 15px;
+    padding-left: 10px;
 }
 
 .left {
     left: 0;
-    background-color: #111;
+    background-color: black;
 }
 
 .right {
+    
     right: 0;
-    background-color: #111;
+    background-color: white;
+    color: black;
+    border-style: solid;
+    border-color: silver;
+    border-width: 3px;
 }
 
 .centered {
@@ -46,6 +53,25 @@ body {
 }
 
 #example {
-    color: #111;
+    color: white;
     font-size: 50px;
 }
+#CurrentPlayer {
+    text-align: center;
+    height: 50px;
+}
+#con {
+    text-align: center;
+    color: black;
+}
+#EnemyPlayer {
+    text-align: center;
+}
+#Choice {
+    text-align: left;
+}#naav {
+    border-style: solid;
+    border-color: silver;
+    border-width: 3px;
+}
+
