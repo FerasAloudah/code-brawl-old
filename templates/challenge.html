@@ -7,65 +7,37 @@
     <link rel="stylesheet" type="text/css" media="screen" href="{{url_for('static', filename='css/challenge.css')}}" />
     <link rel="shortcut icon" href="#" />
     <nav class="navbar navbar-expand-sm bg-dark navbar-dark fixed-top">
-            <a class="navbar-brand" href="#">CODE-BRAWL</a>
-            <div class="col-md-10" id="con" style="color:white" >Time Left : <span id="timer"></span></div>
-            <select name="ProgramingLan" id="Choice">
-                    <option value="Java">Java</option>
-                    <option value="Python">Python</option>
-                    
-                </select>
-          </nav>
+        <a class="navbar-brand" href="#">CODE-BRAWL</a>
+        <div class="col-md-10" id="con" style="color:white">Time Left - <span id="timer"></span></div>
+        <select name="ProgramingLan" id="choice" onchange="changeLang()">
+            <option value="Java">Java</option>
+            <option value="Python">Python</option>
+        </select>
+    </nav>
     <div class="row">
-            <div class="col-md-4" style="background-color:silver;" id="CurrentPlayer">
-                <p>Badr</p>
-               
-            </div>
-            <div class="col" style="background-color:silver;"id="con" >Time Left : <span id="timer"></span></div>
-            <div class="col" style="background-color:silver;" id="EnemyPlayer">feras</div>
-          </div>
-          -->
-        
-              
+        <div class="col-md-4" style="background-color:silver;" id="CurrentPlayer">
+            <p>Badr</p>
+
+        </div>
+        <div class="col" style="background-color:silver;" id="con">Time Left : <span id="timer"></span></div>
+        <div class="col" style="background-color:silver;" id="EnemyPlayer">feras</div>
+    </div>
+
 </head>
 
 <body>
     <div class="split right">
-            <div>
-                <h2> <u> Problem Description</u> </h2>
-                <p>You're given strings <code>J</code> representing the types of stones that are jewels, and <code>S</code> representing the stones you have.&nbsp; Each character in <code>S</code> is a type of stone you have.&nbsp; You want to know
-                    how many of the stones you have are also jewels.</p>
-
-                <p>The letters in <code>J</code> are guaranteed distinct, and all characters in <code>J</code> and <code>S</code> are letters. Letters are case sensitive, so <code>"a"</code> is considered a different type of stone from <code>"A"</code>.</p>
-
-                <p><strong> <u> Example 1:</u> </strong></p>
-
-                <pre><strong>Input:</strong> J = "aA", S = "aAAbbbb"
-                </pre>
-                <strong>Output:</strong> 3
-
-                <p><strong><u> Example 2:</u></strong></p>
-
-                <pre><strong>Input:</strong> J = "z", S = "ZZ"
-   </pre>
-   <strong>Output:</strong> 0
-
-                <p><strong><u>Note:</u></strong></p>
-
-                <ul>
-                    <li><code>S</code> and <code>J</code> will consist of letters and have length at most 50.</li>
-                    <li>The characters in <code>J</code> are distinct.</li>
-                </ul>
+        <div>
+            <h2><u>Problem Description</u></h2>
+            {{description | safe}}
         </div>
     </div>
-    <div id="editor">
-function foo(items) {
-    var x = "All this is syntax highlighted";
-    return x;
-}
-    </div>
+    <div id="editor">{{java_code}}</div>
 
 
     <script type="text/javascript">
+        var java_code = `{{java_code}}`.replace('&lt;','<').replace('&gt;', '>')
+        var python_code = `{{python_code}}`.replace('&lt;','<').replace('&gt;', '>')
         var match_id = '{{match_id}}';
         var player_id = '{{player_id}}'
     </script>
@@ -78,10 +50,11 @@ function foo(items) {
     <script src="{{url_for('static', filename='js/code-brawl.js')}}" type="text/javascript" charset="utf-8"></script>
     <script type="text/javascript">
         var editor = ace.edit("editor");
-        editor.setTheme("ace/theme/twilight");
+        editor.setTheme("ace/theme/monokai");
+        editor.setFontSize(15);
         editor.session.setMode("ace/mode/java");
         editor.session.setUseWrapMode(true);
-        editor.session.setWrapLimitRange(100, 100);
+        editor.session.setWrapLimitRange(80, 80);
     </script>
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>

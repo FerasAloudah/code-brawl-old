@@ -9,6 +9,7 @@
 
 body {
     font-family: Arial;
+    background-color: #555555;
     color: white;
 }
 
@@ -17,7 +18,7 @@ body {
     width: 50%;
     position: fixed;
     z-index: 1;
-    top: 10%;
+    top: 8%;
     overflow-x: hidden;
     padding-top: 15px;
     padding-left: 10px;
@@ -29,13 +30,13 @@ body {
 }
 
 .right {
-    
     right: 0;
-    background-color: white;
-    color: black;
+    background-color: #555555;
+    color: silver;
     border-style: solid;
     border-color: silver;
     border-width: 3px;
+    border-radius: 5px;
 }
 
 .centered {
@@ -44,7 +45,6 @@ body {
     left: 50%;
     transform: translate(-50%, -50%);
     /* text-align: center; */
-
 }
 
 .centered img {
@@ -56,22 +56,36 @@ body {
     color: white;
     font-size: 50px;
 }
+
 #CurrentPlayer {
     text-align: center;
     height: 50px;
 }
+
 #con {
     text-align: center;
     color: black;
 }
+
 #EnemyPlayer {
     text-align: center;
 }
+
 #Choice {
     text-align: left;
-}#naav {
+}
+
+#naav {
     border-style: solid;
     border-color: silver;
     border-width: 3px;
 }
 
+pre {
+    background: #222222;
+    padding: 10px 15px;
+    color: silver;
+    line-height: 1.6;
+    font-size: 13px;
+    border-radius: 3px;
+}

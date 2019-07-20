@@ -1,6 +1,7 @@
 from flask import Flask, request, session, render_template, url_for, request, redirect
 from flask_restful import Resource, Api
 from flask_jsglue import JSGlue
+import json
 
 app = Flask(__name__)
 api = Api(app)
@@ -21,8 +22,15 @@ def challenge(match_id=None):
     if request.method == 'POST':
         return render_template('challenge.html', match_id=match_id, player_id=request.form['player'])
 
+    with open('./problems/two-sum.json') as json_file:
+        data = json.load(json_file)
+
     # Change to loading.html later
-    return render_template('challenge.html', match_id=match_id)
+    return render_template('challenge.html',
+                            match_id=match_id,
+                            description=data['description'],
+                            java_code=data['java'],
+                            python_code=data['python'])
 
 
 @app.route('/leaderboard/')

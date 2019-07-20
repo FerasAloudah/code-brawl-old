@@ -49,15 +49,12 @@ async function createChallenge() {
 
     var newChallengeRef = db.collection("challenges").doc();
 
-    newChallengeRef.set(data)
-        .then(function() {
-            console.log("Document successfully written!");
-        })
-        .catch(function(error) {
-            console.error("Error writing document: ", error);
-        });;
-
-    currentChallenge = newChallengeRef;
+    try {
+        await newChallengeRef.set(data);
+    } catch(error) {
+        console.log(error);
+        return;
+    }
 
     newChallengeRef.onSnapshot(async function(doc) {
         data = doc.data();
