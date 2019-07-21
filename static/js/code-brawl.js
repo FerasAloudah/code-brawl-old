@@ -1,5 +1,4 @@
-document.getElementById('timer').innerHTML =
-    03 + ":" + 00;
+document.getElementById('timer').innerHTML = 03 + ":" + 00;
 startTimer();
 
 var challengeRef = db.collection('challenges').doc(match_id);
@@ -121,7 +120,7 @@ function checkSecond(sec) {
 }
 
 function changeLang() {
-    var choice = document.getElementById('choice').value.toLowerCase();
+    var choice = document.getElementById('langChoice').value.toLowerCase();
     var lang = getLanguage();
 
     if (lang == choice) {
@@ -137,5 +136,4 @@ function changeLang() {
         editor.setValue(python_code);
         editor.session.setMode("ace/mode/python");
     }
-
 }

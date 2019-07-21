@@ -1,16 +1,17 @@
 #editor {
     position: absolute;
-    top: 8%;
+    top: 6.3%;
     right: 0;
     bottom: 0;
     left: 0;
-    margin-right: 51%;
+    margin-right: 50%;
+    /* margin-bottom: 15%; */
 }
 
 body {
     font-family: Arial;
-    background-color: #555555;
-    color: white;
+    background-color: #272822;
+    color: black;
 }
 
 .split {
@@ -18,10 +19,8 @@ body {
     width: 50%;
     position: fixed;
     z-index: 1;
-    top: 8%;
+    top: 6.3%;
     overflow-x: hidden;
-    padding-top: 15px;
-    padding-left: 10px;
 }
 
 .left {
@@ -31,12 +30,65 @@ body {
 
 .right {
     right: 0;
-    background-color: #555555;
-    color: silver;
-    border-style: solid;
-    border-color: silver;
-    border-width: 3px;
-    border-radius: 5px;
+    background-color: white;
+    color: #555555;
+}
+
+.select-right {
+    /* left: 38.9741%; */
+    left: 90%;
+    height: 10%;
+    padding-right: 1%;
+}
+
+.nav-right {
+    padding-right: 3.5%;
+}
+
+.circle {
+    background: #52575c;
+    border-radius: 200px;
+    color: white;
+    height: 25px;
+    width: 25px;
+    display: table;
+    margin-top: -10%;
+}
+
+.circle p {
+    font-size: 8pt;
+    vertical-align: middle;
+    text-align: center;
+    display: table-cell;
+}
+
+select#langChoice {
+   -webkit-appearance: button;
+   -webkit-border-radius: 0px;
+   /* -webkit-box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1); */
+   -webkit-padding-end: 20px;
+   -webkit-padding-start: 2px;
+   -webkit-user-select: none;
+   background-image: url(http://i62.tinypic.com/15xvbd5.png), -webkit-linear-gradient(#FFFFFF, #FFFFFF 40%, #FFFFFF);
+   background-position: 97% center;
+   background-repeat: no-repeat;
+   border: 0px solid #555;
+   color: #555;
+   font-size: inherit;
+   overflow: hidden;
+   padding: 8px 5px;
+   text-overflow: ellipsis;
+   white-space: nowrap;
+   width: 20%;
+   border-radius: 0;
+   margin-top: 0.2%;
+}
+
+
+.tab-content {
+    padding-top: 1%;
+    padding-left: 1%;
+    padding-right: 1%;
 }
 
 .centered {
@@ -50,6 +102,10 @@ body {
 .centered img {
     width: 150px;
     border-radius: 50%;
+}
+
+.navbar {
+    background-color: #31485F;
 }
 
 #example {
@@ -82,9 +138,9 @@ body {
 }
 
 pre {
-    background: #222222;
+    background: #E8E8E8;
     padding: 10px 15px;
-    color: silver;
+    color: #555555;
     line-height: 1.6;
     font-size: 13px;
     border-radius: 3px;
