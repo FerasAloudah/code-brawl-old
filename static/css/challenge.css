@@ -42,7 +42,11 @@ body {
 }
 
 .nav-right {
-    padding-right: 3.5%;
+    /* padding-right: 3.5%; */
+}
+
+.nav-left {
+    padding-left: 3.5%;
 }
 
 .circle {
@@ -106,6 +110,7 @@ select#langChoice {
 
 .navbar {
     background-color: #31485F;
+    width: 100% !important;
 }
 
 #example {
