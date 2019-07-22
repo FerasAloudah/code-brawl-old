@@ -1,6 +1,7 @@
 var challengeRef = db.collection('challenges').doc(match_id);
 var playerOne = "";
 var playerTwo = "";
+var playerNumber = 0;
 
 firebase.auth().onAuthStateChanged(function(user) {
     checkPlayer();
@@ -14,31 +15,35 @@ function getPlayer() {
     return firebase.auth().currentUser.uid;
 }
 
-async function checkPlayer() {
-    challengeRef.get().then(function(doc) {
+function checkPlayer() {
+    challengeRef.get().then(doc => {
         if (doc.exists) {
             var data = doc.data();
             var player = getPlayer();
             var playerOne = data.playerOne;
             var playerTwo = data.playerTwo;
 
-            var result = player == playerOne || player == playerTwo;
+            var result = (player == playerOne ? 1 : 0) + (player == playerTwo ? 2 : 0);
 
             if (result) {
-                document.getElementById('player').value = player;
-                document.getElementById('form').submit();
+                playerNumber = result;
+                setUpPage()
             } else {
-                changeWindow();
+                $(".se-pre-con").fadeOut("slow");
+                // changeWindow();
             }
-
-            console.log("Document data:", doc.data());
         } else {
-            changeWindow();
-            console.log("No such document!");
+            $(".se-pre-con").fadeOut("slow");
+            // changeWindow();
         }
     }).catch(function(error) {
-        console.log("Error getting document:", error);
+        changeWindow();
     });
+}
+
+async function setUpPage() {
+    // Change the page's content.
+    $(".se-pre-con").fadeOut("slow");
 }
 
 function changeWindow() {

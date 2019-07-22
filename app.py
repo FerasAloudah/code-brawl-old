@@ -20,7 +20,9 @@ def challenge(match_id=None):
         return redirect(url_for('home'))
 
     if request.method == 'POST':
-        return render_template('challenge.html', match_id=match_id, player_id=request.form['player'])
+        return render_template('challenge.html',
+                                match_id=match_id,
+                                player_id=request.form['player'])
 
     with open('./problems/two-sum.json') as json_file:
         data = json.load(json_file)

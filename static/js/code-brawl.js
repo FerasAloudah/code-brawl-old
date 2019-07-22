@@ -137,3 +137,8 @@ function changeLang() {
         editor.session.setMode("ace/mode/python");
     }
 }
+
+function changeWindow() {
+    // Change to error page later?
+    window.location.replace("http://localhost:5000");
+}

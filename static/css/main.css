@@ -13,14 +13,16 @@
 
 html { width: 100%; height:100%; overflow:hidden; }
 
-body { 
+body {
 	width: 100%;
 	height:100%;
 	font-family: 'Open Sans', sans-serif;
 	background: #092756;
-            background-image: url("https://img.thedailybeast.com/image/upload/c_crop,d_placeholder_euli9k,h_1439,w_2560,x_0,y_0/dpr_1.5/c_limit,w_1044/fl_lossy,q_auto/v1492203966/articles/2013/12/12/i-took-the-one-hour-of-code-challenge/131210-coding-for-dummies-tease_ohllsl")
+	background-repeat: no-repeat;
+	background-size: 100% 100%;
+	background-image: url(../images/background.png);
 }
-.login { 
+.login {
 	position: absolute;
 	top: 50%;
 	left: 50%;
@@ -30,9 +32,9 @@ body {
 }
 .login h1 { color: #fff; text-shadow: 0 0 10px rgba(0,0,0,0.3); letter-spacing:1px; text-align:center; }
 
-input { 
-	width: 100%; 
-	margin-bottom: 10px; 
+input {
+	width: 100%;
+	margin-bottom: 10px;
 	background: rgba(0,0,0,0.3);
 	border: none;
 	outline: none;
@@ -59,15 +61,15 @@ input:focus { box-shadow: inset 0 -5px 45px rgba(100,100,100,0.4), 0 1px 1px rgb
 	-webkit-animation: spin 2s linear infinite; /* Safari */
 	animation: spin 2s linear infinite;
 	display: none;
-	
+
   }
-  
+
   /* Safari */
   @-webkit-keyframes spin {
 	0% { -webkit-transform: rotate(0deg); }
 	100% { -webkit-transform: rotate(360deg); }
   }
-  
+
   @keyframes spin {
 	0% { transform: rotate(0deg); }
 	100% { transform: rotate(360deg); }
