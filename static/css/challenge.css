@@ -37,6 +37,7 @@ body {
 .select-right {
     /* left: 38.9741%; */
     left: 90%;
+    top: 6.5%;
     height: 10%;
     padding-right: 1%;
 }
