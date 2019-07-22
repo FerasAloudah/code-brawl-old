@@ -63,8 +63,8 @@ async function createChallenge() {
             console.log(doc.data().playerTwo + ' Joined!');
 
             // Change page.
-            var url = Flask.url_for("challenge", {match_id: doc.id}).substring(1);
-            window.location.replace(window.location.href + url);
+            var url = Flask.url_for("challenge", {match_id: doc.id});
+            window.location.replace(window.location.origin + url);
         }
     });
 }
@@ -88,8 +88,8 @@ async function joinChallenge(id) {
             console.log("Document data:", doc.data());
 
             // Change page.
-            var url = Flask.url_for("challenge", {match_id: doc.id}).substring(1);
-            window.location.replace(window.location.href + url);
+            var url = Flask.url_for("challenge", {match_id: doc.id});
+            window.location.replace(window.location.origin + url);
         } else {
             console.log("No such document!");
         }

@@ -19,15 +19,11 @@ def challenge(match_id=None):
     if not match_id:
         return redirect(url_for('home'))
 
-    if request.method == 'POST':
-        return render_template('challenge.html',
-                                match_id=match_id,
-                                player_id=request.form['player'])
-
     with open('./problems/two-sum.json') as json_file:
         data = json.load(json_file)
 
-    # Change to loading.html later
+    # Check if match_id exists in firebase before rendering the tempalte.
+    # And then pull all the problems data from the document at once.
     return render_template('challenge.html',
                             match_id=match_id,
                             description=data['description'],
