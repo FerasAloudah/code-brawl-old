@@ -1,4 +1,4 @@
-document.getElementById('timer').innerHTML = 03 + ":" + 00;
+document.getElementById('timer').innerHTML = 05 + ":" + 00;
 startTimer();
 
 var challengeRef = db.collection('challenges').doc(match_id);
@@ -137,6 +137,20 @@ function changeLang() {
         editor.setValue(python_code, 1);
     }
 }
+
+function restoreDefaultCode() {
+    var lang = getLanguage();
+
+    if (lang == 'java') {
+        editor.setValue(java_code_original, 1);
+    } else {
+        editor.setValue(python_code_original, 1);
+    }
+}
+
+$(document).on("click", "i", function(){
+    restoreDefaultCode();
+});
 
 function changeWindow() {
     // Change to error page later?
