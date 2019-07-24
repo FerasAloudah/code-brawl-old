@@ -1,6 +1,4 @@
 var challengeRef = db.collection('challenges').doc(match_id);
-var playerOne = "";
-var playerTwo = "";
 var playerNumber = 0;
 
 firebase.auth().onAuthStateChanged(function(user) {
@@ -16,7 +14,7 @@ function getPlayer() {
 }
 
 function checkPlayer() {
-    challengeRef.get().then(doc => {
+    challengeRef.get().then(async function(doc) {
         if (doc.exists) {
             var data = doc.data();
             var player = getPlayer();
@@ -27,7 +25,12 @@ function checkPlayer() {
 
             if (result) {
                 playerNumber = result;
-                setUpPage()
+                await setUpPlayers(data);
+
+                // Set up the rest of the page. (Progress, and points)
+
+                // Start timer here.
+                $(".se-pre-con").fadeOut("slow");
             } else {
                 $(".se-pre-con").fadeOut("slow");
                 // changeWindow();
@@ -41,9 +44,25 @@ function checkPlayer() {
     });
 }
 
-async function setUpPage() {
-    // Change the page's content.
-    $(".se-pre-con").fadeOut("slow");
+async function setUpPlayers(data) {
+    var currentPlayer = await getPlayerInfo(playerNumber == 1 ? data.playerOne : data.playerTwo);
+    var enemyPlayer = await getPlayerInfo(playerNumber == 1 ? data.playerTwo : data.playerOne);
+
+    document.getElementById('currentPlayer').innerHTML = currentPlayer;
+    document.getElementById('enemyPlayer').innerHTML = enemyPlayer;
+
+    console.log(`Updated players: ${currentPlayer} vs ${enemyPlayer}`);
+}
+
+function getPlayerInfo(playerId) {
+    var userRef = db.collection('users').doc(playerId);
+    var playerName = userRef.get().then(doc => {
+        var data = doc.data();
+        return data.name;
+    }).catch(error => {
+        console.log(error);
+    });
+    return playerName;
 }
 
 function changeWindow() {

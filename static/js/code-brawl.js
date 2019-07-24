@@ -28,7 +28,7 @@ async function submit() {
     //     return;
     // }
 
-    var url = 'http://localhost:5000/code-brawl'; // API url.
+    var url = window.loaction.origin + '/code-brawl/'; // API url.
     var data = getData();
     var otherPram = {
         headers: {

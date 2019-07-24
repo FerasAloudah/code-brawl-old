@@ -16,11 +16,11 @@
 
 <body>
     <div class="se-pre-con"></div>
-    <nav class="navbar navbar-expand-sm bg-dark navbar-dark fixed-top">
+    <nav class="navbar navbar-expand-sm navbar-expand-md navbar-expand-lg navbar-expand-xl bg-dark navbar-dark fixed-top">
         <div class="container-fluid">
             <div class="navbar-brand col-5">
                 <div class="row nav-left">
-                    <div id="currentPlayer" class="px-2">Feras</div>
+                    <div id="currentPlayer" class="px-2"></div>
                     <div id="questionOne" class="px-2">
                         <div class="circle">
                             <p></p>
@@ -56,12 +56,12 @@
                             <p></p>
                         </div>
                     </div>
-                    <div id="enemyPlayer" class="px-2">Badr</div>
+                    <div id="enemyPlayer" class="px-2"></div>
                 </div>
             </div>
         </div>
     </nav>
-    <div class="split right">
+    <div class="split right light">
         <ul class="nav nav-tabs">
             <li class="active"><a data-toggle="tab" href="#description">DESCRIPTION</a></li>
             <li><a data-toggle="tab" href="#rules">RULES</a></li>
@@ -75,7 +75,7 @@
             </div>
         </div>
     </div>
-    <div class="split left">
+    <div class="split left dark">
         <ul class="nav nav-tabs">
             <select id="langChoice" class="ttt" onchange="changeLang()">
                 <option value="Java">Java</option>
@@ -86,13 +86,7 @@
             </span>
         </ul>
     </div>
-    <!-- <div class="split select-right">
-        <select id="langChoice" onchange="changeLang()">
-            <option value="Java">Java</option>
-            <option value="Python">Python</option>
-        </select>
-    </div> -->
-    <div id="editor">{{ java_code }}</div>
+    <div id="editor" class="editor-left">{{ java_code }}</div>
     <script type="text/javascript">
         var java_code_original = `{{java_code}}`.replace('&lt;','<').replace('&gt;', '>')
         var python_code_original = `{{python_code}}`.replace('&lt;','<').replace('&gt;', '>')
