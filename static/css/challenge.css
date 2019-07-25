@@ -1,12 +1,19 @@
 #editor {
     position: absolute;
-    top: 10.6%;
+    top: 12%;
     right: 0;
     bottom: 0;
     left: 0;
-    margin-right: 50%;
     /* margin-bottom: 15%; */
     z-index: 1;
+}
+
+.editor-right {
+    margin-left: 50%;
+}
+
+.editor-left {
+    margin-right: 50%;
 }
 
 body {
@@ -19,20 +26,25 @@ body {
     width: 50%;
     position: fixed;
     z-index: 1;
-    top: 6.3%;
+    top: 7.3%;
     overflow-x: hidden;
 }
 
 .left {
     left: 0;
-    background-color: #272822;
-
 }
 
 .right {
     right: 0;
+}
+
+.light {
     background-color: white;
     color: #555555;
+}
+
+.dark {
+    background-color: #272822;
 }
 
 .select-right {
@@ -161,7 +173,7 @@ pre {
 .nav-icon {
     color: #555;
     margin-top: 0.8%;
-    margin-left: 76%;
+    margin-left: 75%;
 }
 
 .no-js #loader { display: none;  }
@@ -173,5 +185,5 @@ pre {
 	width: 100%;
 	height: 100%;
 	z-index: 9999;
-	background: url(../images/loader-128x/Preloader_6.gif) center no-repeat #fff;
+	background: url(../images/loader-128x/Preloader_2.gif) center no-repeat #fff;
 }

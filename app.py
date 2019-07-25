@@ -19,7 +19,7 @@ def challenge(match_id=None):
     if not match_id:
         return redirect(url_for('home'))
 
-    with open('./problems/two-sum.json') as json_file:
+    with open('./problems/longest-substring-without-repeating-characters.json') as json_file:
         data = json.load(json_file)
 
     # Check if match_id exists in firebase before rendering the tempalte.
