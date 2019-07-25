@@ -1,6 +1,3 @@
-document.getElementById('timer').innerHTML = 05 + ":" + 00;
-startTimer();
-
 var challengeRef = db.collection('challenges').doc(match_id);
 
 async function checkUser() {
@@ -28,7 +25,8 @@ async function submit() {
     //     return;
     // }
 
-    var url = window.loaction.origin + '/code-brawl/'; // API url.
+    var url = window.location.origin + '/code-brawl'; // API url.
+    console.log(url);
     var data = getData();
     var otherPram = {
         headers: {
@@ -61,8 +59,8 @@ function getData() {
     return data;
 }
 
-async function getTime() {
-    await challengeRef.get().then(function(doc) {
+function getTime() {
+    var startingTime = challengeRef.get().then(function(doc) {
         if (doc.exists) {
             return doc.data().startingTime;
             console.log("Document data:", doc.data());
@@ -72,12 +70,14 @@ async function getTime() {
     }).catch(function(error) {
         console.log("Error getting document:", error);
     });
+
+    return startingTime;
 }
 
 async function getRemainingTime() {
     var currentTime = new Date();
     var startingTime = await getTime();
-    return (currentTime.getTime() - startingTime.getTime()) / 1000;
+    return (currentTime.getTime() - startingTime.toDate().getTime()) / 1000;
 }
 
 function getPlayer() {

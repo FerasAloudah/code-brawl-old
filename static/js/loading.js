@@ -26,7 +26,7 @@ function checkPlayer() {
             if (result) {
                 playerNumber = result;
                 await setUpPlayers(data);
-
+                await setUpTimer();
                 // Set up the rest of the page. (Progress, and points)
 
                 // Start timer here.
@@ -40,7 +40,8 @@ function checkPlayer() {
             // changeWindow();
         }
     }).catch(function(error) {
-        changeWindow();
+        console.log(error);
+        // changeWindow();
     });
 }
 
@@ -54,11 +55,22 @@ async function setUpPlayers(data) {
     console.log(`Updated players: ${currentPlayer} vs ${enemyPlayer}`);
 }
 
+async function setUpTimer() {
+    var remainingTime = await getRemainingTime();
+    if (remainingTime > 305) {
+        // changeWindow();
+    }
+
+    var shownTime = 300 - remainingTime + 5;
+
+    document.getElementById('timer').innerHTML = parseInt(shownTime / 60) + ":" + parseInt(shownTime % 60);
+    startTimer();
+}
+
 function getPlayerInfo(playerId) {
     var userRef = db.collection('users').doc(playerId);
     var playerName = userRef.get().then(doc => {
-        var data = doc.data();
-        return data.name;
+        return doc.data().name;
     }).catch(error => {
         console.log(error);
     });
