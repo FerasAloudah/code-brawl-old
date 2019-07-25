@@ -2,3 +2,4 @@ code-brawl-service-account.json
 firebase.js
 problems
 .DS_Store
+__pycache__

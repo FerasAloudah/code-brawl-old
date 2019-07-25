@@ -1,6 +1,7 @@
 from flask import Flask, request, session, render_template, url_for, request, redirect
 from flask_restful import Resource, Api
 from flask_jsglue import JSGlue
+from automatic_testing import evaluate
 import json
 
 app = Flask(__name__)
@@ -47,7 +48,21 @@ class CodeBrawl(Resource):
         with open(fileName, 'w+') as file:
             file.write(json.get('data'))
 
-        return json, 201
+
+        # TODO: change 'input.txt' and 'expectedoutput.txt' + combine user's input with a master run class.
+        # a master run class is a class used to run all files, and gives their output.
+
+        status_code, status_message, console_output = evaluate(fileName,
+                                                               input_file='input.txt',
+                                                               expected_output_file='expectedoutput.txt',
+                                                               timeout=10)
+        data = {
+            'status_code': status_code,
+            'status_message': status_message,
+            'console_output': console_output
+        }
+
+        return data
 
 api.add_resource(CodeBrawl, '/code-brawl')
 
