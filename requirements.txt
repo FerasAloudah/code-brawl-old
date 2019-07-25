@@ -1,0 +1,4 @@
+firebase_admin==2.17.0
+Flask_JSGlue==0.3.1
+Flask_RESTful==0.3.7
+Flask==1.0.2
