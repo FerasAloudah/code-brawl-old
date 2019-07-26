@@ -211,6 +211,10 @@ def evaluate(file_name, input_file=None, expected_output_file=None, timeout=1):
         return matchResult, STATUS_CODES[matchResult], None
 
 
+def submit(file_name, problem_name):
+    pass
+
+
 if __name__ == '__main__':
     status_code, status_message, console_output = evaluate(
         file_name='test.py',
@@ -218,6 +222,3 @@ if __name__ == '__main__':
         expected_output_file='expectedoutput.txt',
         timeout=10,
     )
-
-    print(status_message, status_code)
-    print(console_output)
