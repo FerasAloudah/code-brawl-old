@@ -53,6 +53,7 @@ function getData() {
         'id': match_id,
         'player': player,
         'data': editor.getValue(),
+        // 'problem': getProblem(),
         'language': getLanguage()
     };
 
@@ -92,27 +93,28 @@ function getLanguage() {
     return editor.session.getMode().$id.split('/')[2];
 }
 
-function save() {
-    // save what? I forgot...
-}
-
 function startTimer() {
     var presentTime = document.getElementById('timer').innerHTML;
     var timeArray = presentTime.split(/[:]+/);
-    var m = timeArray[0];
-    var s = checkSecond((timeArray[1] - 1));
-    if (s == 59) {
-        m = m - 1
+    var min = timeArray[0];
+    var sec = checkSecond((timeArray[1] - 1));
+
+    if (sec == 59) {
+        min -= 1
     }
-    document.getElementById('timer').innerHTML =
-        m + ":" + s;
-    setTimeout(startTimer, 1000);
+
+    if (min < 0) {
+        document.getElementById('timer').innerHTML = 0 + ":" + 00;
+    } else {
+        document.getElementById('timer').innerHTML = min + ":" + sec;
+        setTimeout(startTimer, 1000);
+    }
 }
 
 function checkSecond(sec) {
     if (sec < 10 && sec >= 0) {
         sec = "0" + sec
-    }; // add zero in front of numbers < 10
+    }; // add a zero in front of numbers that are < 10
     if (sec < 0) {
         sec = "59"
     };

@@ -5,8 +5,6 @@ import re
 import subprocess
 from subprocess import CalledProcessError, TimeoutExpired
 
-KEY = '7PLMYGVzjL'
-
 LANGUAGES = [
     'c',
     'cpp',
@@ -27,17 +25,12 @@ STATUS_CODES = {
 }
 
 
-def get_lines(file_name, key=False):
-    lines = []
+def get_last_line(file_name):
+    last_line = ''
     with open(file_name) as file:
         for line in file:
-            if key:
-                if line.startswith(KEY):
-                    lines.append(line.split()[1])
-            else:
-                lines.append(line)
-
-    return lines
+            last_line = line.strip()
+    return last_line
 
 
 class Program:
@@ -158,10 +151,8 @@ class Program:
     def evaluate(self):
         # TODO: Add spaces before running actual program.
         if os.path.isfile(self.actual_output_file) and os.path.isfile(self.expected_output_file):
-            # result = filecmp.cmp(self.actual_output_file, self.expected_output_file)
-
-            actual_output = get_lines(self.actual_output_file, True)
-            expected_output = get_lines(self.expected_output_file)
+            actual_output = get_last_line(self.actual_output_file)
+            expected_output = get_last_line(self.expected_output_file)
 
             output = ' '
             print(f'Actual Output: {output.join(actual_output)}')
@@ -170,6 +161,7 @@ class Program:
             if actual_output == expected_output:
                 return 201, None
             else:
+                # TODO: return input with the expected output.
                 return 400, None
         else:
             return 404, 'Missing output files'
@@ -185,6 +177,7 @@ def evaluate(file_name, input_file=None, expected_output_file=None, timeout=1):
 
     if not prog.is_valid_file():
         print('FATAL: Invalid file', file=sys.stderr)
+        return 404, STATUS_CODES[404], None
 
     print('Executing code checker...')
 
@@ -196,7 +189,7 @@ def evaluate(file_name, input_file=None, expected_output_file=None, timeout=1):
         if compileErrors is not None:
             sys.stdout.flush()
             print(compileErrors, file=sys.stderr)
-            return False
+            return compileResult, STATUS_CODES[compileResult], compileErrors
 
     # Run program
     runtimeResult, runtimeErrors = prog.run()
@@ -204,7 +197,7 @@ def evaluate(file_name, input_file=None, expected_output_file=None, timeout=1):
     if runtimeErrors is not None:
         sys.stdout.flush()
         print(runtimeErrors, file=sys.stderr)
-        return False
+        return runtimeResult, STATUS_CODES[runtimeResult], runtimeErrors
 
     # Match expected output
     matchResult, matchErrors = prog.evaluate()
@@ -213,11 +206,17 @@ def evaluate(file_name, input_file=None, expected_output_file=None, timeout=1):
     if matchErrors is not None:
         sys.stdout.flush()
         print(matchErrors, file=sys.stderr)
-        return False
+        return matchResult, STATUS_CODES[matchResult], matchErrors
+    else:
+        return matchResult, STATUS_CODES[matchResult], None
+
+
+def submit(file_name, problem_name):
+    pass
 
 
 if __name__ == '__main__':
-    evaluate(
+    status_code, status_message, console_output = evaluate(
         file_name='test.py',
         input_file='input.txt',
         expected_output_file='expectedoutput.txt',
