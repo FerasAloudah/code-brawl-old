@@ -204,7 +204,7 @@ function checkSecond(sec) {
     return sec;
 }
 
-function changeLang() {
+function changeLanguage() {
     var choice = document.getElementById('langChoice').value.toLowerCase();
     var lang = getLanguage();
 
@@ -223,9 +223,9 @@ function restoreDefaultCode() {
     var lang = getLanguage();
 
     if (lang == 'java') {
-        editor.setValue(java_code_original, 1);
+        editor.setValue(java_code, 1);
     } else {
-        editor.setValue(python_code_original, 1);
+        editor.setValue(python_code, 1);
     }
 }
 
