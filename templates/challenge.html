@@ -22,17 +22,17 @@
                 <div class="row nav-left">
                     <div id="currentPlayer" class="px-2"></div>
                     <div id="questionOne" class="px-2">
-                        <div class="circle">
-                            <p>100</p>
+                        <div id="cpQ1" class="circle">
+                            <p></p>
                         </div>
                     </div>
                     <div id="questionTwo" class="px-2">
-                        <div class="circle">
+                        <div id="cpQ2" class="circle">
                             <p></p>
                         </div>
                     </div>
                     <div id="questionThree" class="px-2">
-                        <div class="circle">
+                        <div id="cpQ3" class="circle">
                             <p></p>
                         </div>
                     </div>
@@ -42,17 +42,17 @@
             <div class="navbar-brand col-5" style="overflow: hidden">
                 <div class="row float-right nav-right">
                     <div id="questionThree" class="px-2">
-                        <div class="circle">
+                        <div id="epQ3" class="circle">
                             <p></p>
                         </div>
                     </div>
                     <div id="questionTwo" class="px-2">
-                        <div class="circle">
+                        <div id="epQ2" class="circle">
                             <p></p>
                         </div>
                     </div>
                     <div id="questionOne" class="px-2">
-                        <div class="circle">
+                        <div id="epQ1" class="circle">
                             <p></p>
                         </div>
                     </div>
@@ -111,7 +111,7 @@
         editor.setFontSize(15);
         editor.session.setMode("ace/mode/java");
         editor.session.setUseWrapMode(true);
-        editor.session.setWrapLimitRange(80, 80);
+        editor.session.setWrapLimitRange();
     </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>

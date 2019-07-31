@@ -7,6 +7,7 @@ import json
 app = Flask(__name__)
 api = Api(app)
 jsglue = JSGlue(app)
+
 EXTENSIONS = {
     'java': '.java',
     'python': '.py'
@@ -18,13 +19,15 @@ def home():
     return render_template('main.html')
 
 
+@app.route('/m/')
+@app.route('/m/<path:match_id>/')
 @app.route('/match/')
-@app.route('/match/<path:match_id>/', methods=['GET', 'POST'])
+@app.route('/match/<path:match_id>/')
 def challenge(match_id=None):
     if not match_id:
         return redirect(url_for('home'))
 
-    with open('./problems/longest-substring-without-repeating-characters.json') as json_file:
+    with open('./problems/available-captures-for-rook/available-captures-for-rook.json') as json_file:
         data = json.load(json_file)
 
     # Check if match_id exists in firebase before rendering the tempalte.
@@ -49,7 +52,8 @@ class CodeBrawl(Resource):
         json = request.get_json()
         extension = EXTENSIONS[json.get('language')]
         file_name = json.get('player') + extension
-        # problem_name = json.get('problem')
+        problem_id = json.get('problem')
+
         # TODO: maybe add a way for the user to retrieve his latest submission.
         with open(file_name, 'w+') as file:
             file.write(json.get('data'))
@@ -58,17 +62,19 @@ class CodeBrawl(Resource):
         # TODO: change 'input.txt' and 'expectedoutput.txt' + combine user's input with a master run class.
         # a master run class is a class used to run all files, and gives their output.
 
-        status_code, status_message, console_output = evaluate(file_name,
-                                                               input_file='input.txt',
-                                                               expected_output_file='expectedoutput.txt',
-                                                               timeout=10)
+        status_code, status_message, console_output, last_input, last_output = evaluate(file_name,
+            input_file='input.txt',
+            expected_output_file='expectedoutput.txt',
+            timeout=10
+        )
+        
         data = {
             'status_code': status_code,
             'status_message': status_message,
             'console_output': console_output
         }
 
-        # data = submit(file_name, problem_name)
+        # data = submit(file_name, problem_id)
 
         return data
 

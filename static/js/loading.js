@@ -1,5 +1,5 @@
-var challengeRef = db.collection('challenges').doc(match_id);
 var playerNumber = 0;
+var problem = 0;
 
 firebase.auth().onAuthStateChanged(function(user) {
     checkPlayer();
@@ -25,6 +25,7 @@ function checkPlayer() {
 
             if (result) {
                 playerNumber = result;
+                progressListener();
                 await setUpPlayers(data);
                 await setUpTimer();
                 // Set up the rest of the page. (Progress, and points)
@@ -57,14 +58,63 @@ async function setUpPlayers(data) {
 
 async function setUpTimer() {
     var remainingTime = await getRemainingTime();
-    if (remainingTime > 305) {
+    if (remainingTime < 0) {
         // changeWindow();
     }
 
-    var shownTime = 300 - remainingTime + 5;
-
-    document.getElementById('timer').innerHTML = parseInt(shownTime / 60) + ":" + parseInt(shownTime % 60);
+    document.getElementById('timer').innerHTML = parseInt(remainingTime / 60) + ":" + parseInt(remainingTime % 60);
     startTimer();
+}
+
+// 0 == player is on question one, 1 == player is on question two...
+async function getProgress(playerNumber) {
+    var playerProgress = 0;
+    await challengeRef.get().then(doc => {
+        var data = doc.data();
+        playerProgress = playerNumber == 1 ? data.playerOneProgress : data.playerTwoProgress;
+    }).catch(error => {
+        console.log(error);
+    });
+    return playerProgress;
+}
+
+async function getPoints(playerNumber) {
+    var playerPoints = [0, 0, 0];
+    await challengeRef.get().then(doc => {
+        var data = doc.data();
+        playerPoints = playerNumber == 1 ? data.playerOnePoints : data.playerTwoPoints;
+    }).catch(error => {
+        console.log(error);
+    });
+    return playerPoints;
+}
+
+function progressListener() {
+    challengeRef.onSnapshot(doc => {
+        var data = doc.data();
+        var currentPlayerPoints = data.playerOnePoints;
+        var currentPlayerProgress = data.playerOneProgress;
+        var enemyPlayerPoints = data.playerTwoPoints;
+        var enemyPlayerProgress = data.playerTwoProgress;
+
+        if (playerNumber == 2) {
+            currentPlayerPoints = data.playerTwoPoints;
+            currentPlayerProgress = data.playerTwoProgress;
+            enemyPlayerPoints = data.playerOnePoints;
+            enemyPlayerProgress = data.playerOneProgress;
+        }
+
+        for (var i = 0; i < 3; i++) {
+            document.getElementById("cpQ" + (i + 1)).innerHTML = currentPlayerPoints[i];
+            document.getElementById("epQ" + (i + 1)).innerHTML = enemyPlayerPoints[i];
+        }
+
+        // Update Progress.
+        // If progress == 3 should we change to another screen?
+
+        problem = data.questions[currentPlayerProgress]; // This is used when submitting the answer.
+
+    });
 }
 
 function getPlayerInfo(playerId) {

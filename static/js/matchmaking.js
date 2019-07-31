@@ -41,7 +41,7 @@ async function findChallenge() {
 async function createChallenge() {
     var data = {
         'playerOne': firebase.auth().currentUser.uid,
-        'playerOnePoints': 0,
+        'playerOnePoints': [0, 0, 0],
         'playerOneProgress': 0,
         'questions': generateQuestions(),
         'status': 'Waiting'
@@ -51,7 +51,7 @@ async function createChallenge() {
 
     try {
         await newChallengeRef.set(data);
-    } catch(error) {
+    } catch (error) {
         console.log(error);
         return;
     }
@@ -60,10 +60,12 @@ async function createChallenge() {
         data = doc.data();
         if (data.status == 'Started') {
             await createUser();
-            console.log(doc.data().playerTwo + ' Joined!');
+            console.log(data.playerTwo + ' Joined!');
 
             // Change page.
-            var url = Flask.url_for("challenge", {match_id: doc.id});
+            var url = Flask.url_for("challenge", {
+                match_id: doc.id
+            });
             window.location.replace(window.location.origin + url);
         }
     });
@@ -73,28 +75,43 @@ async function joinChallenge(id) {
     var challengeRef = db.collection("challenges").doc(id);
     var name = document.getElementById("name").value;
 
-    await challengeRef.update({
-        'playerTwo': firebase.auth().currentUser.uid,
-        'playerTwoPoints': 0,
-        'playerTwoProgress': 0,
-        'status': 'Started',
-        'startingTime': firebase.firestore.FieldValue.serverTimestamp(),
-    });
+    db.runTransaction(function(transaction) {
+        return transaction.get(challengeRef).then(async function(doc) {
+            if (!doc.exists) {
+                throw "Document does not exist!";
+            }
 
-    challengeRef.get().then(async function(doc) {
-        if (doc.exists) {
-            await createUser();
-            console.log('You Joined ' + doc.data().playerOne + '!');
-            console.log("Document data:", doc.data());
+            var data = doc.data();
 
-            // Change page.
-            var url = Flask.url_for("challenge", {match_id: doc.id});
-            window.location.replace(window.location.origin + url);
-        } else {
-            console.log("No such document!");
-        }
-    }).catch(function(error) {
-        console.log("Error getting document:", error);
+            console.log('You Joined ' + data.playerOne + '!');
+            console.log("Document data:", data);
+
+            var status = data.status;
+            if (status == 'Waiting') {
+                await createUser();
+
+                transaction.update(challengeRef, {
+                    'playerTwo': firebase.auth().currentUser.uid,
+                    'playerTwoPoints': [0, 0, 0],
+                    'playerTwoProgress': 0,
+                    'status': 'Started',
+                    'startingTime': firebase.firestore.FieldValue.serverTimestamp(),
+                });
+                return doc.id;
+            } else {
+                return Promise.reject("Sorry! Challenge has already started.");
+            }
+        });
+    }).then(function(id) {
+        console.log("Challenge status has been changed to Started!");
+
+        // Change page.
+        var url = Flask.url_for("challenge", {
+            match_id: id
+        });
+        window.location.replace(window.location.origin + url);
+    }).catch(function(err) {
+        console.error(err);
     });
 }
 
@@ -106,7 +123,7 @@ function cancelChallenge() {
     });
 }
 
-function createUser() {
+async function createUser() {
     var name = document.getElementById("name").value;
     var data = {
         'name': name,
@@ -119,13 +136,13 @@ function createUser() {
 
     var newUserRef = db.collection("users").doc(firebase.auth().currentUser.uid);
 
-    newUserRef.set(data)
+    await newUserRef.set(data)
         .then(function() {
-            console.log("Document successfully written!");
+            console.log("User's Document was successfully written!");
         })
         .catch(function(error) {
             console.error("Error writing document: ", error);
-        });;
+        });
 }
 
 function generateQuestions() {

@@ -25,6 +25,20 @@ STATUS_CODES = {
 }
 
 
+PROBLEMS = {
+    20: 'two-sum',
+    21: 'fizz-buzz',
+    22: 'nim-game',
+    23: 'keyboard-row',
+    24: 'divisor-game',
+    25: 'robot-return-to-origin',
+    26: 'single-number',
+    27: 'jewels-and-stones',
+    28: 'minimum-add-to-make-parentheses-valid',
+    29: 'self-dividing-numbers',
+}
+
+
 def get_last_line(file_name):
     last_line = ''
     with open(file_name) as file:
@@ -33,12 +47,21 @@ def get_last_line(file_name):
     return last_line
 
 
+def get_file_lines(file_name):
+    lines = []
+    with open(file_name) as file:
+        for line in file:
+            lines.append(line.strip())
+    return lines
+
+
 class Program:
     def __init__(self, file_name, input_file, timeout, expected_output_file):
         self.file_name = file_name                        # Full name of the source code file
         self.language = None                              # Language
         self.name = None                                  # File name without extension
         self.input_file = input_file                      # Input file
+        self.input_lines = []
         self.expected_output_file = expected_output_file  # Expected output file
         self.actual_output_file = "output.txt"            # Actual output file
         self.timeout = timeout                            # Time limit set for execution in seconds
@@ -78,7 +101,7 @@ class Program:
 
         try:
             proc = subprocess.run(
-                command,
+                command.split(),
                 stdout=subprocess.PIPE,
                 stderr=subprocess.PIPE,
                 universal_newlines=True
@@ -93,9 +116,9 @@ class Program:
         except CalledProcessError as e:
             print(e.output)
 
-    def run(self):
+    def run(self, input=None):
         # Check if files are present
-        if not os.path.isfile(self.file_name) :
+        if not os.path.isfile(self.file_name):
             return 404, 'Missing executable file'
 
         # Check language
@@ -114,22 +137,16 @@ class Program:
             return 403, 'File is of invalid type'
 
         try:
+            # TODO: Split output files for each input.
             with open('output.txt', 'w') as fout:
-                fin = None
-
-                if self.input_file and os.path.isfile(self.input_file):
-                    fin = open(self.input_file)
-
                 proc = subprocess.run(
-                    command,
-                    stdin=fin,
+                    command.split(),
+                    input=input,
                     stdout=fout,
                     stderr=subprocess.PIPE,
                     timeout=self.timeout,
                     universal_newlines=True
                 )
-
-                fin.close()
 
             # Check for errors
             if proc.returncode != 0:
@@ -148,17 +165,18 @@ class Program:
         elif self.language == 'java':
             os.remove(f'{self.name}.class')
 
-    def evaluate(self):
+    def evaluate(self, output):
         # TODO: Add spaces before running actual program.
+        # TODO: Evaluate each line of input.
+        # TODO: Return 201 after all lines of input have been passed.
+        # TODO: Else return the last line the program executed with the user's output.
         if os.path.isfile(self.actual_output_file) and os.path.isfile(self.expected_output_file):
             actual_output = get_last_line(self.actual_output_file)
-            expected_output = get_last_line(self.expected_output_file)
 
-            output = ' '
-            print(f'Actual Output: {output.join(actual_output)}')
-            print(f'Expected Output: {output.join(expected_output)}')
+            print(f'Actual Output: {actual_output}')
+            print(f'Expected Output: {output}')
 
-            if actual_output == expected_output:
+            if actual_output == output:
                 return 201, None
             else:
                 # TODO: return input with the expected output.
@@ -177,11 +195,11 @@ def evaluate(file_name, input_file=None, expected_output_file=None, timeout=1):
 
     if not prog.is_valid_file():
         print('FATAL: Invalid file', file=sys.stderr)
-        return 404, STATUS_CODES[404], None
+        return 404, STATUS_CODES[404], None, None, None
 
     print('Executing code checker...')
 
-    # Compile program
+    # Compile the program
     if prog.language not in ['py', 'js']:
         compileResult, compileErrors = prog.compile()
         print(f'Compiling... {STATUS_CODES[compileResult]}({compileResult})', flush=True)
@@ -189,36 +207,74 @@ def evaluate(file_name, input_file=None, expected_output_file=None, timeout=1):
         if compileErrors is not None:
             sys.stdout.flush()
             print(compileErrors, file=sys.stderr)
-            return compileResult, STATUS_CODES[compileResult], compileErrors
+            return compileResult, STATUS_CODES[compileResult], compileErrors, None, None
 
-    # Run program
-    runtimeResult, runtimeErrors = prog.run()
-    print(f'Running... {STATUS_CODES[runtimeResult]}({runtimeResult})', flush=True)
-    if runtimeErrors is not None:
-        sys.stdout.flush()
-        print(runtimeErrors, file=sys.stderr)
-        return runtimeResult, STATUS_CODES[runtimeResult], runtimeErrors
+    # Get input lines.
+    input_lines = get_file_lines(input_file)
+    output_lines = get_file_lines(expected_output_file)
 
-    # Match expected output
-    matchResult, matchErrors = prog.evaluate()
-    print(f'{STATUS_CODES[matchResult]}', flush=True)
+    print(input_lines)
+    print(output_lines)
 
-    if matchErrors is not None:
-        sys.stdout.flush()
-        print(matchErrors, file=sys.stderr)
-        return matchResult, STATUS_CODES[matchResult], matchErrors
-    else:
-        return matchResult, STATUS_CODES[matchResult], None
+    # Run the program
+    for i, (input, output) in enumerate(zip(input_lines, output_lines)):
+        print(f'\nRunning Test Case #{i+1}:')
+
+        runtimeResult, runtimeErrors = prog.run(input)
+        print(f'Running... {STATUS_CODES[runtimeResult]}({runtimeResult})', flush=True)
+        if runtimeErrors is not None:
+            sys.stdout.flush()
+            print(runtimeErrors, file=sys.stderr)
+            return runtimeResult, STATUS_CODES[runtimeResult], runtimeErrors, None, None
+
+        # Match expected output
+        matchResult, matchErrors = prog.evaluate(output)
+        print(f'{STATUS_CODES[matchResult]}', flush=True)
+
+        if matchErrors is not None:
+            sys.stdout.flush()
+            print(matchErrors, file=sys.stderr)
+            return matchResult, STATUS_CODES[matchResult], matchErrors, None, None
+        elif matchResult == 400:
+            return matchResult, STATUS_CODES[matchResult], None, input, output
+
+    return matchResult, STATUS_CODES[matchResult], None, None, None
 
 
-def submit(file_name, problem_name):
-    pass
+def submit(file_name, problem_id):
+    slug = PROBLEMS[problem_id]
+    input_file = f'./problems/{slug}/input.txt'
+    expected_output_file = f'./problems/{slug}/expected_output_file.txt'
+
+    status_code, status_message, console_output, last_input, last_output = evaluate(
+        file_name=file_name,
+        input_file=input_file,
+        expected_output_file=expected_output_file,
+        timeout=15
+    )
+
+    data = {
+        'status_code': status_code,
+        'status_message': status_message,
+        'console_output': console_output,
+        'last_input': last_input,
+        'last_output': last_output
+    }
+
+    return data
 
 
 if __name__ == '__main__':
-    status_code, status_message, console_output = evaluate(
+    status_code, status_message, console_output, last_input, last_output = evaluate(
         file_name='test.py',
         input_file='input.txt',
         expected_output_file='expectedoutput.txt',
         timeout=10,
     )
+
+    print("\nMethod's output:")
+    print(status_code)
+    print(status_message)
+    print(console_output)
+    print(last_input)
+    print(last_output)

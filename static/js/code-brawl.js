@@ -18,16 +18,16 @@ async function checkUser() {
 }
 
 async function submit() {
-    // var remainingTime = await getRemainingTime();
-    //
-    // if (remainingTime > 300) {
+    var remainingTime = await getRemainingTime();
+
+    // if (remainingTime < 0) {
     //     console.log("Time's up!");
     //     return;
     // }
 
     var url = window.location.origin + '/code-brawl'; // API url.
-    console.log(url);
     var data = getData();
+
     var otherPram = {
         headers: {
             "content-type": "application/json; charset=UTF-8"
@@ -38,22 +38,105 @@ async function submit() {
 
     fetch(url, otherPram)
         .then(data => {
-            return data.json()
+            return data.json();
         })
-        .then(res => console.log(res))
+        .then(res => {
+            console.log(res);
+
+            var statusCode = res.status_code;
+            var consoleOutput = res.console_output;
+
+            switch (res.status_code) {
+                case 201:
+                    // Correct Answer
+                    increaseProgress(remainingTime);
+                    break;
+                case 400:
+                    // Wrong Answer
+                    // Maybe show current input / output?
+                    break;
+                default:
+                    // Error
+                    // Show error in red?
+            }
+        })
         .catch(error => console.log(error))
 
     // Show alert after code submission with submission details...
+}
+
+async function increaseProgress(remainingTime) {
+    db.runTransaction(function(transaction) {
+        return transaction.get(challengeRef).then(async function(doc) {
+            if (!doc.exists) {
+                throw "Document does not exist!";
+            }
+
+            var data = doc.data();
+
+            var progress = playerNumber == 1 ? data.playerOneProgress : data.playerTwoProgress;
+            var points = playerNumber == 1 ? data.playerOnePoints : data.playerTwoPoints;
+
+            if (progress < 3) {
+                var val = 50, min = 240, max = 270;
+
+                switch (progress) {
+                    case 1:
+                        val = 100;
+                        min = 150;
+                        max = 210;
+                        break;
+                    case 2:
+                        val = 150;
+                        min = 0;
+                        max = 120;
+                        break;
+                }
+
+                points[progress] = Math.round(val + val * inBetween(remainingTime, min, max));
+
+                if (playerNumber == 1) {
+                    transaction.update(challengeRef, {
+                        'playerOnePoints': points,
+                        'playerOneProgress': ++progress
+                    });
+                } else {
+                    transaction.update(challengeRef, {
+                        'playerTwoPoints': points,
+                        'playerTwoProgress': ++progress
+                    });
+                }
+
+                return progress;
+            } else {
+                return Promise.reject("Sorry! Player has already finished all of his questions.");
+            }
+        });
+    }).then(function(progress) {
+        console.log("Player's progress has been increased to ", progress, "!");
+    }).catch(function(err) {
+        console.error(err);
+    });
+}
+
+function inBetween(val, min, max) {
+    if (val > max) {
+        return 1;
+    } else if (val < min) {
+        return 0;
+    } else {
+        return (val - min) / (max - min);
+    }
 }
 
 function getData() {
     var player = getPlayer();
 
     var data = {
-        'id': match_id,
+        'match_id': match_id,
         'player': player,
         'data': editor.getValue(),
-        // 'problem': getProblem(),
+        'problem': problem,
         'language': getLanguage()
     };
 
@@ -78,7 +161,7 @@ function getTime() {
 async function getRemainingTime() {
     var currentTime = new Date();
     var startingTime = await getTime();
-    return (currentTime.getTime() - startingTime.toDate().getTime()) / 1000;
+    return 300 - (currentTime.getTime() - startingTime.toDate().getTime()) / 1000 + 5;
 }
 
 function getPlayer() {
@@ -100,11 +183,11 @@ function startTimer() {
     var sec = checkSecond((timeArray[1] - 1));
 
     if (sec == 59) {
-        min -= 1
+        --min;
     }
 
     if (min < 0) {
-        document.getElementById('timer').innerHTML = 0 + ":" + 00;
+        document.getElementById('timer').innerHTML = "0:00";
     } else {
         document.getElementById('timer').innerHTML = min + ":" + sec;
         setTimeout(startTimer, 1000);
