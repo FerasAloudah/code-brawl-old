@@ -213,13 +213,9 @@ function changeLang() {
     }
 
     if (choice == 'java') {
-        python_code = editor.getValue();
-        editor.session.setMode("ace/mode/java");
-        editor.setValue(java_code, 1);
+        editor.setSession(java);
     } else {
-        java_code = editor.getValue();
-        editor.session.setMode("ace/mode/python");
-        editor.setValue(python_code, 1);
+        editor.setSession(python);
     }
 }
 
