@@ -80,6 +80,11 @@ body {
     display: table-cell;
 }
 
+.circle button {
+    border-radius: 200px;
+    display: table-cell;
+}
+
 select#langChoice {
    -webkit-appearance: button;
    -webkit-border-radius: 0px;
