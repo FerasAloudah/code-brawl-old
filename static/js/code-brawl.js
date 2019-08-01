@@ -250,5 +250,5 @@ $(document).on("click", "i", function(){
 
 function changeWindow() {
     // Change to error page later?
-    window.location.replace("http://localhost:5000");
+    window.location.replace(window.location.origin);
 }

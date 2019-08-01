@@ -49,6 +49,7 @@ async function createChallenge() {
     }
 
     var newChallengeRef = db.collection("challenges").doc();
+    currentChallenge = newChallengeRef;
 
     try {
         await newChallengeRef.set(data);

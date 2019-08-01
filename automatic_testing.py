@@ -213,9 +213,6 @@ def evaluate(file_name, input_file=None, expected_output_file=None, timeout=1):
     input_lines = get_file_lines(input_file)
     output_lines = get_file_lines(expected_output_file)
 
-    print(input_lines)
-    print(output_lines)
-
     # Run the program
     for i, (input, output) in enumerate(zip(input_lines, output_lines)):
         print(f'\nRunning Test Case #{i+1}:')
