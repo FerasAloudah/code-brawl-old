@@ -16,12 +16,12 @@
 
 <body>
     <div class="se-pre-con"></div>
-    <nav class="navbar bg-dark navbar-dark fixed-top">
+    <nav class="navbar fixed-top">
         <div class="container-fluid">
             <div class="navbar-brand col-5">
                 <div class="row nav-left">
-                    <div id="currentPlayer" class="px-2"></div>
-                    <div id="questionOne" class="px-2">
+                    <div id="currentPlayer" class="px-2" style="color:white"></div>
+                    <div id="cQuestionOne" class="px-2">
                         <div class="circle">
                             <p id="cpQ1"></p>
                             <!-- <button class="btn btn-warning" onclick="submit()" >Submit</button> -->
@@ -30,37 +30,38 @@
                         -->
                         </div>
                     </div>
-                    <div id="questionTwo" class="px-2">
+                    <div id="cQuestionTwo" class="px-2">
                         <div class="circle">
                             <p id="cpQ2"></p>
                         </div>
                     </div>
-                    <div id="questionThree" class="px-2">
+                    <div id="cQuestionThree" class="px-2">
                         <div class="circle">
                             <p id="cpQ3"></p>
                         </div>
                     </div>
                 </div>
+                
             </div>
             <div class="navbar-brand col-2" id="con" style="color:white">Time Left - <span id="timer"></span></div>
             <div class="navbar-brand col-5" style="overflow: hidden">
                 <div class="row float-right nav-right">
-                    <div id="questionThree" class="px-2">
+                    <div id="eQuestionThree" class="px-2">
                         <div class="circle">
                             <p id="epQ3"></p>
                         </div>
                     </div>
-                    <div id="questionTwo" class="px-2">
+                    <div id="eQuestionTwo" class="px-2">
                         <div class="circle">
                             <p id="epQ2"></p>
                         </div>
                     </div>
-                    <div id="questionOne" class="px-2">
+                    <div id="eQuestionOne" class="px-2">
                         <div class="circle">
                             <p id="epQ1"></p>
                         </div>
                     </div>
-                    <div id="enemyPlayer" class="px-2"></div>
+                    <div id="enemyPlayer" class="px-2" style="color:white"></div>
                 </div>
             </div>
         </div>
@@ -70,10 +71,15 @@
             <li class="active"><a data-toggle="tab" href="#description">DESCRIPTION</a></li>
             <li><a data-toggle="tab" href="#rules">RULES</a></li>
             <li id="resultsTab" style="display: none"><a data-toggle="tab" href="#results">RESULTS</a></li>
+
+
         </ul>
         <div class="tab-content">
             <div id="description" class="tab-pane fade in active">
                 {{ description | safe }}
+                <footer id="footer">
+                        <button id="submit" type="button" class="btn btn-secondary" onclick="submit()">Submit</button>
+                </footer>
             </div>
             <div id="rules" class="tab-pane fade">
                 <h>PLACEHOLDER</h>
@@ -82,6 +88,7 @@
                 <p id="grade">PLACEHOLDER</p>
             </div>
         </div>
+        
     </div>
     <div class="split left dark">
         <ul class="nav nav-tabs">
@@ -112,6 +119,7 @@
     <script src="{{url_for('static', filename='js/firebase.js')}}" type="text/javascript" charset="utf-8"></script>
     <script src="{{url_for('static', filename='js/code-brawl.js')}}" type="text/javascript" charset="utf-8"></script>
     <script src="{{url_for('static', filename='js/loading.js')}}" type="text/javascript" charset="utf-8"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <script type="text/javascript">
         ace.require("ace/ext/language_tools");
 

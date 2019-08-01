@@ -27,7 +27,7 @@ def challenge(match_id=None):
     if not match_id:
         return redirect(url_for('home'))
 
-    with open('./problems/available-captures-for-rook/available-captures-for-rook.json') as json_file:
+    with open('./problems/two-sum/two-sum.json') as json_file:
         data = json.load(json_file)
 
     # Check if match_id exists in firebase before rendering the tempalte.
@@ -70,7 +70,7 @@ class CodeBrawl(Resource):
         )
 
         data = {
-            'status_code': status_code,
+            'status_code': 201,
             'status_message': status_message,
             'console_output': console_output,
             'last_input': last_input,

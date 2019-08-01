@@ -55,14 +55,23 @@ async function submit() {
                     // Correct Answer
                     // TODO: Transition to the next problem.
                     increaseProgress(remainingTime);
+                    swal({
+                        title: "Good job!",
+                        text: "You solved the question!",
+                        icon: "success",
+                        button: "Go to the next question!",
+                      }).then(() => {
+                          
+                      });
                     break;
                 case 400:
-                    // Wrong Answer
-                    // Maybe show current in put / output?
+                    swal( "Oops" ,  " wrong answer!" ,  "error" )
                     break;
                 default:
                     // Error
                     // Show error in red?
+                    swal ( "Oops" ,  "Something went wrong!" ,  "error" )
+
             }
 
             submitting = false;

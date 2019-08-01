@@ -1,6 +1,8 @@
 var playerNumber = 0;
 var progress = 0;
 var problem = 0;
+var cTimer = 0;
+var eTimer = 0;
 
 firebase.auth().onAuthStateChanged(function(user) {
     checkPlayer();
@@ -123,27 +125,82 @@ function progressListener() {
             document.getElementById("cpQ" + (i + 1)).innerHTML = currentPlayerPoints[i];
             document.getElementById("epQ" + (i + 1)).innerHTML = enemyPlayerPoints[i];
         }
-
-
-        if (progress != currentPlayerProgress && currentPlayerStatus != 'Finished') {
-            progress = currentPlayerProgress;
-            // Update Progress.
-            // If progress == 3 should we change to another screen?
-            switch (progress) {
-                case 1:
-                    // Change question.
-                    break;
-                case 2:
-                    // Change question.
-                    break;
-                case 3:
-                    finished = true;
-            }
+        
+        switch (currentPlayerProgress) {
+            case 1:
+                // Change question.
+                document.getElementById("description").innerHTML = `<div>sadad</div>` + `<footer id="footer">
+                                <button id="submit" type="button" class="btn btn-secondary" onclick="submit()">Submit</button>
+                        </footer>`
+                
+                break;
+            case 2:
+                // Change question.
+                document.getElementById("description").innerHTML = `<div>kjgkhgfkf</div>` + `<footer id="footer">
+                      <button id="submit" type="button" class="btn btn-secondary" onclick="submit()">Submit</button>
+              </footer>`
+                break;
+            case 3:
+            $("#description").fadeOut("fast");
+            document.getElementById("description").innerHTML = `<div>kjgkhgfkf</div>` + `<footer id="footer">
+                      <button id="submit" type="button" class="btn btn-secondary" onclick="submit()">Submit</button>
+              </footer>`
+              $("#description").fadeIn("fast");
+                finished = true;
         }
+
+        animateCircle(currentPlayerProgress, "cQuestion");
+        animateCircle(enemyPlayerProgress, "eQuestion");
 
         problem = data.questions[currentPlayerProgress]; // This is used when submitting the answer.
 
     });
+}
+
+function animateCircle(progress, problem) {
+    if (problem.startsWith("c")) {
+       var timer = cTimer;
+    } else {
+       var timer = eTimer;
+    }
+    switch (progress) {
+        case 0:
+            startAnimation(problem + "One");
+            break;
+        case 1:
+            stopAnimation(timer);
+            startAnimation(problem + "Two");
+            break;
+        case 2:
+            stopAnimation(timer);
+            startAnimation(problem + "Three");
+            break;
+        default:
+            stopAnimation(timer);
+
+    }
+}
+
+function stopAnimation(timer) {
+    if (timer) {
+        clearTimeout(timer);
+        timer = 0;
+    }
+}
+
+function startAnimation(problem) {
+    var timer = 0;
+    function run() {
+        $(`#${problem}`).fadeOut("slow");
+        $(`#${problem}`).fadeIn("slow");
+    }
+
+    if (problem.startsWith("c")) {
+        cTimer = setTimeout(run, 1000, problem);
+    } else {
+        eTimer = setTimeout(run, 1000, problem);
+    }
+    
 }
 
 function getPlayerInfo(playerId) {
