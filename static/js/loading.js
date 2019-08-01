@@ -125,6 +125,7 @@ function progressListener() {
 
 
         if (progress != currentPlayerProgress && currentPlayerStatus != 'Finished') {
+            progress == currentPlayerProgress;
             // Update Progress.
             // If progress == 3 should we change to another screen?
         }
