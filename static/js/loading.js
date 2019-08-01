@@ -116,6 +116,7 @@ function progressListener() {
         if (currentPlayerStatus == 'Finished' && enemyPlayerStatus == 'Finished') {
             // Finish the challenge.
             console.log('Challenge has been finished!');
+            // Change window.
         }
 
         for (var i = 0; i < 3; i++) {
@@ -125,9 +126,19 @@ function progressListener() {
 
 
         if (progress != currentPlayerProgress && currentPlayerStatus != 'Finished') {
-            progress == currentPlayerProgress;
+            progress = currentPlayerProgress;
             // Update Progress.
             // If progress == 3 should we change to another screen?
+            switch (progress) {
+                case 1:
+                    // Change question.
+                    break;
+                case 2:
+                    // Change question.
+                    break;
+                case 3:
+                    finished = true;
+            }
         }
 
         problem = data.questions[currentPlayerProgress]; // This is used when submitting the answer.

@@ -1,5 +1,6 @@
 var challengeRef = db.collection('challenges').doc(match_id);
 var submitting = false;
+var finished = false;
 
 async function checkUser() {
     await challengeRef.get().then(function(doc) {
@@ -21,8 +22,8 @@ async function checkUser() {
 async function submit() {
     var remainingTime = await getRemainingTime();
 
-    // if (remainingTime < 0) {
-    //     console.log("Time's up!");
+    // if (finished) {
+    //     console.log("The challenge is over!");
     //     return;
     // }
 
@@ -52,11 +53,12 @@ async function submit() {
             switch (res.status_code) {
                 case 201:
                     // Correct Answer
+                    // TODO: Transition to the next problem.
                     increaseProgress(remainingTime);
                     break;
                 case 400:
                     // Wrong Answer
-                    // Maybe show current input / output?
+                    // Maybe show current in put / output?
                     break;
                 default:
                     // Error
@@ -123,6 +125,39 @@ async function increaseProgress(remainingTime) {
         });
     }).then(function(progress) {
         console.log("Player's progress has been increased to ", progress, "!");
+    }).catch(function(err) {
+        console.error(err);
+    });
+}
+
+function endPlayerSession() {
+    db.runTransaction(function(transaction) {
+        return transaction.get(challengeRef).then(async function(doc) {
+            if (!doc.exists) {
+                throw "Document does not exist!";
+            }
+
+            var data = doc.data();
+            var status = playerNumber == 1 ? data.playerOneStatus : data.playerStatus;
+
+            if (status != 'Finished') {
+                if (playerNumber == 1) {
+                    transaction.update(challengeRef, {
+                        'playerOneStatus': 'Finished'
+                    });
+                } else {
+                    transaction.update(challengeRef, {
+                        'playerTwoStatus': 'Finished'
+                    });
+                }
+
+                return 'Finished';
+            } else {
+                return Promise.reject("Sorry! Player status has already been set to Finished.");
+            }
+        });
+    }).then(function(status) {
+        console.log("Player's status has been changed to ", status, "!");
     }).catch(function(err) {
         console.error(err);
     });
@@ -201,7 +236,8 @@ function startTimer() {
             setTimeout(startTimer, 1000);
         } else {
             console.log('Challenge has been finished!');
-            // change window.
+            finished = true;
+            endPlayerSession();
         }
     } else {
         document.getElementById('timer').innerHTML = min + ":" + sec;
@@ -211,11 +247,13 @@ function startTimer() {
 
 function checkSecond(sec) {
     if (sec < 10 && sec >= 0) {
-        sec = "0" + sec
-    }; // add a zero in front of numbers that are < 10
+        sec = "0" + sec; // Add a zero in front of numbers that are < 10
+    }
+
     if (sec < 0) {
-        sec = "59"
-    };
+        sec = "59";
+    }
+
     return sec;
 }
 

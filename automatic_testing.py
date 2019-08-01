@@ -219,7 +219,7 @@ def evaluate(file_name, input_file=None, expected_output_file=None, timeout=1):
 
         runtimeResult, runtimeErrors = prog.run(input)
         print(f'Running... {STATUS_CODES[runtimeResult]}({runtimeResult})', flush=True)
-        if runtimeErrors is not None:
+        if runtimeErrors is not  None:
             sys.stdout.flush()
             print(runtimeErrors, file=sys.stderr)
             return runtimeResult, STATUS_CODES[runtimeResult], runtimeErrors, None, None

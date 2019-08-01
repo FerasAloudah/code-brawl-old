@@ -33,10 +33,11 @@ def challenge(match_id=None):
     # Check if match_id exists in firebase before rendering the tempalte.
     # And then pull all the problems data from the document at once.
     return render_template('challenge.html',
-                            match_id=match_id,
-                            description=data['description'],
-                            java_code=data['java'],
-                            python_code=data['python'])
+        match_id=match_id,
+        description=data['description'],
+        java_code=data['java'],
+        python_code=data['python']
+    )
 
 
 @app.route('/leaderboard/')
@@ -67,11 +68,13 @@ class CodeBrawl(Resource):
             expected_output_file='expectedoutput.txt',
             timeout=10
         )
-        
+
         data = {
             'status_code': status_code,
             'status_message': status_message,
-            'console_output': console_output
+            'console_output': console_output,
+            'last_input': last_input,
+            'last_output': last_output
         }
 
         # data = submit(file_name, problem_id)
