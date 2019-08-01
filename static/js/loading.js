@@ -1,4 +1,5 @@
 var playerNumber = 0;
+var progress = 0;
 var problem = 0;
 
 firebase.auth().onAuthStateChanged(function(user) {
@@ -92,16 +93,29 @@ async function getPoints(playerNumber) {
 function progressListener() {
     challengeRef.onSnapshot(doc => {
         var data = doc.data();
+
         var currentPlayerPoints = data.playerOnePoints;
         var currentPlayerProgress = data.playerOneProgress;
+        var currentPlayerStatus = data.playerOneStatus;
+
         var enemyPlayerPoints = data.playerTwoPoints;
         var enemyPlayerProgress = data.playerTwoProgress;
+        var enemyPlayerStatus = data.playerTwoStatus;
 
         if (playerNumber == 2) {
             currentPlayerPoints = data.playerTwoPoints;
             currentPlayerProgress = data.playerTwoProgress;
+            currentPlayerStatus = data.playerTwoStatus;
+
             enemyPlayerPoints = data.playerOnePoints;
             enemyPlayerProgress = data.playerOneProgress;
+            enemyPlayerStatus = data.playerOneStatus;
+        }
+
+        // Status == 'Finished' when progress == 3.
+        if (currentPlayerStatus == 'Finished' && enemyPlayerStatus == 'Finished') {
+            // Finish the challenge.
+            console.log('Challenge has been finished!');
         }
 
         for (var i = 0; i < 3; i++) {
@@ -109,8 +123,11 @@ function progressListener() {
             document.getElementById("epQ" + (i + 1)).innerHTML = enemyPlayerPoints[i];
         }
 
-        // Update Progress.
-        // If progress == 3 should we change to another screen?
+
+        if (progress != currentPlayerProgress && currentPlayerStatus != 'Finished') {
+            // Update Progress.
+            // If progress == 3 should we change to another screen?
+        }
 
         problem = data.questions[currentPlayerProgress]; // This is used when submitting the answer.
 

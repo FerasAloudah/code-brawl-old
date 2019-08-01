@@ -1,4 +1,5 @@
 var challengeRef = db.collection('challenges').doc(match_id);
+var submitting = false;
 
 async function checkUser() {
     await challengeRef.get().then(function(doc) {
@@ -24,6 +25,8 @@ async function submit() {
     //     console.log("Time's up!");
     //     return;
     // }
+
+    submitting = true;
 
     var url = window.location.origin + '/code-brawl'; // API url.
     var data = getData();
@@ -59,6 +62,8 @@ async function submit() {
                     // Error
                     // Show error in red?
             }
+
+            submitting = false;
         })
         .catch(error => console.log(error))
 
@@ -95,15 +100,19 @@ async function increaseProgress(remainingTime) {
 
                 points[progress] = Math.round(val + val * inBetween(remainingTime, min, max));
 
+                var status = ++progress == 3 ? 'Finished' : 'Playing';
+
                 if (playerNumber == 1) {
                     transaction.update(challengeRef, {
                         'playerOnePoints': points,
-                        'playerOneProgress': ++progress
+                        'playerOneProgress': progress,
+                        'playerOneStatus': status
                     });
                 } else {
                     transaction.update(challengeRef, {
                         'playerTwoPoints': points,
-                        'playerTwoProgress': ++progress
+                        'playerTwoProgress': progress,
+                        'playerTwoStatus': status
                     });
                 }
 
@@ -188,6 +197,12 @@ function startTimer() {
 
     if (min < 0) {
         document.getElementById('timer').innerHTML = "0:00";
+        if (submitting) {
+            setTimeout(startTimer, 1000);
+        } else {
+            console.log('Challenge has been finished!');
+            // change window.
+        }
     } else {
         document.getElementById('timer').innerHTML = min + ":" + sec;
         setTimeout(startTimer, 1000);
