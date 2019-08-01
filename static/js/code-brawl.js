@@ -138,7 +138,7 @@ function endPlayerSession() {
             }
 
             var data = doc.data();
-            var status = playerNumber == 1 ? data.playerOneStatus : data.playerStatus;
+            var status = playerNumber == 1 ? data.playerOneStatus : data.playerTwoStatus;
 
             if (status != 'Finished') {
                 if (playerNumber == 1) {
