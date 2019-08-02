@@ -70,9 +70,7 @@
         <ul class="nav nav-tabs">
             <li class="active"><a data-toggle="tab" href="#description">DESCRIPTION</a></li>
             <li><a data-toggle="tab" href="#rules">RULES</a></li>
-            <li id="resultsTab" style="display: none"><a data-toggle="tab" href="#results">RESULTS</a></li>
-
-
+            <li id="resultsTab" style="display: none"><a id='resultsLink' data-toggle="tab" href="#results">RESULTS</a></li>
         </ul>
         <div class="tab-content">
             <div id="description" class="tab-pane fade in active">
@@ -85,7 +83,16 @@
                 <h>PLACEHOLDER</h>
             </div>
             <div id="results" class="tab-pane fade">
-                <p id="grade">PLACEHOLDER</p>
+                <div class="jumbotron">
+                    <h1 class="text-center">Your Score Is</h1>
+                    <h2 class="text-center" id='score'></h2>
+                </div>
+                <div id="terminalBlock" style="display:none">
+                    <h4>Errors:</h4>
+                    <div class="h-100 bg-dark">
+                        <h4 class="text-danger" id='errors'></h4>
+                    </div>
+                </div>
             </div>
         </div>
         
