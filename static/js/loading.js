@@ -1,3 +1,4 @@
+var submitButton = `<footer id="footer"><button id="submit" type="button" class="btn btn-secondary" onclick="submit()">Submit</button></footer>`
 var playerNumber = 0;
 var progress = 0;
 var problem = 0;
@@ -126,31 +127,19 @@ function progressListener() {
             document.getElementById("epQ" + (i + 1)).innerHTML = enemyPlayerPoints[i];
         }
 
-        progress = currentPlayerProgress;
+        progress = currentPlayerProgress; // This is used when reseting the starter code.
 
         switch (currentPlayerProgress) {
             case 1:
-                // Change question.
-                $("#description").fadeOut("fast");
-                document.getElementById("description").innerHTML = `<div>sadad</div>` + `<footer id="footer">
-                                <button id="submit" type="button" class="btn btn-secondary" onclick="submit()">Submit</button>
-                        </footer>`
-                $("#description").fadeIn("fast");
+                changeProblem(1);
                 break;
             case 2:
-                // Change question.
-                $("#description").fadeOut("fast");
-                document.getElementById("description").innerHTML = `<div>kjgkhgfkf</div>` + `<footer id="footer">
-                        <button id="submit" type="button" class="btn btn-secondary" onclick="submit()">Submit</button>
-                      </footer>`
-                $("#description").fadeIn("fast");
+                changeProblem(2);
                 break;
             case 3:
-            $("#description").fadeOut("fast");
-            document.getElementById("description").innerHTML = `<div>kjgkhgfkf</div>` + `<footer id="footer">
-                      <button id="submit" type="button" class="btn btn-secondary" onclick="submit()">Submit</button>
-              </footer>`
-              $("#description").fadeIn("fast");
+                document.getElementById("description").innerHTML = descriptions[2] + submitButton;
+                java.setValue(java_code[2]);
+                python.setValue(python_code[2]);
                 finished = true;
         }
 
@@ -158,6 +147,16 @@ function progressListener() {
         animateCircle(enemyPlayerProgress, "eQuestion");
 
         problem = data.questions[currentPlayerProgress]; // This is used when submitting the answer.
+    });
+}
+
+function changeProblem(progress) {
+    $("#description").fadeOut("slow");
+    $("#description").promise().done(function() {
+        document.getElementById("description").innerHTML = descriptions[progress] + submitButton;
+        java.setValue(java_code[progress]);
+        python.setValue(python_code[progress]);
+        $("#description").fadeIn("slow");
     });
 }
 

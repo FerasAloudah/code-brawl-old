@@ -41,7 +41,7 @@
                         </div>
                     </div>
                 </div>
-                
+
             </div>
             <div class="navbar-brand col-2" id="con" style="color:white">Time Left - <span id="timer"></span></div>
             <div class="navbar-brand col-5" style="overflow: hidden">
@@ -71,12 +71,10 @@
             <li class="active"><a data-toggle="tab" href="#description">DESCRIPTION</a></li>
             <li><a data-toggle="tab" href="#rules">RULES</a></li>
             <li id="resultsTab" style="display: none"><a data-toggle="tab" href="#results">RESULTS</a></li>
-
-
         </ul>
         <div class="tab-content">
             <div id="description" class="tab-pane fade in active">
-                {{ description | safe }}
+                {{ first_description | safe }}
                 <footer id="footer">
                         <button id="submit" type="button" class="btn btn-secondary" onclick="submit()">Submit</button>
                 </footer>
@@ -88,7 +86,7 @@
                 <p id="grade">PLACEHOLDER</p>
             </div>
         </div>
-        
+
     </div>
     <div class="split left dark">
         <ul class="nav nav-tabs">
@@ -103,9 +101,18 @@
     </div>
     <div id="editor" class="editor-left"></div>
     <script type="text/javascript">
-        var java_code = `{{java_code}}`.replace('&lt;','<').replace('&gt;', '>')
-        var python_code = `{{python_code}}`.replace('&lt;','<').replace('&gt;', '>')
-        var match_id = '{{match_id}}';
+        var descriptions = [`{{first_description | safe}}`, `{{second_description | safe}}`, `{{third_description | safe}}`];
+        var java_code = [
+            `{{first_java_code}}`.replace('&lt;','<').replace('&gt;', '>'),
+            `{{second_java_code}}`.replace('&lt;','<').replace('&gt;', '>'),
+            `{{third_java_code}}`.replace('&lt;','<').replace('&gt;', '>')
+        ];
+        var python_code = [
+            `{{first_python_code}}`.replace('&lt;','<').replace('&gt;', '>'),
+            `{{second_python_code}}`.replace('&lt;','<').replace('&gt;', '>'),
+            `{{third_python_code}}`.replace('&lt;','<').replace('&gt;', '>'),
+        ];
+        var challenge_id = '{{challenge_id}}';
     </script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script src="https://www.gstatic.com/firebasejs/6.2.3/firebase-app.js"></script>
@@ -132,10 +139,10 @@
             enableLiveAutocompletion: true
         });
 
-        var java = ace.createEditSession(java_code, "ace/mode/java");
+        var java = ace.createEditSession(java_code[0], "ace/mode/java");
         java.setUseWrapMode(true);
 
-        var python = ace.createEditSession(python_code, "ace/mode/python");
+        var python = ace.createEditSession(python_code[0], "ace/mode/python");
         python.setUseWrapMode(true);
 
         editor.setSession(java);

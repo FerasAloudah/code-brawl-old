@@ -4,6 +4,7 @@ import filecmp
 import re
 import subprocess
 from subprocess import CalledProcessError, TimeoutExpired
+from globals import PROBLEMS
 
 LANGUAGES = [
     'c',
@@ -22,20 +23,6 @@ STATUS_CODES = {
     403: 'INVALID FILE',
     404: 'FILE NOT FOUND',
     408: 'TIME LIMIT EXCEEDED'
-}
-
-
-PROBLEMS = {
-    20: 'two-sum',
-    21: 'fizz-buzz',
-    22: 'nim-game',
-    23: 'keyboard-row',
-    24: 'divisor-game',
-    25: 'robot-return-to-origin',
-    26: 'single-number',
-    27: 'jewels-and-stones',
-    28: 'minimum-add-to-make-parentheses-valid',
-    29: 'self-dividing-numbers',
 }
 
 
@@ -238,10 +225,19 @@ def evaluate(file_name, input_file=None, expected_output_file=None, timeout=1):
     return matchResult, STATUS_CODES[matchResult], None, None, None
 
 
-def submit(file_name, problem_id):
-    slug = PROBLEMS[problem_id]
-    input_file = f'./problems/{slug}/input.txt'
-    expected_output_file = f'./problems/{slug}/expected_output_file.txt'
+def submit(file_name, data, slug):
+    input_file = 'input.txt' # f'./problems/{slug}/input.txt'
+    expected_output_file = 'expectedoutput.txt' # f'./problems/{slug}/expected_output_file.txt'
+
+    if not os.path.exists(os.path.dirname(file_name)):
+        try:
+            os.makedirs(os.path.dirname(file_name))
+        except OSError as exc: # Guard against race condition
+            if exc.errno != errno.EEXIST:
+                raise
+
+    with open(file_name, 'w+') as file:
+        file.write(data)
 
     status_code, status_message, console_output, last_input, last_output = evaluate(
         file_name=file_name,
