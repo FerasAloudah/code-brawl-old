@@ -126,21 +126,24 @@ function progressListener() {
             document.getElementById("epQ" + (i + 1)).innerHTML = enemyPlayerPoints[i];
         }
 
-        progress = currentProgress;
+        progress = currentPlayerProgress;
 
         switch (currentPlayerProgress) {
             case 1:
                 // Change question.
+                $("#description").fadeOut("fast");
                 document.getElementById("description").innerHTML = `<div>sadad</div>` + `<footer id="footer">
                                 <button id="submit" type="button" class="btn btn-secondary" onclick="submit()">Submit</button>
                         </footer>`
-
+                $("#description").fadeIn("fast");
                 break;
             case 2:
                 // Change question.
+                $("#description").fadeOut("fast");
                 document.getElementById("description").innerHTML = `<div>kjgkhgfkf</div>` + `<footer id="footer">
-                      <button id="submit" type="button" class="btn btn-secondary" onclick="submit()">Submit</button>
-              </footer>`
+                        <button id="submit" type="button" class="btn btn-secondary" onclick="submit()">Submit</button>
+                      </footer>`
+                $("#description").fadeIn("fast");
                 break;
             case 3:
             $("#description").fadeOut("fast");
@@ -155,12 +158,11 @@ function progressListener() {
         animateCircle(enemyPlayerProgress, "eQuestion");
 
         problem = data.questions[currentPlayerProgress]; // This is used when submitting the answer.
-
     });
 }
 
 function animateCircle(progress, problem) {
-    var interval = 1500;
+    var interval = 2000;
 
     switch (progress) {
         case 0:
@@ -196,13 +198,12 @@ function animateCircle(progress, problem) {
             } else {
                 clearInterval(eTimer);
             }
-
     }
 }
 
 function runAnimation(problem) {
-    $(`#${problem}`).fadeOut("slow");
-    $(`#${problem}`).fadeIn("slow");
+    $(`#${problem}`).fadeOut(750);
+    $(`#${problem}`).fadeIn(750);
 }
 
 function getPlayerInfo(playerId) {
