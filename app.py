@@ -1,7 +1,7 @@
 from flask import Flask, request, session, render_template, url_for, request, redirect
 from flask_restful import Resource, Api
 from flask_jsglue import JSGlue
-from automatic_testing import evaluate, submit
+from automatic_testing import submit
 from globals import PROBLEMS
 from api.firebase import get_problems
 import json
@@ -67,7 +67,8 @@ class CodeBrawl(Resource):
         slug = PROBLEMS[json.get('problem')]
         extension = EXTENSIONS[json.get('language')]
         player = json.get('player')
-        file_name = f'./problems/{slug}/{player}/{player}{extension}'
+        file_name = f'{player}{extension}'
+        dir_name = f'./problems/{slug}/{player}'
 
         # TODO: maybe add a way for the user to retrieve his latest submission.
         # TODO: create a directory for the user on submitted problem folder.
@@ -92,7 +93,7 @@ class CodeBrawl(Resource):
         #     'last_output': last_output
         # }
 
-        data = submit(file_name, json.get('data'), slug)
+        data = submit(dir_name, file_name, json.get('data'), slug)
 
         return data
 
