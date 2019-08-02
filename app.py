@@ -56,6 +56,7 @@ class CodeBrawl(Resource):
         problem_id = json.get('problem')
 
         # TODO: maybe add a way for the user to retrieve his latest submission.
+        # TODO: create a directory for the user on submitted problem folder.
         with open(file_name, 'w+') as file:
             file.write(json.get('data'))
 

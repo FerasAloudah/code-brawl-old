@@ -125,14 +125,16 @@ function progressListener() {
             document.getElementById("cpQ" + (i + 1)).innerHTML = currentPlayerPoints[i];
             document.getElementById("epQ" + (i + 1)).innerHTML = enemyPlayerPoints[i];
         }
-        
+
+        progress = currentProgress;
+
         switch (currentPlayerProgress) {
             case 1:
                 // Change question.
                 document.getElementById("description").innerHTML = `<div>sadad</div>` + `<footer id="footer">
                                 <button id="submit" type="button" class="btn btn-secondary" onclick="submit()">Submit</button>
                         </footer>`
-                
+
                 break;
             case 2:
                 // Change question.
@@ -158,49 +160,49 @@ function progressListener() {
 }
 
 function animateCircle(progress, problem) {
-    if (problem.startsWith("c")) {
-       var timer = cTimer;
-    } else {
-       var timer = eTimer;
-    }
+    var interval = 1500;
+
     switch (progress) {
         case 0:
-            startAnimation(problem + "One");
+            if (problem.startsWith("c")) {
+                clearInterval(cTimer);
+                cTimer = setInterval(runAnimation, interval, problem + "One");
+            } else {
+                clearInterval(eTimer);
+                eTimer = setInterval(runAnimation, interval, problem + "One");
+            }
             break;
         case 1:
-            stopAnimation(timer);
-            startAnimation(problem + "Two");
+            if (problem.startsWith("c")) {
+                clearInterval(cTimer);
+                cTimer = setInterval(runAnimation, interval, problem + "Two");
+            } else {
+                clearInterval(eTimer);
+                eTimer = setInterval(runAnimation, interval, problem + "Two");
+            }
             break;
         case 2:
-            stopAnimation(timer);
-            startAnimation(problem + "Three");
+            if (problem.startsWith("c")) {
+                clearInterval(cTimer);
+                cTimer = setInterval(runAnimation, interval, problem + "Three");
+            } else {
+                clearInterval(eTimer);
+                eTimer = setInterval(runAnimation, interval, problem + "Three");
+            }
             break;
         default:
-            stopAnimation(timer);
+            if (problem.startsWith("c")) {
+                clearInterval(cTimer);
+            } else {
+                clearInterval(eTimer);
+            }
 
     }
 }
 
-function stopAnimation(timer) {
-    if (timer) {
-        clearTimeout(timer);
-        timer = 0;
-    }
-}
-
-function startAnimation(problem) {
-    var timer = 0;
-    function run() {
-        $(`#${problem}`).fadeOut("slow");
-        $(`#${problem}`).fadeIn("slow");
-    }
-
-    if (problem.startsWith("c")) {
-        cTimer = setTimeout(run, 1000, problem);
-    } else {
-        eTimer = setTimeout(run, 1000, problem);
-    }
-    
+function runAnimation(problem) {
+    $(`#${problem}`).fadeOut("slow");
+    $(`#${problem}`).fadeIn("slow");
 }
 
 function getPlayerInfo(playerId) {
