@@ -1,3 +1,4 @@
+var submitButton = `<footer id="footer"><button id="submit" type="button" class="btn btn-secondary" onclick="submit()">Submit</button></footer>`
 var playerNumber = 0;
 var progress = 0;
 var problem = 0;
@@ -125,27 +126,20 @@ function progressListener() {
             document.getElementById("cpQ" + (i + 1)).innerHTML = currentPlayerPoints[i];
             document.getElementById("epQ" + (i + 1)).innerHTML = enemyPlayerPoints[i];
         }
-        
+
+        progress = currentPlayerProgress; // This is used when reseting the starter code.
+
         switch (currentPlayerProgress) {
             case 1:
-                // Change question.
-                document.getElementById("description").innerHTML = `<div>sadad</div>` + `<footer id="footer">
-                                <button id="submit" type="button" class="btn btn-secondary" onclick="submit()">Submit</button>
-                        </footer>`
-                
+                changeProblem(1);
                 break;
             case 2:
-                // Change question.
-                document.getElementById("description").innerHTML = `<div>kjgkhgfkf</div>` + `<footer id="footer">
-                      <button id="submit" type="button" class="btn btn-secondary" onclick="submit()">Submit</button>
-              </footer>`
+                changeProblem(2);
                 break;
             case 3:
-            $("#description").fadeOut("fast");
-            document.getElementById("description").innerHTML = `<div>kjgkhgfkf</div>` + `<footer id="footer">
-                      <button id="submit" type="button" class="btn btn-secondary" onclick="submit()">Submit</button>
-              </footer>`
-              $("#description").fadeIn("fast");
+                document.getElementById("description").innerHTML = descriptions[2] + submitButton;
+                java.setValue(java_code[2]);
+                python.setValue(python_code[2]);
                 finished = true;
         }
 
@@ -153,54 +147,62 @@ function progressListener() {
         animateCircle(enemyPlayerProgress, "eQuestion");
 
         problem = data.questions[currentPlayerProgress]; // This is used when submitting the answer.
+    });
+}
 
+function changeProblem(progress) {
+    $("#description").fadeOut("slow");
+    $("#description").promise().done(function() {
+        document.getElementById("description").innerHTML = descriptions[progress] + submitButton;
+        java.setValue(java_code[progress]);
+        python.setValue(python_code[progress]);
+        $("#description").fadeIn("slow");
     });
 }
 
 function animateCircle(progress, problem) {
-    if (problem.startsWith("c")) {
-       var timer = cTimer;
-    } else {
-       var timer = eTimer;
-    }
+    var interval = 2000;
+
     switch (progress) {
         case 0:
-            startAnimation(problem + "One");
+            if (problem.startsWith("c")) {
+                clearInterval(cTimer);
+                cTimer = setInterval(runAnimation, interval, problem + "One");
+            } else {
+                clearInterval(eTimer);
+                eTimer = setInterval(runAnimation, interval, problem + "One");
+            }
             break;
         case 1:
-            stopAnimation(timer);
-            startAnimation(problem + "Two");
+            if (problem.startsWith("c")) {
+                clearInterval(cTimer);
+                cTimer = setInterval(runAnimation, interval, problem + "Two");
+            } else {
+                clearInterval(eTimer);
+                eTimer = setInterval(runAnimation, interval, problem + "Two");
+            }
             break;
         case 2:
-            stopAnimation(timer);
-            startAnimation(problem + "Three");
+            if (problem.startsWith("c")) {
+                clearInterval(cTimer);
+                cTimer = setInterval(runAnimation, interval, problem + "Three");
+            } else {
+                clearInterval(eTimer);
+                eTimer = setInterval(runAnimation, interval, problem + "Three");
+            }
             break;
         default:
-            stopAnimation(timer);
-
+            if (problem.startsWith("c")) {
+                clearInterval(cTimer);
+            } else {
+                clearInterval(eTimer);
+            }
     }
 }
 
-function stopAnimation(timer) {
-    if (timer) {
-        clearTimeout(timer);
-        timer = 0;
-    }
-}
-
-function startAnimation(problem) {
-    var timer = 0;
-    function run() {
-        $(`#${problem}`).fadeOut("slow");
-        $(`#${problem}`).fadeIn("slow");
-    }
-
-    if (problem.startsWith("c")) {
-        cTimer = setTimeout(run, 1000, problem);
-    } else {
-        eTimer = setTimeout(run, 1000, problem);
-    }
-    
+function runAnimation(problem) {
+    $(`#${problem}`).fadeOut(750);
+    $(`#${problem}`).fadeIn(750);
 }
 
 function getPlayerInfo(playerId) {

@@ -1,4 +1,4 @@
-var challengeRef = db.collection('challenges').doc(match_id);
+var challengeRef = db.collection('challenges').doc(challenge_id);
 var submitting = false;
 var finished = false;
 
@@ -77,7 +77,7 @@ async function submit() {
                         icon: "success",
                         button: "Go to the next question!",
                       }).then(() => {
-                          
+
                       });
                     break;
                 case 400:
@@ -210,7 +210,7 @@ function getData() {
     var player = getPlayer();
 
     var data = {
-        'match_id': match_id,
+        'challenge_id': challenge_id,
         'player': player,
         'data': editor.getValue(),
         'problem': problem,
@@ -309,9 +309,10 @@ function restoreDefaultCode() {
     var lang = getLanguage();
 
     if (lang == 'java') {
-        editor.setValue(java_code, 1);
+        console.log(java_code[progress])
+        editor.setValue(java_code[progress], 1);
     } else {
-        editor.setValue(python_code, 1);
+        editor.setValue(python_code[progress], 1);
     }
 }
 

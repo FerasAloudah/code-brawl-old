@@ -66,7 +66,7 @@ async function createChallenge() {
 
             // Change page.
             var url = Flask.url_for("challenge", {
-                match_id: doc.id
+                challenge_id: doc.id
             });
             window.location.replace(window.location.origin + url);
         }
@@ -110,7 +110,7 @@ async function joinChallenge(id) {
 
         // Change page.
         var url = Flask.url_for("challenge", {
-            match_id: id
+            challenge_id: id
         });
         window.location.replace(window.location.origin + url);
     }).catch(function(err) {
@@ -148,8 +148,8 @@ async function createUser() {
 function generateQuestions() {
     var questions = []
     for (var i = 0; i < 3; i++) {
-        var question = Math.floor(Math.random() * 15);
-        questions.push(question + 15 * i);
+        var question = Math.floor(Math.random() * 10);
+        questions.push(question + 10 * i);
     }
     return questions;
 }
