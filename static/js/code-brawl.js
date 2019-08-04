@@ -88,7 +88,6 @@ async function submit() {
                         for(var i=0;i<consoleOutput.length;i++){
                             document.getElementById('errors').innerHTML+=consoleOutput[i]+'<br>';
                         }
-                        document.getElementById('statusMessage').innerHTML=statusMessage;
                     })
                     break;
                 default:
@@ -290,8 +289,7 @@ function checkSecond(sec) {
     return sec;
 }
 
-function changeLanguage() {
-    var choice = document.getElementById('langChoice').value.toLowerCase();
+function changeLanguage(choice) {
     var lang = getLanguage();
 
     if (lang == choice) {
@@ -315,10 +313,6 @@ function restoreDefaultCode() {
         editor.setValue(python_code[progress], 1);
     }
 }
-
-$(document).on("click", "i", function(){
-    restoreDefaultCode();
-});
 
 function changeWindow() {
     // Change to error page later?
