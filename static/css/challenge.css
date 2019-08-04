@@ -1,66 +1,14 @@
 #editor {
     position: absolute;
-    top: 10.6%;
+    top: 0%;
     right: 0;
     bottom: 0;
     left: 0;
-    /* margin-bottom: 15%; */
-    z-index: 1;
-}
-
-.editor-right {
-    margin-left: 50%;
-}
-
-.editor-left {
-    margin-right: 50%;
 }
 
 body {
     font-family: Arial;
     background-color: #272822;
-}
-
-.split {
-    height: 100%;
-    width: 50%;
-    position: fixed;
-    z-index: 1;
-    top: 6.3%;
-    overflow-x: hidden;
-}
-
-.left {
-    left: 0;
-}
-
-.right {
-    right: 0;
-}
-
-.light {
-    background-color: white;
-    color: #555555;
-}
-
-.dark {
-    background-color: #272822;
-}
-
-.select-right {
-    /* left: 38.9741%; */
-    left: 90%;
-    top: 6.5%;
-    height: 10%;
-    padding-right: 1%;
-}
-
-.nav-right {
-    /* padding-right: 3.5%; */
-}
-
-.nav-left {
-    padding-left: 3.5%;
 }
 
 .circle {
@@ -70,7 +18,6 @@ body {
     height: 25px;
     width: 25px;
     display: table;
-    margin-top: -10%;
 }
 
 .circle p {
@@ -80,33 +27,6 @@ body {
     display: table-cell;
 }
 
-.circle button {
-    border-radius: 200px;
-    display: table-cell;
-}
-
-select#langChoice {
-   -webkit-appearance: button;
-   -webkit-border-radius: 0px;
-   /* -webkit-box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1); */
-   -webkit-padding-end: 20px;
-   -webkit-padding-start: 2px;
-   -webkit-user-select: none;
-   background-image: url(http://i62.tinypic.com/15xvbd5.png), -webkit-linear-gradient(#272822, #272822 40%, #272822);
-   background-position: 97% center;
-   background-repeat: no-repeat;
-   border: 0px solid #fff;
-   color: #555;
-   font-size: inherit;
-   font-weight: bold;
-   overflow: hidden;
-   padding: 10px 5px;
-   text-overflow: ellipsis;
-   white-space: nowrap;
-   width: 20%;
-   border-radius: 0;
-   margin-top: 0.2%;
-}
 
 .tab-content {
     padding-top: 1%;
@@ -137,19 +57,12 @@ select#langChoice {
     font-size: 50px;
 }
 
-#CurrentPlayer {
-    text-align: center;
-    height: 50px;
-}
 
 #con {
     text-align: center;
     color: black;
 }
 
-#EnemyPlayer {
-    text-align: center;
-}
 
 #Choice {
     text-align: left;
@@ -170,11 +83,6 @@ pre {
     border-radius: 3px;
 }
 
-.fa-clickable {
-    cursor:pointer;
-    outline:none;
-}
-
 .nav-icon {
     color: #555;
     margin-top: 0.8%;
@@ -191,14 +99,4 @@ pre {
 	height: 100%;
 	z-index: 9999;
 	background: url(../images/loader-128x/Preloader_2.gif) center no-repeat #fff;
-}
-#footer {
-    bottom: 30px;
-    width: 100%;
-}
-#submit {
-    position:absolute;
-    transition: .5s ease;
-    top: 90%;
-    left: 90%;
 }
