@@ -183,7 +183,7 @@ def evaluate(file_name, input_file=None, output_file=None, expected_output_file=
 
     if not prog.is_valid_file():
         print('FATAL: Invalid file', file=sys.stderr)
-        return 404, STATUS_CODES[404], None, None, None
+        return 404, STATUS_CODES[404], None, None, None, None
 
     print('Executing code checker...')
 
@@ -195,13 +195,13 @@ def evaluate(file_name, input_file=None, output_file=None, expected_output_file=
         if compile_errors is not None:
             sys.stdout.flush()
             print(compile_errors, file=sys.stderr)
-            return compile_result, STATUS_CODES[compile_result], compile_errors, None, None
+            return compile_result, STATUS_CODES[compile_result], compile_errors, None, None, None
 
     # Get input lines.
     input_lines = get_file_lines(input_file)
     output_lines = get_file_lines(expected_output_file)
 
-    # Run the program
+    # Run the program.
     for i, (input, output) in enumerate(zip(input_lines, output_lines)):
         print(f'\nRunning Test Case #{i+1}:')
 
@@ -210,7 +210,7 @@ def evaluate(file_name, input_file=None, output_file=None, expected_output_file=
         if runtime_errors is not  None:
             sys.stdout.flush()
             print(runtime_errors, file=sys.stderr)
-            return runtime_results, STATUS_CODES[runtime_results], runtime_errors, None, None
+            return runtime_results, STATUS_CODES[runtime_results], runtime_errors, None, None, None
 
         # Match expected output
         match_result, match_errors, last_output = prog.evaluate(output)
@@ -219,11 +219,11 @@ def evaluate(file_name, input_file=None, output_file=None, expected_output_file=
         if match_errors is not None:
             sys.stdout.flush()
             print(match_errors, file=sys.stderr)
-            return match_result, STATUS_CODES[match_result], match_errors, None, None
+            return match_result, STATUS_CODES[match_result], match_errors, None, None, None
         elif match_result == 400:
-            return match_result, STATUS_CODES[match_result], None, input, last_output
+            return match_result, STATUS_CODES[match_result], None, input, output, last_output
 
-    return match_result, STATUS_CODES[match_result], None, None, None
+    return match_result, STATUS_CODES[match_result], None, None, None, None
 
 
 def submit(dir_name, file_name, data, slug):
@@ -241,7 +241,7 @@ def submit(dir_name, file_name, data, slug):
     with open(full_name, 'w+') as file:
         file.write(data)
 
-    status_code, status_message, console_output, last_input, last_output = evaluate(
+    status_code, status_message, console_output, last_input, last_expected_output, last_output = evaluate(
         file_name=full_name,
         input_file=input_file,
         output_file=f'{dir_name}/output.txt',
@@ -254,6 +254,7 @@ def submit(dir_name, file_name, data, slug):
         'status_message': status_message,
         'console_output': console_output,
         'last_input': last_input,
+        'last_expected_output': last_expected_output,
         'last_output': last_output
     }
 

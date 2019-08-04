@@ -128,14 +128,14 @@
     <script type="text/javascript">
         var descriptions = [`{{first_description | safe}}`, `{{second_description | safe}}`, `{{third_description | safe}}`];
         var java_code = [
-            `{{first_java_code}}`.replace('&lt;','<').replace('&gt;', '>'),
-            `{{second_java_code}}`.replace('&lt;','<').replace('&gt;', '>'),
-            `{{third_java_code}}`.replace('&lt;','<').replace('&gt;', '>')
+            `{{first_java_code}}`.split('&lt;').join('<').split('&gt;').join('>'),
+            `{{second_java_code}}`.split('&lt;').join('<').split('&gt;').join('>'),
+            `{{third_java_code}}`.split('&lt;').join('<').split('&gt;').join('>')
         ];
         var python_code = [
-            `{{first_python_code}}`.replace('&lt;','<').replace('&gt;', '>'),
-            `{{second_python_code}}`.replace('&lt;','<').replace('&gt;', '>'),
-            `{{third_python_code}}`.replace('&lt;','<').replace('&gt;', '>'),
+            `{{first_python_code}}`.split('&lt;').join('<').split('&gt;').join('>'),
+            `{{second_python_code}}`.split('&lt;').join('<').split('&gt;').join('>'),
+            `{{third_python_code}}`.split('&lt;').join('<').split('&gt;').join('>'),
         ];
         var challenge_id = '{{challenge_id}}';
     </script>
