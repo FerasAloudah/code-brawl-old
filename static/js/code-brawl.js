@@ -75,12 +75,16 @@ async function submit() {
 
             var statusCode = res.status_code;
             var consoleOutput = res.console_output;
+            var statusMessage=res.status_message;
+            consoleOutput=getConsoleOutput(consoleOutput);
 
             switch (res.status_code) {
                 case 201:
                     // Correct Answer
                     // TODO: Transition to the next problem.
                     increaseProgress(remainingTime);
+                    document.getElementById('resultsTab').style.display='';
+                    $('#resultsLink').trigger('click');
                     swal({
                         title: "Good job!",
                         text: "You solved the question!",
@@ -91,7 +95,14 @@ async function submit() {
                       });
                     break;
                 case 400:
-                    swal( "Oops" ,  " wrong answer!" ,  "error" )
+                    swal( "Oops" ,  " wrong answer!" ,  "error" ).then(()=>{
+                        document.getElementById('resultsTab').style.display='';
+                        document.getElementById('terminalBlock').style.display='';
+                        $('#resultsLink').trigger('click');
+                        for(var i=0;i<consoleOutput.length;i++){
+                            document.getElementById('errors').innerHTML+=consoleOutput[i]+'<br>';
+                        }
+                    })
                     break;
                 default:
                     // Error
@@ -292,8 +303,7 @@ function checkSecond(sec) {
     return sec;
 }
 
-function changeLanguage() {
-    var choice = document.getElementById('langChoice').value.toLowerCase();
+function changeLanguage(choice) {
     var lang = getLanguage();
 
     if (lang == choice) {
@@ -316,10 +326,6 @@ function restoreDefaultCode() {
         editor.setValue(python_code[progress], 1);
     }
 }
-
-$(document).on("click", "i", function(){
-    restoreDefaultCode();
-});
 
 function changeWindow() {
     // Change to error page later?
