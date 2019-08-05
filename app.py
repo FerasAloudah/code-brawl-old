@@ -38,18 +38,17 @@ def challenge(challenge_id=None):
         with open(f'./problems/{slug}/{slug}.json') as json_file:
             data.append(json.load(json_file))
 
-    # And then pull all the problems data from the document at once.
+    descriptions, java, python = [], [], []
+    for problem in data:
+        descriptions.append(problem['description'])
+        java.append(problem['java'])
+        python.append(problem['python'])
+
     return render_template('challenge.html',
         challenge_id=challenge_id,
-        first_description=data[0]['description'],
-        first_java_code=data[0]['java'],
-        first_python_code=data[0]['python'],
-        second_description=data[1]['description'],
-        second_java_code=data[1]['java'],
-        second_python_code=data[1]['python'],
-        third_description=data[2]['description'],
-        third_java_code=data[2]['java'],
-        third_python_code=data[2]['python'],
+        descriptions=descriptions,
+        java=java,
+        python=python
     )
 
 
@@ -63,41 +62,44 @@ class CodeBrawl(Resource):
         return None
 
     def post(self):
-        json = request.get_json()
-        slug = PROBLEMS[json.get('problem')]
-        extension = EXTENSIONS[json.get('language')]
-        player = json.get('player')
+        json_data = request.get_json()
+        slug = PROBLEMS[json_data.get('problem')]
+        extension = EXTENSIONS[json_data.get('language')]
+        player = json_data.get('player')
         file_name = f'{player}{extension}'
         dir_name = f'./problems/{slug}/{player}'
 
         # TODO: maybe add a way for the user to retrieve his latest submission.
         # TODO: create a directory for the user on submitted problem folder.
-        # with open(file_name, 'w+') as file:
-        #     file.write(json.get('data'))
-
-
         # TODO: change 'input.txt' and 'expectedoutput.txt' + combine user's input with a master run class.
         # a master run class is a class used to run all files, and gives their output.
 
-        # status_code, status_message, console_output, last_input, last_output = evaluate(file_name,
-        #     input_file='input.txt',
-        #     expected_output_file='expectedoutput.txt',
-        #     timeout=10
-        # )
-        #
-        # data = {
-        #     'status_code': 201,
-        #     'status_message': status_message,
-        #     'console_output': console_output,
-        #     'last_input': last_input,
-        #     'last_output': last_output
-        # }
-
-        data = submit(dir_name, file_name, json.get('data'), slug)
+        data = submit(dir_name, file_name, json_data.get('data'), slug)
 
         return data
 
+class ProblemEditor(Resource):
+    def get(self):
+        return None
+
+    def post(self):
+        json_data = request.get_json()
+        slug = PROBLEMS[json_data.get('problem')]
+        file_name = f'./problems/{slug}/{slug}.json'
+
+        with open(file_name) as json_file:
+            json_data_original = json.load(json_file)
+
+        json_data_original['java'] = json_data['java']
+        json_data_original['python'] = json_data['python']
+
+        with open(f'{slug}.json', 'w+') as outfile:
+            json.dump(json_data_original, outfile)
+
+        return json_data_original
+
 api.add_resource(CodeBrawl, '/code-brawl')
+api.add_resource(ProblemEditor, '/problem-editor')
 
 if __name__ == '__main__':
     app.run(debug=True)

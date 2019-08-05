@@ -19,6 +19,32 @@ async function checkUser() {
     });
 }
 
+function editProblem() {
+    var url = window.location.origin + '/problem-editor'; // API url.
+    var data = {
+        'java': java.getValue(),
+        'python': python.getValue(),
+        'problem': problem,
+    };
+
+    var otherPram = {
+        headers: {
+            "content-type": "application/json; charset=UTF-8"
+        },
+        body: JSON.stringify(data),
+        method: "POST"
+    };
+
+    fetch(url, otherPram)
+        .then(data => {
+            return data.json();
+        })
+        .then(res => {
+            console.log(res);
+        })
+        .catch(error => console.log(error))
+}
+
 async function submit() {
     var remainingTime = await getRemainingTime();
 
@@ -285,7 +311,6 @@ function restoreDefaultCode() {
     var lang = getLanguage();
 
     if (lang == 'java') {
-        console.log(java_code[progress])
         editor.setValue(java_code[progress], 1);
     } else {
         editor.setValue(python_code[progress], 1);
