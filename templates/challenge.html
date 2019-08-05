@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Code Brawl</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" media="screen" href="{{url_for('static', filename='css/challenge.css')}}"/>
+    <link rel="shortcut icon" href="#" />
+    <script src="https://kit.fontawesome.com/7740345d3d.js"></script>
+</head>
+
+<body>
+    <nav class="navbar navbar-dark justify-content-start m-0">
+
+        <!-- Current Player Info START -->
+        <div class="navbar-brand d-flex align-items-center mr-auto">
+            <a id="currentPlayer" class="mr-2"  ></a>
+            <div id="cQuestionOne" class="d-inline mr-2" >
+                <div class="circle">
+                    <p id="cpQ1"></p>
+                </div>
+            </div>
+            <div id="cQuestionTwo" class="d-inline mr-2 ml-2">
+                <div class="circle">
+                    <p id="cpQ2"></p>
+                </div>
+            </div>
+            <div id="cQuestionThree" class="d-inline ml-2">
+                <div class="circle">
+                    <p id="cpQ3"></p>
+                </div>
+            </div>
+        </div>
+                </div>
+        </div>
+        <!-- Current Player Info END -->
+
+        <div class="navbar-brand m-auto" id="con" style="color:white">
+            <a style="font-size:20px">Time Left - <span id="timer"></span></a>
+        </div>
+
+        <!-- Enemy Player Info START -->
+        <div class="navbar-brand d-flex align-items-center ml-auto" >
+            <div id="eQuestionThree" class="d-inline mr-2" >
+                <div class="circle">
+                    <p id="epQ3"></p>
+                </div>
+            </div>
+            <div id="eQuestionTwo" class="d-inline mr-2 ml-2" >
+                <div class="circle">
+                    <p id="epQ2"></p>
+                </div>
+            </div>
+            <div id="eQuestionOne" class="d-inline ml-2">
+                <div class="circle">
+                    <p id="epQ1"></p>
+                </div>
+            </div>
+            <a id="enemyPlayer"  class="ml-2" ></a>
+        </div>
+        <!-- Enemy Player Info END -->
+
+    </nav>
+
+    <!-- Main Content START -->
+    <div class="container-fluid">
+        <div class="row">
+
+            <!-- Editor Tools START -->
+            <div class="col-8 bg-dark p-0 ">
+                <button class="btn btn-sm btn-warning mt-2 mb-2" onclick="changeLanguage('java')"><i class="fab fa-java fa-2x" style="color:white"></i></button>
+                <button class="btn btn-sm btn-success mt-2 mb-2" onclick="changeLanguage('python')"><i class="fab fa-python fa-2x" ></i></button>
+                <button class="btn btn-sm btn-dark float-right mt-2 mb-2" onclick="restoreDefaultCode()"><i class="fas fa-backspace fa-2x" style="color:rgb(196, 9, 9)"></i>  </button>
+            </div>
+            <!-- Editor Tools END -->
+
+            <!-- Tab Navigation START-->
+            <div class="col-4  bg-light p-0">
+               <ul class="nav nav-tabs nav-fill">
+                    <li class="nav-item">
+                        <a class="nav-link active" data-toggle="tab" href="#description">DESCRIPTION</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-toggle="tab" href="#rules">RULES</a>
+                    </li>
+                    <li id="resultsTab" class="nav-item d-none">
+                        <a class="nav-link" data-toggle="tab" href="#results">RESULTS</a>
+                    </li>
+               </ul>
+            </div>
+            <!-- Tab Navigation END -->
+
+        </div>
+        <div class="row">
+            <!-- Code Editor START -->
+            <div class="col-8">
+                <div id="editor" style="height:650px;"></div>
+            </div>
+            <!-- Code Editor END -->
+
+            <!-- Tab Content START -->
+            <div class="col-4 tab-content bg-light" style="height: 650px">
+                <div id="description" class="tab-pane fade show active">
+                    {{descriptions[0] | safe}}
+                </div>
+                <div id="rules" class="tab-pane fade">
+                   <p>PLACEHOLDER</p>
+                </div>
+                <div id="results" class="tab-pane fade">
+                        <div id="terminalBlock" style="display:none">
+                            <h4>Errors:</h4>
+                            <div class="h-100 bg-dark">
+                                <h4 class="text-danger" id='errors'></h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Tab Content END -->
+
+        </div>
+    </div>
+    <!-- Main Content END-->
+
+    <script type="text/javascript">
+        var descriptions = [`
+            {{descriptions[0] | safe}}`,
+            `{{descriptions[1] | safe}}`,
+            `{{descriptions[2] | safe}}`
+        ];
+        var java_code = [
+            `{{java[0] | safe}}`,
+            `{{java[1] | safe}}`,
+            `{{java[2] | safe}}`
+        ];
+        var python_code = [
+            `{{python[0] | safe}}`,
+            `{{python[1] | safe}}`,
+            `{{python[2] | safe}}`
+        ];
+        var challenge_id = '{{challenge_id}}';
+    </script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/6.2.3/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/6.2.3/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/6.2.3/firebase-firestore.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.min.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.2/modernizr.js"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="{{url_for('static', filename='js/ace.js')}}" type="text/javascript" charset="utf-8"></script>
+    <script src="{{url_for('static', filename='js/ext-language_tools.js')}}" type="text/javascript" charset="utf-8"></script>
+    <script src="{{url_for('static', filename='js/firebase.js')}}" type="text/javascript" charset="utf-8"></script>
+    <script src="{{url_for('static', filename='js/code-brawl.js')}}" type="text/javascript" charset="utf-8"></script>
+    <script src="{{url_for('static', filename='js/loading.js')}}" type="text/javascript" charset="utf-8"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script type="text/javascript">
+        ace.require("ace/ext/language_tools");
+
+        var editor = ace.edit("editor");
+        editor.setTheme("ace/theme/monokai");
+        editor.setFontSize(15);
+        editor.setOptions({
+            enableBasicAutocompletion: true,
+            enableSnippets: true,
+            enableLiveAutocompletion: true
+        });
+        editor.setShowPrintMargin(false);
+
+        var java = ace.createEditSession(java_code[0], "ace/mode/java");
+        java.setUseWrapMode(true);
+
+        var python = ace.createEditSession(python_code[0], "ace/mode/python");
+        python.setUseWrapMode(true);
+
+        editor.setSession(java);
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+</body>
+
+</html>
