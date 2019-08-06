@@ -1,4 +1,3 @@
-var submitButton = `<footer id="footer"><button id="submit" type="button" class="btn btn-secondary" onclick="submit()">Submit</button></footer>`
 var playerNumber = 0;
 var progress = 0;
 var problem = 0;
@@ -137,7 +136,7 @@ function progressListener() {
                 changeProblem(2);
                 break;
             case 3:
-                document.getElementById("description").innerHTML = descriptions[2] + submitButton;
+                document.getElementById("description").innerHTML = descriptions[2];
                 java.setValue(java_code[2]);
                 python.setValue(python_code[2]);
                 finished = true;
@@ -153,7 +152,7 @@ function progressListener() {
 function changeProblem(progress) {
     $("#description").fadeOut("slow");
     $("#description").promise().done(function() {
-        document.getElementById("description").innerHTML = descriptions[progress] + submitButton;
+        document.getElementById("description").innerHTML = descriptions[progress];
         java.setValue(java_code[progress]);
         python.setValue(python_code[progress]);
         $("#description").fadeIn("slow");
