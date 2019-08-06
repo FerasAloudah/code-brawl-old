@@ -69,8 +69,14 @@
 
             <!-- Editor Tools START -->
             <div class="col-8 bg-dark p-0 ">
-                <button class="btn btn-sm btn-warning mt-2 mb-2" onclick="changeLanguage('java')"><i class="fab fa-java fa-2x" style="color:white"></i></button>
-                <button class="btn btn-sm btn-success mt-2 mb-2" onclick="changeLanguage('python')"><i class="fab fa-python fa-2x" ></i></button>
+                <div class="btn-group btn-group-toggle mt-2 mb-2" data-toggle="buttons">
+                    <label class="btn btn-sm btn-warning text-white active" onclick="changeLanguage('java')">
+                        <input type="radio" name="lang" ><i class="fab fa-java fa-2x"></i>
+                    </label>
+                    <label class="btn btn-sm btn-primary" onclick="changeLanguage('python')">
+                        <input type="radio" name="lang" ><i class="fab fa-python fa-2x"></i>
+                    </label>
+                  </div>
                 <button class="btn btn-sm btn-dark float-right mt-2 mb-2" onclick="restoreDefaultCode()"><i class="fas fa-backspace fa-2x" style="color:rgb(196, 9, 9)"></i>  </button>
             </div>
             <!-- Editor Tools END -->
