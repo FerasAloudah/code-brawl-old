@@ -84,7 +84,7 @@
                     <li class="nav-item">
                         <a class="nav-link" data-toggle="tab" href="#rules" aria-controls="rules">RULES</a>
                     </li>
-                    <li id="resultsTab" class="nav-item" aria-controls="results">
+                    <li id="resultsTab" class="nav-item" aria-controls="results" style="display:none">
                         <a class="nav-link" data-toggle="tab" href="#results">RESULTS</a>
                     </li>
                </ul>
@@ -102,8 +102,10 @@
             <!-- Tab Content START -->
             <div class="col-4 tab-content bg-light h-100 overflow-auto">
                 <div id="description" class="tab-pane fade show active" role="tabpanel" aria-labeledby="description-tab">
-                    {{descriptions[0] | safe}}
-                    <button class="  w-100" style="margin-top:50%">Submit</button>
+                    <div id="descriptionText">
+                        {{descriptions[0] | safe}}
+                    </div>
+                    <button class="w-100" onclick="submit()">Submit</button>
                 </div>
                 <div id="rules" class="tab-pane fade" role="tabpanel" aria-labelledby="rules-tab">
                    <p>PLACEHOLDER</p>

@@ -45,6 +45,23 @@ function editProblem() {
         .catch(error => console.log(error))
 }
 
+function calculateScore(progress,remainingTime){
+    var val = 50, min = 240, max = 270;
+    switch (progress) {
+        case 1:
+            val = 100;
+            min = 150;
+            max = 210;
+            break;
+        case 2:
+            val = 150;
+            min = 0;
+            max = 120;
+            break;
+    }
+    return  Math.round(val + val * inBetween(remainingTime, min, max));
+}
+
 async function submit() {
     var remainingTime = await getRemainingTime();
 
@@ -70,24 +87,21 @@ async function submit() {
         .then(data => {
             return data.json();
         })
-        .then(res => {
+        .then(async(res) => {
             console.log(res);
 
             var statusCode = res.status_code;
             var consoleOutput = res.console_output;
             var statusMessage=res.status_message;
-            consoleOutput=getConsoleOutput(consoleOutput);
-
             switch (res.status_code) {
                 case 201:
                     // Correct Answer
                     // TODO: Transition to the next problem.
-                    increaseProgress(remainingTime);
-                    document.getElementById('resultsTab').style.display='';
-                    $('#resultsLink').trigger('click');
+                    await increaseProgress(remainingTime);
+                    var score=calculateScore(await getProgress(1),remainingTime);
                     swal({
                         title: "Good job!",
-                        text: "You solved the question!",
+                        text: "Your score is:"+score,
                         icon: "success",
                         button: "Go to the next question!",
                       }).then(() => {

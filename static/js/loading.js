@@ -136,7 +136,7 @@ function progressListener() {
                 changeProblem(2);
                 break;
             case 3:
-                $('#description').prepend(descriptions[progress]);
+                $('#descriptionText').innerHTML=descriptions[progress];
                 java.setValue(java_code[2]);
                 python.setValue(python_code[2]);
                 finished = true;
@@ -152,7 +152,7 @@ function progressListener() {
 function changeProblem(progress) {
     $("#description").fadeOut("slow");
     $("#description").promise().done(function() {
-        $('#description').prepend(descriptions[progress]);
+        document.getElementById('descriptionText').innerHTML=descriptions[progress];
         java.setValue(java_code[progress]);
         python.setValue(python_code[progress]);
         $("#description").fadeIn("slow");
