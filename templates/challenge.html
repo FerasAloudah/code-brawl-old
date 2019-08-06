@@ -77,14 +77,14 @@
 
             <!-- Tab Navigation START-->
             <div class="col-4  bg-light p-0">
-               <ul class="nav nav-tabs nav-fill">
+               <ul class="nav nav-tabs nav-fill" role="tablist">
                     <li class="nav-item">
-                        <a class="nav-link active" data-toggle="tab" href="#description">DESCRIPTION</a>
+                        <a class="nav-link active" data-toggle="tab" href="#description" aria-controls="description">DESCRIPTION</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" data-toggle="tab" href="#rules">RULES</a>
+                        <a class="nav-link" data-toggle="tab" href="#rules" aria-controls="rules">RULES</a>
                     </li>
-                    <li id="resultsTab" class="nav-item d-none">
+                    <li id="resultsTab" class="nav-item" aria-controls="results">
                         <a class="nav-link" data-toggle="tab" href="#results">RESULTS</a>
                     </li>
                </ul>
@@ -100,15 +100,15 @@
             <!-- Code Editor END -->
 
             <!-- Tab Content START -->
-            <div class="col-4 tab-content bg-light">
-                <div id="description" class="tab-pane fade show active">
+            <div class="col-4 tab-content bg-light h-100 overflow-auto">
+                <div id="description" class="tab-pane fade show active" role="tabpanel" aria-labeledby="description-tab">
                     {{descriptions[0] | safe}}
                     <button class="  w-100" style="margin-top:50%">Submit</button>
                 </div>
-                <div id="rules" class="tab-pane fade">
+                <div id="rules" class="tab-pane fade" role="tabpanel" aria-labelledby="rules-tab">
                    <p>PLACEHOLDER</p>
                 </div>
-                <div id="results" class="tab-pane fade">
+                <div id="results" class="tab-pane fade" role="tabpanel" aria-labelledby="results-tab">
                     <div id="terminalBlock" style="display:none">
                         <h4>Errors:</h4>
                         <div class="h-100 bg-dark">
