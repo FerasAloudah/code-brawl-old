@@ -38,17 +38,9 @@ def challenge(challenge_id=None):
         with open(f'./problems/{slug}/{slug}.json') as json_file:
             data.append(json.load(json_file))
 
-    descriptions, java, python = [], [], []
-    for problem in data:
-        descriptions.append(problem['description'])
-        java.append(problem['java'])
-        python.append(problem['python'])
-
     return render_template('challenge.html',
         challenge_id=challenge_id,
-        descriptions=descriptions,
-        java=java,
-        python=python
+        data=data
     )
 
 

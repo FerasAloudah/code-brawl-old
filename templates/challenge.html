@@ -103,7 +103,7 @@
             <div class="col-4 tab-content bg-light h-100 overflow-auto">
                 <div id="description" class="tab-pane fade show active" role="tabpanel" aria-labeledby="description-tab">
                     <div id="descriptionText">
-                        {{descriptions[0] | safe}}
+                        {{ data[0]['description'] | safe }}
                     </div>
                     <button class="w-100" onclick="submit()">Submit</button>
                 </div>
@@ -126,21 +126,16 @@
     <!-- Main Content END-->
 
     <script type="text/javascript">
-        var descriptions = [`
-            {{descriptions[0] | safe}}`,
-            `{{descriptions[1] | safe}}`,
-            `{{descriptions[2] | safe}}`
-        ];
-        var java_code = [
-            `{{java[0] | safe}}`,
-            `{{java[1] | safe}}`,
-            `{{java[2] | safe}}`
-        ];
-        var python_code = [
-            `{{python[0] | safe}}`,
-            `{{python[1] | safe}}`,
-            `{{python[2] | safe}}`
-        ];
+        var descriptions = []
+        var java_code = []
+        var python_code = []
+
+        {% for problem in data %}
+            descriptions.push(`{{ problem['description'] | safe }}`);
+            java_code.push(`{{ problem['java'] | safe }}`);
+            python_code.push(`{{ problem['python'] | safe }}`);
+        {% endfor %}
+
         var challenge_id = '{{challenge_id}}';
     </script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
