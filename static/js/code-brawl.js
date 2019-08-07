@@ -99,6 +99,7 @@ async function submit() {
                     // TODO: Transition to the next problem.
                     await increaseProgress(remainingTime);
                     var score=calculateScore(await getProgress(1),remainingTime);
+                    document.getElementById('resultsTab').style.display='none';
                     swal({
                         title: "Good job!",
                         text: "Your score is:"+score,
@@ -111,7 +112,6 @@ async function submit() {
                 case 400:
                     swal( "Oops" ,  " wrong answer!" ,  "error" ).then(()=>{
                         document.getElementById('resultsTab').style.display='';
-                        document.getElementById('terminalBlock').style.display='';
                         $('#resultsLink').trigger('click');
                         for(var i=0;i<consoleOutput.length;i++){
                             document.getElementById('errors').innerHTML+=consoleOutput[i]+'<br>';
