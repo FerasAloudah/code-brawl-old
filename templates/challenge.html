@@ -106,12 +106,11 @@
             <!-- Code Editor END -->
 
             <!-- Tab Content START -->
-            <div class="col-4 tab-content bg-light h-100 overflow-auto">
+            <div class="col-4 tab-content d-flex flex-column justify-content-between bg-light h-100 overflow-auto">
                 <div id="description" class="tab-pane fade show active" role="tabpanel" aria-labeledby="description-tab">
                     <div id="descriptionText">
                         {{ data[0]['description'] | safe }}
                     </div>
-                    <button class="w-100" onclick="submit()">Submit</button>
                 </div>
                 <div id="rules" class="tab-pane fade" role="tabpanel" aria-labelledby="rules-tab">
                    <p>PLACEHOLDER</p>
@@ -124,6 +123,7 @@
                         </div>
                     </div>
                 </div>
+                <button class="w-100" onclick="submit()">Submit</button>
             </div>
             <!-- Tab Content END -->
 
