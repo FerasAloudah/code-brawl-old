@@ -15,11 +15,13 @@ function returnanima() {
         top: '44%'
     }, "slow");
 }
+let counter =0 ;
 function create(name, points) {
     $("#orderlist").fadeOut("fast");
     $("#orderlist").promise().done(() => {
         let get = document.getElementById("orderlist")
         let c = document.createElement("li");
+        c.className = `li${counter}`
         get.appendChild(c);
         let mark = document.createElement("mark");
         let textformark = document.createTextNode(name)
@@ -29,9 +31,10 @@ function create(name, points) {
         let textforsmall = document.createTextNode(points)
         small.appendChild(textforsmall)
         c.appendChild(small)
-        $("li").append(`<div class="progress">
+        $(`.li${counter}`).append(`<div class="progress">
         <div class="progress-bar bg-secondary" style="width:${points / 600 * 100}%"></div>
       </div>`);
         $("#orderlist").fadeIn("slow");
     });
+    counter++;
 }
