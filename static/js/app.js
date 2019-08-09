@@ -15,22 +15,23 @@ function returnanima() {
         top: '44%'
     }, "slow");
 }
-function create(mark, small, progress) {
-    //mark is the player name 
-    //small is the player score 
-    //progress for the progress bar
-    let get = document.getElementById("orderlist")
-    let c = document.createElement("li");
-    get.appendChild(c);
-    let mark = document.createElement("mark");
-    let textformark = document.createTextNode(mark)
-    c.append(mark)
-    mark.appendChild(textformark)
-    let small = document.createElement("small");
-    let textforsmall = document.createTextNode(small)
-    small.appendChild(textforsmall)
-    c.appendChild(small)
-    $("li").append(`<div class="progress">
-    <div class="progress-bar bg-secondary" style="width:${progress}%"></div>
-  </div>`);
+function create(name, points) {
+    $("#orderlist").fadeOut("fast");
+    $("#orderlist").promise().done(() => {
+        let get = document.getElementById("orderlist")
+        let c = document.createElement("li");
+        get.appendChild(c);
+        let mark = document.createElement("mark");
+        let textformark = document.createTextNode(name)
+        c.append(mark)
+        mark.appendChild(textformark)
+        let small = document.createElement("small");
+        let textforsmall = document.createTextNode(points)
+        small.appendChild(textforsmall)
+        c.appendChild(small)
+        $("li").append(`<div class="progress">
+        <div class="progress-bar bg-secondary" style="width:${points / 600 * 100}%"></div>
+      </div>`);
+        $("#orderlist").fadeIn("slow");
+    });
 }
