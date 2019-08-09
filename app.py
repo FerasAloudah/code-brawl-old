@@ -46,7 +46,7 @@ def challenge(challenge_id=None):
 
 @app.route('/leaderboard/')
 def leaderboard():
-    return redirect(url_for('home'))
+    return render_template('leaderboard.html')
 
 
 class CodeBrawl(Resource):
