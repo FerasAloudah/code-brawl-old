@@ -16,6 +16,9 @@ function returnanima() {
     }, "slow");
 }
 function create(mark, small, progress) {
+    //mark is the player name 
+    //small is the player score 
+    //progress for the progress bar
     let get = document.getElementById("orderlist")
     let c = document.createElement("li");
     get.appendChild(c);
