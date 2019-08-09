@@ -1,3 +1,6 @@
+$(".time").css("display", "table");
+$(".time").fadeOut(0);
+
 function anima() {
     $(".leaderboard").animate({
         top: '63%'
@@ -15,26 +18,24 @@ function returnanima() {
         top: '44%'
     }, "slow");
 }
-let counter =0 ;
+
+let counter = 0;
+
 function create(name, points) {
-    $("#orderlist").fadeOut("fast");
-    $("#orderlist").promise().done(() => {
-        let get = document.getElementById("orderlist")
-        let c = document.createElement("li");
-        c.className = `li${counter}`
-        get.appendChild(c);
-        let mark = document.createElement("mark");
-        let textformark = document.createTextNode(name)
-        c.append(mark)
-        mark.appendChild(textformark)
-        let small = document.createElement("small");
-        let textforsmall = document.createTextNode(points)
-        small.appendChild(textforsmall)
-        c.appendChild(small)
-        $(`.li${counter}`).append(`<div class="progress">
+    let get = document.getElementById("orderlist")
+    let c = document.createElement("li");
+    c.className = `li${counter}`
+    get.appendChild(c);
+    let mark = document.createElement("mark");
+    let textformark = document.createTextNode(name)
+    c.append(mark)
+    mark.appendChild(textformark)
+    let small = document.createElement("small");
+    let textforsmall = document.createTextNode(points)
+    small.appendChild(textforsmall)
+    c.appendChild(small)
+    $(`.li${counter}`).append(`<div class="progress">
         <div class="progress-bar bg-secondary" style="width:${points / 600 * 100}%"></div>
       </div>`);
-        $("#orderlist").fadeIn("slow");
-    });
     counter++;
 }

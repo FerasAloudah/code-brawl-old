@@ -29,19 +29,17 @@
 </head>
 
 <body>
-    <button onclick="anima()">click</button>
-    <button onclick="returnanima()">reclick</button>
     <div class="current1">
-        <p>Badr </p>
-        <small>301</small>
+        <p id="p1Name"></p>
+        <small id="p1Points"></small>
     </div>
     <div class="time" style="color:white">
         <a style="font-size:20px">Time Left - <span id="timer"></span></a>
     </div>
 
     <div class="current2">
-        <p> feras </p>
-        <small>308</small>
+        <p id="p2Name"></p>
+        <small id="p2Points"></small>
     </div>
 
     <div class="leaderboard">
@@ -51,8 +49,8 @@
             LeaderBoard
         </h1>
         <ol id="orderlist">
-            
-               
+
+
 
         </ol>
     </div>
@@ -79,8 +77,12 @@
 	c0-1.097,0.908-1.99,2.024-1.99c1.117,0,2.025,0.893,2.025,1.99C23.241,6.246,22.333,7.138,21.215,7.138z" />
         </symbol>
     </svg>
-    <script src="{{url_for('static', filename='js/app.js')}}">
-    </script>
+    <script src="https://www.gstatic.com/firebasejs/6.2.3/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/6.2.3/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/6.2.3/firebase-firestore.js"></script>
+    <script src="{{url_for('static', filename='js/firebase.js')}}"></script>
+    <script src="{{url_for('static', filename='js/homepage.js')}}"></script>
+    <script src="{{url_for('static', filename='js/app.js')}}"></script>
 </body>
 
 </html>

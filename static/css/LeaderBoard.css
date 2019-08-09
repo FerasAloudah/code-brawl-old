@@ -102,7 +102,7 @@ Leaderboard
         background: none;
         color: #fff;
         border-style: solid;
-        border-width: 1px; 
+        border-width: 1px;
       }
 
 
@@ -181,7 +181,7 @@ Leaderboard
     }
 
     .leaderboard ol li:nth-child(5) {
-      
+
       border-radius: 0 0 10px 10px;
     }
 
@@ -299,6 +299,8 @@ Leaderboard
       text-align: center;
       display: none;
     }
-      
-    
-  
+    .time a {
+        vertical-align: middle;
+        text-align: center;
+        display: table-cell;
+    }
