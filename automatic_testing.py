@@ -204,7 +204,7 @@ def evaluate(file_name, input_file=None, output_file=None, expected_output_file=
     # Run the program.
     for i, (input, output) in enumerate(zip(input_lines, output_lines)):
         print(f'\nRunning Test Case #{i+1}:')
-
+        input = 'test.txt\n' + input
         runtime_results, runtime_errors = prog.run(input)
         print(f'Running... {STATUS_CODES[runtime_results]}({runtime_results})', flush=True)
         if runtime_errors is not  None:
@@ -262,12 +262,12 @@ def submit(dir_name, file_name, data, slug):
 
 
 if __name__ == '__main__':
-    status_code, status_message, console_output, last_input, last_output = evaluate(
+    status_code, status_message, console_output, last_input, last_expected_output, last_output = evaluate(
         file_name='test.py',
         input_file='input.txt',
         output_file='output.txt',
         expected_output_file='expectedoutput.txt',
-        timeout=10
+        timeout=15
     )
 
     print("\nMethod's output:")
@@ -275,4 +275,5 @@ if __name__ == '__main__':
     print(status_message)
     print(console_output)
     print(last_input)
+    print(last_expected_output)
     print(last_output)

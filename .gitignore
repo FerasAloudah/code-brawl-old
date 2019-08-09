@@ -3,4 +3,5 @@ firebase.js
 globals.py
 problems
 .DS_Store
+.vscode
 __pycache__
