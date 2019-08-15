@@ -38,15 +38,21 @@ def challenge(challenge_id=None):
         with open(f'./problems/{slug}/{slug}.json') as json_file:
             data.append(json.load(json_file))
 
-    return render_template('challenge.html',
-        challenge_id=challenge_id,
-        data=data
-    )
+    return render_template('challenge.html', challenge_id=challenge_id, data=data)
 
 
 @app.route('/leaderboard/')
 def leaderboard():
     return render_template('leaderboard.html')
+
+
+@app.route('/r/')
+@app.route('/r/<path:challenge_id>')
+def result(challenge_id=None):
+    if not challenge_id:
+        return redirect(url_for('home'))
+
+    return render_template('result.html', challenge_id=challenge_id)
 
 
 class CodeBrawl(Resource):

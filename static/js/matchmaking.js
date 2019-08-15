@@ -44,6 +44,7 @@ async function createChallenge() {
         'playerOnePoints': [0, 0, 0],
         'playerOneProgress': 0,
         'playerOneStatus': 'Playing',
+        'playerOneTime': ["", "", ""],
         'questions': generateQuestions(),
         'status': 'Waiting'
     }
@@ -97,6 +98,7 @@ async function joinChallenge(id) {
                     'playerTwoPoints': [0, 0, 0],
                     'playerTwoProgress': 0,
                     'playerTwoStatus': 'Playing',
+                    'playerTwoTime': ["", "", ""],
                     'status': 'Started',
                     'startingTime': firebase.firestore.FieldValue.serverTimestamp(),
                 });
@@ -128,9 +130,11 @@ function cancelChallenge() {
 
 async function createUser() {
     var name = document.getElementById("name").value;
+    var number = document.getElementById("number").value;
+
     var data = {
         'name': name,
-        // 'number': number,
+        'number': number,
         'points': 0,
     }
 

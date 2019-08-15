@@ -2,7 +2,6 @@
 
 html, body {
     height: 100%;
-    width: 100%;
 }
 
 body {
@@ -31,7 +30,6 @@ body {
 }
 
 .lines .line {
-    margin-left: 25%;
     position: absolute;
     width: 1px;
     height: 100%;
@@ -96,20 +94,7 @@ body {
     }
 }
 
-.result1 {
-    position: absolute;
-    top: 45%;
-    left: 50%;
-    -ms-transform: translateX(-50%) translateY(-50%);
-    -webkit-transform: translate(-50%, -50%);
-    transform: translate(-50%, -50%);
-    width: 100%;
-    max-width: 800px;
-    border-radius: 10px;
-    padding: 55px;
-}
-
-.result2 {
+.result {
     position: absolute;
     top: 42%;
     left: 50%;
@@ -120,19 +105,6 @@ body {
     width: 800px;
     border-radius: 10px;
     padding: 55px;
-    display: none;
-}
-
-.goodGame {
-    margin-right: 70px;
-    text-align: center;
-    margin-bottom: 30px;
-    top: 2%;
-    font-family: mexcellent;
-    font-size: 100px;
-    background: -webkit-linear-gradient(#449ce9, #706ac7);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
 }
 
 .score {
@@ -147,18 +119,20 @@ body {
     color: white;
 }
 
-.table1 {
+table {
     border-collapse: collapse;
     background: white;
     border-radius: 10px;
     overflow: hidden;
-    font-size: 20px;
-    width: 100%;
+    width: 350px;
+    height: 100%;
+    float: left;
     box-shadow: 0px 0px 14px 0px rgba(0, 0, 0, 0.75);
 }
 
 thead tr {
     height: 60px;
+    font-size: 16px;
     color: white;
 }
 
@@ -171,19 +145,12 @@ td, th {
     text-align: center;
 }
 
-.table2 {
-    border-collapse: collapse;
-    background: white;
-    border-radius: 10px;
-    overflow: hidden;
-    width: 350px;
-    height: 100%;
-    float: left;
-    box-shadow: 0px 0px 14px 0px rgba(0, 0, 0, 0.75);
-}
-
 .total {
     font-weight: 600;
+}
+
+h1 {
+    font: arial;
 }
 
 .logo {
@@ -194,102 +161,40 @@ td, th {
     left: 5%;
 }
 
-.rank {
-    margin-top: 10px;
-}
-
 @font-face {
     font-family: mexcellent;
     src: url(../fonts/mexcellent.ttf);
 }
 
-.leaderboard {
+.goodGame {
+    margin-right: 20px;
     text-align: center;
-    margin-bottom: 25px;
+    margin-bottom: 30px;
     top: 2%;
     font-family: mexcellent;
-    font-size: 80px;
+    font-size: 100px;
     background: -webkit-linear-gradient(#449ce9, #706ac7);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
 }
 
-.container {
-    margin-bottom: 30px;
-    margin-top: 20px;
-    left: 29%;
-    position: absolute;
-    width: 100%;
+.no-js #loader {
     display: none;
 }
 
-.playerName1 {
-    width: 150px;
-    float: left;
-    padding: 10px;
-    font-size: 25px;
-    background-image: linear-gradient(to right, #449ce9, #7d58b9);
-    border-radius: 10px 0px 0px 10px;
-    text-align: center;
-    display: inline-block border: 4px solid black;
-    color: white;
+.js #loader {
+    display: block;
+    position: absolute;
+    left: 100px;
+    top: 0;
 }
 
-.score1 {
-    width: 50px;
-    float: left;
-    padding: 10px;
-    font-size: 25px;
-    background: #fff;
-    border-radius: 0px 10px 10px 0px;
-    text-align: center;
-    display: inline-block border: 4px solid black;
-}
-
-.playerName2 {
-    width: 150px;
-    float: left;
-    padding: 10px;
-    font-size: 25px;
-    background-image: linear-gradient(to right, #449ce9, #7d58b9);
-    border-radius: 0px 10px 10px 0px;
-    text-align: center;
-    display: inline-block border: 4px solid black;
-    color: white;
-}
-
-.score2 {
-    width: 50px;
-    float: left;
-    padding: 10px;
-    font-size: 25px;
-    background: #fff;
-    border-radius: 10px 0px 0px 10px;
-    text-align: center;
-    display: inline-block border: 4px solid black;
-}
-
-.time-left {
-    width: 100px;
-    margin-right: 100px;
-    margin-left: 100px;
-    padding: 2px 10px 0px 10px;
-    background-image: linear-gradient(to right, #449ce9, #7d58b9);
-    border-radius: 10px 10px 0px 0px;
-    text-align: center;
-    display: inline-block border: 4px solid black;
-    color: white;
-}
-
-.time {
-    width: 100px;
-    margin-left: 100px;
-    /* float: left; */
-    padding: 6px 10px 6px 10px;
-    font-size: 20px;
-    font-weight: 600;
-    background: #fff;
-    border-radius: 0px 0px 10px 10px;
-    text-align: center;
-    display: inline-block border: 4px solid black;
+.se-pre-con {
+    position: fixed;
+    left: 0px;
+    top: 0px;
+    width: 100%;
+    height: 100%;
+    z-index: 9999;
+    background: url(../images/loader-128x/Preloader_2.gif) center no-repeat #fff;
 }

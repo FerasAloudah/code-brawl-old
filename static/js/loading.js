@@ -20,9 +20,20 @@ function checkPlayer() {
     challengeRef.get().then(async function(doc) {
         if (doc.exists) {
             var data = doc.data();
+
+            var currentTime = new Date();
+            var startingTime = data.startingTime;
+            var remainingTime = 300 - (currentTime.getTime() - startingTime.toDate().getTime()) / 1000 + 5;
+
+            if (remainingTime <= 0) {
+                // Change page.
+            }
+
             var player = getPlayer();
             var playerOne = data.playerOne;
             var playerTwo = data.playerTwo;
+
+            // TODO: Check time of challenge if it's <= 0.
 
             var result = (player == playerOne ? 1 : 0) + (player == playerTwo ? 2 : 0);
 
@@ -57,16 +68,6 @@ async function setUpPlayers(data) {
     document.getElementById('enemyPlayer').innerHTML = enemyPlayer;
 
     console.log(`Updated players: ${currentPlayer} vs ${enemyPlayer}`);
-}
-
-async function setUpTimer() {
-    var remainingTime = await getRemainingTime();
-    if (remainingTime < 0) {
-        // changeWindow();
-    }
-
-    document.getElementById('timer').innerHTML = parseInt(remainingTime / 60) + ":" + parseInt(remainingTime % 60);
-    startTimer();
 }
 
 // 0 == player is on question one, 1 == player is on question two...

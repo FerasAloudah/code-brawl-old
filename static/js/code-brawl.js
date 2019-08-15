@@ -2,23 +2,6 @@ var challengeRef = db.collection('challenges').doc(challenge_id);
 var submitting = false;
 var finished = false;
 
-async function checkUser() {
-    await challengeRef.get().then(function(doc) {
-        if (doc.exists) {
-            var data = doc.data();
-            var player = getPlayer();
-
-            return player == data.
-
-            console.log("Document data:", doc.data());
-        } else {
-            console.log("No such document!");
-        }
-    }).catch(function(error) {
-        console.log("Error getting document:", error);
-    });
-}
-
 function editProblem() {
     var url = window.location.origin + '/problem-editor'; // API url.
     var data = {
@@ -247,35 +230,6 @@ function getData() {
     return data;
 }
 
-function getTime() {
-    var startingTime = challengeRef.get().then(function(doc) {
-        if (doc.exists) {
-            return doc.data().startingTime;
-            console.log("Document data:", doc.data());
-        } else {
-            console.log("No such document!");
-        }
-    }).catch(function(error) {
-        console.log("Error getting document:", error);
-    });
-
-    return startingTime;
-}
-
-async function getRemainingTime() {
-    var currentTime = new Date();
-    var startingTime = await getTime();
-    return 300 - (currentTime.getTime() - startingTime.toDate().getTime()) / 1000 + 5;
-}
-
-function getPlayer() {
-    if (firebase.auth().currentUser == null) {
-        return null;
-    }
-
-    return firebase.auth().currentUser.uid;
-}
-
 function getLanguage() {
     return editor.session.getMode().$id.split('/')[2];
 }
@@ -303,18 +257,6 @@ function startTimer() {
         document.getElementById('timer').innerHTML = min + ":" + sec;
         setTimeout(startTimer, 1000);
     }
-}
-
-function checkSecond(sec) {
-    if (sec < 10 && sec >= 0) {
-        sec = "0" + sec; // Add a zero in front of numbers that are < 10
-    }
-
-    if (sec < 0) {
-        sec = "59";
-    }
-
-    return sec;
 }
 
 function changeLanguage(choice) {

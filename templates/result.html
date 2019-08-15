@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Code Brawl</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel='stylesheet prefetch' href='https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css'>
+    <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='css/result.css')}}">
+    <link rel="shortcut icon" href="#" />
+</head>
+
+<body>
+    <div class="se-pre-con"></div>
+    <img src="{{url_for('static', filename='images/logo.png')}}" class="logo">
+
+    <div class="lines">
+        <div class="line"></div>
+        <div class="line"></div>
+        <div class="line"></div>
+    </div>
+
+    <div class="result">
+        <div class="goodGame">Good Game!</div>
+        <div class="score" style="margin: 10px 17px 10px 0px;">
+            <h1 id="player1"></h1>
+        </div>
+        <div class="score" style="margin: 10px 0px 10px 17px;">
+            <h1 id="player2"></h1>
+        </div>
+
+        <table style="margin: 10px 17px 10px 0px;">
+            <thead style="background-image: linear-gradient(to right, #449ce9 , #7d58b9);">
+                <tr>
+                    <th>Question</th>
+                    <th>Time</th>
+                    <th>Score</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1</td>
+                    <td id="p1q1t"></td>
+                    <td id="p1q1p"></td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td id="p1q2t"></td>
+                    <td id="p1q2p"></td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td id="p1q3t"></td>
+                    <td id="p1q3p"></td>
+                </tr>
+                <tr class="total">
+                    <td>Total</td>
+                    <td id="p1tt"></td>
+                    <td id="p1tp"></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <table style="margin: 10px 0px 10px 17px;">
+            <thead style="background-image: linear-gradient(to right, #449ce9 , #7d58b9);">
+                <tr>
+                    <th>Question</th>
+                    <th>Time</th>
+                    <th>Score</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1</td>
+                    <td id="p2q1t"></td>
+                    <td id="p2q1p"></td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td id="p2q2t"></td>
+                    <td id="p2q2p"></td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td id="p2q3t"></td>
+                    <td id="p2q3p"></td>
+                </tr>
+                <tr class="total">
+                    <td>Total</td>
+                    <td id="p2tt"></td>
+                    <td id="p2tp"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <script type="text/javascript">
+        var challenge_id = '{{challenge_id}}';
+    </script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/6.2.3/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/6.2.3/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/6.2.3/firebase-firestore.js"></script>
+    <script src="{{url_for('static', filename='js/firebase.js')}}"></script>
+    <script src="{{url_for('static', filename='js/result.js')}}"></script>
+</body>
+
+</html>

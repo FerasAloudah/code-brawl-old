@@ -2,6 +2,7 @@ var challengesRef = db.collection('challenges');
 var usersRef = db.collection('users');
 var id = '-1';
 var prevList = [];
+getLeaderboard();
 
 challengesRef.onSnapshot(snapshot => {
     snapshot.forEach(doc => {
@@ -35,7 +36,9 @@ async function initChallenge() {
             document.getElementById("p2Name").innerHTML = playerTwo;
             document.getElementById("p2Points").innerHTML = 0;
 
-            anima();
+            playing = true;
+
+            animateIn();
 
 	        console.log("Player one:", playerOne);
             console.log("Player two:", playerTwo);
@@ -46,11 +49,14 @@ async function initChallenge() {
 	    console.log("Error getting document:", error);
 	});
 
-    challengeRef.onSnapshot(doc => {
+    challengeRef.onSnapshot(async(doc) => {
         var data = doc.data();
 
         if (data.status == 'Finished') {
-            returnanima();
+            playing = false;
+            await loadResults(id);
+            transitionToResults();
+            setTimeout(transitionToLeaderboard, 15000);
             id = -1;
             // finishChallenge();
             // getLeaderboard();
@@ -101,50 +107,23 @@ async function getLeaderboard() {
     });
 
     if (currentList.join('') != prevList.join('')) {
-        $("#orderlist").fadeOut("fast");
-        $("#orderlist").promise().done(() => {
-            document.getElementById("orderlist").innerHTML = "";
+        $("#playersList").fadeOut("fast");
+        $("#playersList").promise().done(() => {
+            document.getElementById("playersList").innerHTML = "";
 
             currentList.forEach((element, idx) => {
-                create(element[0], element[1]);
+                create(idx+1, element[0], "4:20", element[1]);
             });
 
-            $("#orderlist").fadeIn("slow");
+            for (let i = currentList.length; i < 10; i++) {
+                create(-1, "", "", "");
+            }
+
+            $("#playersList").fadeIn("slow");
         })
     }
 
     prevList = currentList;
-}
-
-function getTime() {
-    var startingTime = challengeRef.get().then(function(doc) {
-        if (doc.exists) {
-            return doc.data().startingTime;
-            console.log("Document data:", doc.data());
-        } else {
-            console.log("No such document!");
-        }
-    }).catch(function(error) {
-        console.log("Error getting document:", error);
-    });
-
-    return startingTime;
-}
-
-async function getRemainingTime() {
-    var currentTime = new Date();
-    var startingTime = await getTime();
-    return 300 - (currentTime.getTime() - startingTime.toDate().getTime()) / 1000 + 5;
-}
-
-async function setUpTimer() {
-    var remainingTime = await getRemainingTime();
-    if (remainingTime < 0) {
-        // changeWindow();
-    }
-
-    document.getElementById('timer').innerHTML = parseInt(remainingTime / 60) + ":" + parseInt(remainingTime % 60);
-    startTimer();
 }
 
 function startTimer() {
@@ -161,18 +140,8 @@ function startTimer() {
         document.getElementById('timer').innerHTML = "0:00";
     } else {
         document.getElementById('timer').innerHTML = min + ":" + sec;
-        setTimeout(startTimer, 1000);
+        if (playing) {
+            setTimeout(startTimer, 1000);
+        }
     }
-}
-
-function checkSecond(sec) {
-    if (sec < 10 && sec >= 0) {
-        sec = "0" + sec; // Add a zero in front of numbers that are < 10
-    }
-
-    if (sec < 0) {
-        sec = "59";
-    }
-
-    return sec;
 }
