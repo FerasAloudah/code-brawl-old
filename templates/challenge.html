@@ -73,13 +73,15 @@
             <div class="col-7 bg-dark p-0 ">
                 <div class="btn-group btn-group-toggle mt-2 mb-2" data-toggle="buttons">
                     <label class="btn btn-sm btn-warning text-white active" onclick="changeLanguage('java')">
-                        <input type="radio" name="lang" ><i class="fab fa-java fa-2x"></i>
+                        <input type="radio" name="lang" ><i class="fab fa-java fa-2x" data-toggle="tooltip" title="Change to Java."></i>
                     </label>
                     <label class="btn btn-sm btn-primary" onclick="changeLanguage('python')">
-                        <input type="radio" name="lang" ><i class="fab fa-python fa-2x"></i>
+                        <input type="radio" name="lang" ><i class="fab fa-python fa-2x" data-toggle="tooltip" title="Change to Python."></i>
                     </label>
                   </div>
-                <button class="btn btn-sm btn-dark float-right mt-2 mb-2" onclick="restoreDefaultCode()"><i class="fas fa-backspace fa-2x" style="color:rgb(196, 9, 9)"></i>  </button>
+                <button class="btn btn-sm float-right mt-2 mb-2" onclick="restoreDefaultCode()" style="margin-right: 10px;">
+                    <i class="fas fa-sync fa-2x" style="color: white;" data-toggle="tooltip" title="Reset default code."></i>
+                </button>
             </div>
             <!-- Editor Tools END -->
 
@@ -121,7 +123,7 @@
                     <div id="terminalBlock">
                     </div>
                 </div>
-                <button class="w-100" onclick="submit()">Submit</button>
+                <button class="btn btn-success" onclick="submit()" style="margin-bottom: 20px;">Submit</button>
             </div>
             <!-- Tab Content END -->
 
@@ -129,6 +131,11 @@
     </div>
     <!-- Main Content END-->
 
+    <script>
+    $(document).ready(function(){
+      $('[data-toggle="tooltip"]').tooltip();
+    });
+    </script>
     <script type="text/javascript">
         var descriptions = []
         var java_code = []
