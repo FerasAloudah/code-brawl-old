@@ -28,8 +28,10 @@ function editProblem() {
         .catch(error => console.log(error))
 }
 
-function calculateScore(progress,remainingTime){
-    var val = 50, min = 240, max = 270;
+function calculateScore(progress, remainingTime) {
+    var val = 50,
+        min = 240,
+        max = 270;
     switch (progress) {
         case 1:
             val = 100;
@@ -42,7 +44,7 @@ function calculateScore(progress,remainingTime){
             max = 120;
             break;
     }
-    return  Math.round(val + val * inBetween(remainingTime, min, max));
+    return Math.round(val + val * inBetween(remainingTime, min, max));
 }
 
 async function submit() {
@@ -70,41 +72,48 @@ async function submit() {
         .then(data => {
             return data.json();
         })
-        .then(async(res) => {
+        .then(async (res) => {
             console.log(res);
 
             var statusCode = res.status_code;
             var consoleOutput = res.console_output;
-            var statusMessage=res.status_message;
+            var statusMessage = res.status_message;
+            var lastInput = res.last_input;
+            var lastExpectedOutput = res.last_expected_output;
+            var lastOutput = res.last_output;
+            var stdout = res.stdout;
+
             switch (res.status_code) {
                 case 201:
                     // Correct Answer
                     // TODO: Transition to the next problem.
                     await increaseProgress(remainingTime);
-                    var score=calculateScore(await getProgress(1),remainingTime);
-                    document.getElementById('resultsTab').style.display='none';
+                    var score = calculateScore(await getProgress(1), remainingTime);
+                    document.getElementById('resultsTab').style.display = 'none';
                     swal({
                         title: "Good job!",
-                        text: "Your score is:"+score,
+                        text: "Your score is:" + score,
                         icon: "success",
                         button: "Go to the next question!",
-                      }).then(() => {
+                    }).then(() => {
 
-                      });
+                    });
                     break;
                 case 400:
-                    swal( "Oops" ,  " wrong answer!" ,  "error" ).then(()=>{
-                        document.getElementById('resultsTab').style.display='';
-                        $('#resultsLink').trigger('click');
-                        for(var i=0;i<consoleOutput.length;i++){
-                            document.getElementById('errors').innerHTML+=consoleOutput[i]+'<br>';
-                        }
+                    swal("Oops", "Wrong Answer!", "error").then(() => {
+                        document.getElementById('resultsTab').style.display = '';
+                        document.getElementById('terminalBlock').innerHTML = getWrongAnswer(statusMessage, lastInput, stdout, lastOutput, lastExpectedOutput);
+                         $('.nav-tabs a[href="#results"]').tab('show');
                     })
                     break;
                 default:
                     // Error
                     // Show error in red?
-                    swal ( "Oops" ,  "Something went wrong!" ,  "error" )
+                    swal("Oops", "Something went wrong!", "error").then(() => {
+                        document.getElementById('resultsTab').style.display = '';
+                        document.getElementById('terminalBlock').innerHTML = getError(statusMessage, consoleOutput);
+                         $('.nav-tabs a[href="#results"]').tab('show');
+                    })
 
             }
 
@@ -113,6 +122,62 @@ async function submit() {
         .catch(error => console.log(error))
 
     // Show alert after code submission with submission details...
+}
+
+function getWrongAnswer(title, input, stdout, output, expected) {
+    var titleHTML = `<h4 class="result-title">${title}:</h4>`;
+    var inputHTML = `<div class="container">
+        <div class="row wrong-answer-row">
+            <div class="col-3 wrong-answer-text">Input:</div>
+            <div class="col-9 shadow-sm wrong-answer">
+                <div class="wrong-answer-value">${input}</div>
+            </div>
+        </div>`;
+
+    stdoutHTML = "";
+
+    if (stdout) {
+        var stdoutHTML = `<div class="row wrong-answer-row">
+            <div class="col-3 wrong-answer-text">Stdout:</div>
+            <div class="col-9 shadow-sm wrong-answer">
+                <div class="wrong-answer-value">`;
+
+        var i = 0;
+
+        for (; i < stdout.length - 1; i++) {
+            stdoutHTML += stdout[i] + '<br>';
+        }
+
+        stdoutHTML += stdout[i] + '</div>';
+
+        stdoutHTML += `</div></div>`;
+    }
+
+    var outputHTML = `<div class="row wrong-answer-row">
+        <div class="col-3 wrong-answer-text">Output:</div>
+        <div class="col-9 shadow-sm wrong-answer">
+            <div class="wrong-answer-value">${output}</div>
+        </div>
+    </div>`;
+    var expectedHTML = `<div class="row wrong-answer-row">
+        <div class="col-3 wrong-answer-text">Expected:</div>
+        <div class="col-9 shadow-sm wrong-answer">
+            <div class="wrong-answer-value">${expected}</div>
+        </div>
+        </div>
+    </div>`;
+    return titleHTML + inputHTML + stdoutHTML + outputHTML + expectedHTML;
+}
+
+function getError(title, error) {
+    return `<h4 class="result-title">${title}:</h4>
+    <div class="container">
+        <div class="row error-row">
+            <div class="error">
+                <div class="error-value">${error}</div>
+            </div>
+        </div>
+    </div>`
 }
 
 async function increaseProgress(remainingTime) {
@@ -128,7 +193,9 @@ async function increaseProgress(remainingTime) {
             var points = playerNumber == 1 ? data.playerOnePoints : data.playerTwoPoints;
 
             if (progress < 3) {
-                var val = 50, min = 240, max = 270;
+                var val = 50,
+                    min = 240,
+                    max = 270;
 
                 switch (progress) {
                     case 1:

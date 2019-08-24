@@ -22,7 +22,6 @@ async function getRemainingTime() {
 async function setUpTimer() {
     var remainingTime = await getRemainingTime();
     document.getElementById('timer').innerHTML = parseInt(remainingTime / 60) + ":" + parseInt(remainingTime % 60);
-    startTimer();
 }
 
 function checkSecond(sec) {

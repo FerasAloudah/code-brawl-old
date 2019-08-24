@@ -27,7 +27,6 @@ body {
     display: table-cell;
 }
 
-
 .tab-content {
     padding-top: 1%;
     padding-left: 1%;
@@ -57,12 +56,10 @@ body {
     font-size: 50px;
 }
 
-
 #con {
     text-align: center;
     color: black;
 }
-
 
 #Choice {
     text-align: left;
@@ -89,19 +86,28 @@ pre {
     margin-left: 75%;
 }
 
-.no-js #loader { display: none;  }
-.js #loader { display: block; position: absolute; left: 100px; top: 0; }
-.se-pre-con {
-	position: fixed;
-	left: 0px;
-	top: 0px;
-	width: 100%;
-	height: 100%;
-	z-index: 9999;
-	background: url(../images/loader-128x/Preloader_2.gif) center no-repeat #fff;
+.no-js #loader {
+    display: none;
 }
 
-.wrong-answer{
+.js #loader {
+    display: block;
+    position: absolute;
+    left: 100px;
+    top: 0;
+}
+
+.se-pre-con {
+    position: fixed;
+    left: 0px;
+    top: 0px;
+    width: 100%;
+    height: 100%;
+    z-index: 9999;
+    background: url(../images/loader-128x/Preloader_2.gif) center no-repeat #fff;
+}
+
+.wrong-answer {
     background-color: rgb(238, 238, 238);
     border-radius: 3px;
     border: solid 1px #ccc;
@@ -114,7 +120,7 @@ pre {
     flex: 1 1 0%;
 }
 
-.wrong-answer-value{
+.wrong-answer-value {
     cursor: pointer;
     font-size: 15px;
     line-height: 18px;
@@ -124,43 +130,41 @@ pre {
     padding: 6px 10px;
 }
 
-.wrong-answer-text{
+.wrong-answer-text {
     font-size: 20px;
     margin-top: 6px;
 }
 
-.wrong-answer-row{
+.wrong-answer-row {
     margin-top: 20px;
 }
 
-.error-row{
+.error-row {
     background-color: rgb(252, 228, 236);
     position: relative;
     border-radius: 3px;
-    overflow: auto hidden;
+    overflow: auto;
 }
 
-.error-value{
+.error-value {
     color: rgb(233, 30, 99);
     font-size: 15px;
     white-space: pre-wrap;
     font-family: monospace;
-    text-overflow: ellipsis;
 }
 
-.error{
+.error {
     cursor: auto;
     display: flex;
-    max-height: 65px;
+    max-height: 650px;
     padding: 7px 10px;
 }
 
-.result-title{
+.result-title {
     color: red;
-    margin-bottom: 30px; 
+    margin-bottom: 30px;
     margin-left: 12px;
 }
-
 
 ::-webkit-scrollbar-thumb {
     background: rgba(158, 158, 158, 0.3);
@@ -169,10 +173,12 @@ pre {
     border: 2px solid transparent;
     background-clip: padding-box;
 }
+
 ::-webkit-scrollbar {
     width: 10px;
     height: 10px;
 }
+
 ::-webkit-scrollbar-track {
     background: transparent;
 }

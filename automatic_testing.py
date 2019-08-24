@@ -43,7 +43,7 @@ def get_file_lines(file_name):
 
 
 class Program:
-    def __init__(self, file_name, input_file, output_file, timeout, expected_output_file):
+    def __init__(self, file_name, input_file, output_file, stdout_file, timeout, expected_output_file):
         self.file_name = file_name                        # Full name of the source code file
         self.language = None                              # Language
         self.name = None                                  # File name without extension
@@ -51,6 +51,7 @@ class Program:
         self.input_lines = []
         self.expected_output_file = expected_output_file  # Expected output file
         self.actual_output_file = output_file             # Actual output file
+        self.stdout_file = stdout_file
         self.timeout = timeout                            # Time limit set for execution in seconds
 
     def is_valid_file(self):
@@ -125,7 +126,8 @@ class Program:
 
         try:
             # TODO: Split output files for each input.
-            with open(self.actual_output_file, 'w+') as fout:
+            input = self.actual_output_file + '\n' + input
+            with open(self.stdout_file, 'w+') as fout:
                 proc = subprocess.run(
                     command.split(),
                     input=input,
@@ -157,6 +159,10 @@ class Program:
         # TODO: Evaluate each line of input.
         # TODO: Return 201 after all lines of input have been passed.
         # TODO: Else return the last line the program executed with the user's output.
+        stdout = None
+        if os.path.isfile(self.stdout_file):
+            stdout = get_file_lines(self.stdout_file)
+
         if os.path.isfile(self.actual_output_file) and os.path.isfile(self.expected_output_file):
             actual_output = get_last_line(self.actual_output_file)
 
@@ -164,26 +170,27 @@ class Program:
             print(f'Expected Output: {output}')
 
             if actual_output == output:
-                return 201, None, actual_output
+                return 201, None, actual_output, stdout
             else:
                 # TODO: return input with the expected output.
-                return 400, None, actual_output
+                return 400, None, actual_output, stdout
         else:
-            return 404, 'Missing output files'
+            return 404, 'Missing output files', None, None
 
 
-def evaluate(file_name, input_file=None, output_file=None, expected_output_file=None, timeout=1):
+def evaluate(file_name, input_file=None, output_file=None, stdout_file=None, expected_output_file=None, timeout=1):
     prog = Program(
         file_name=file_name,
         input_file=input_file,
         output_file=output_file,
+        stdout_file=stdout_file,
         timeout=timeout,
         expected_output_file=expected_output_file
     )
 
     if not prog.is_valid_file():
         print('FATAL: Invalid file', file=sys.stderr)
-        return 404, STATUS_CODES[404], None, None, None, None
+        return 404, STATUS_CODES[404], None, None, None, None, None
 
     print('Executing code checker...')
 
@@ -195,7 +202,7 @@ def evaluate(file_name, input_file=None, output_file=None, expected_output_file=
         if compile_errors is not None:
             sys.stdout.flush()
             print(compile_errors, file=sys.stderr)
-            return compile_result, STATUS_CODES[compile_result], compile_errors, None, None, None
+            return compile_result, STATUS_CODES[compile_result], compile_errors, None, None, None, None
 
     # Get input lines.
     input_lines = get_file_lines(input_file)
@@ -204,33 +211,32 @@ def evaluate(file_name, input_file=None, output_file=None, expected_output_file=
     # Run the program.
     for i, (input, output) in enumerate(zip(input_lines, output_lines)):
         print(f'\nRunning Test Case #{i+1}:')
-        input = 'test.txt\n' + input
         runtime_results, runtime_errors = prog.run(input)
         print(f'Running... {STATUS_CODES[runtime_results]}({runtime_results})', flush=True)
         if runtime_errors is not  None:
             sys.stdout.flush()
             print(runtime_errors, file=sys.stderr)
-            return runtime_results, STATUS_CODES[runtime_results], runtime_errors, None, None, None
+            return runtime_results, STATUS_CODES[runtime_results], runtime_errors, None, None, None, None
 
         # Match expected output
-        match_result, match_errors, last_output = prog.evaluate(output)
+        match_result, match_errors, last_output, stdout = prog.evaluate(output)
         print(f'{STATUS_CODES[match_result]}', flush=True)
 
         if match_errors is not None:
             sys.stdout.flush()
             print(match_errors, file=sys.stderr)
-            return match_result, STATUS_CODES[match_result], match_errors, None, None, None
+            return match_result, STATUS_CODES[match_result], match_errors, None, None, None, None
         elif match_result == 400:
-            return match_result, STATUS_CODES[match_result], None, input, output, last_output
+            return match_result, STATUS_CODES[match_result], None, input, output, last_output, stdout
 
-    return match_result, STATUS_CODES[match_result], None, None, None, None
+    return match_result, STATUS_CODES[match_result], None, None, None, None, None
 
 
 def submit(dir_name, file_name, data, slug):
     input_file = 'input.txt' # f'./problems/{slug}/input.txt'
     expected_output_file = 'expectedoutput.txt' # f'./problems/{slug}/expected_output_file.txt'
     full_name = f'{dir_name}/{file_name}'
-    print(full_name)
+
     if not os.path.exists(os.path.dirname(full_name)):
         try:
             os.makedirs(os.path.dirname(full_name))
@@ -241,10 +247,11 @@ def submit(dir_name, file_name, data, slug):
     with open(full_name, 'w+') as file:
         file.write(data)
 
-    status_code, status_message, console_output, last_input, last_expected_output, last_output = evaluate(
+    status_code, status_message, console_output, last_input, last_expected_output, last_output, stdout = evaluate(
         file_name=full_name,
         input_file=input_file,
         output_file=f'{dir_name}/output.txt',
+        stdout_file=f'{dir_name}/stdout.txt',
         expected_output_file=expected_output_file,
         timeout=15
     )
@@ -255,17 +262,19 @@ def submit(dir_name, file_name, data, slug):
         'console_output': console_output,
         'last_input': last_input,
         'last_expected_output': last_expected_output,
-        'last_output': last_output
+        'last_output': last_output,
+        'stdout': stdout
     }
 
     return data
 
 
 if __name__ == '__main__':
-    status_code, status_message, console_output, last_input, last_expected_output, last_output = evaluate(
+    status_code, status_message, console_output, last_input, last_expected_output, last_output, stdout = evaluate(
         file_name='test.py',
         input_file='input.txt',
         output_file='output.txt',
+        stdout_file='stdout.txt',
         expected_output_file='expectedoutput.txt',
         timeout=15
     )
@@ -277,3 +286,4 @@ if __name__ == '__main__':
     print(last_input)
     print(last_expected_output)
     print(last_output)
+    print(stdout)

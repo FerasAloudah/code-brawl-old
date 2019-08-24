@@ -42,6 +42,7 @@ function checkPlayer() {
                 progressListener();
                 await setUpPlayers(data);
                 await setUpTimer();
+                startTimer();
                 // Set up the rest of the page. (Progress, and points)
 
                 // Start timer here.

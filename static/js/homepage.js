@@ -27,6 +27,7 @@ async function initChallenge() {
 			var data = doc.data();
 
             setUpTimer();
+
             playerOne = await getName(data.playerOne);
             playerTwo = await getName(data.playerTwo);
 
@@ -39,6 +40,7 @@ async function initChallenge() {
             playing = true;
 
             animateIn();
+            startTimer();
 
 	        console.log("Player one:", playerOne);
             console.log("Player two:", playerTwo);

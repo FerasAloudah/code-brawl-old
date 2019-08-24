@@ -12,7 +12,7 @@
     <script src="https://kit.fontawesome.com/7740345d3d.js"></script>
 </head>
 
-<body style="height:100%">
+<body style="height:88%">
     <div class="se-pre-con"></div>
 
     <nav class="navbar navbar-dark justify-content-start m-0" style="background-color: #415764">
@@ -70,7 +70,7 @@
         <div class="row">
 
             <!-- Editor Tools START -->
-            <div class="col-8 bg-dark p-0 ">
+            <div class="col-7 bg-dark p-0 ">
                 <div class="btn-group btn-group-toggle mt-2 mb-2" data-toggle="buttons">
                     <label class="btn btn-sm btn-warning text-white active" onclick="changeLanguage('java')">
                         <input type="radio" name="lang" ><i class="fab fa-java fa-2x"></i>
@@ -84,7 +84,7 @@
             <!-- Editor Tools END -->
 
             <!-- Tab Navigation START-->
-            <div class="col-4  bg-light p-0">
+            <div class="col-5  bg-light p-0">
                <ul class="nav nav-tabs nav-fill" role="tablist">
                     <li class="nav-item">
                         <a class="nav-link active" data-toggle="tab" href="#description" aria-controls="description">DESCRIPTION</a>
@@ -102,13 +102,13 @@
         </div>
         <div class="row h-100" >
             <!-- Code Editor START -->
-            <div class="col-8">
+            <div class="col-7">
                 <div id="editor"></div>
             </div>
             <!-- Code Editor END -->
 
             <!-- Tab Content START -->
-            <div class="col-4 tab-content d-flex flex-column justify-content-between bg-light h-100 overflow-auto">
+            <div class="col-5 tab-content d-flex flex-column justify-content-between bg-light h-100 overflow-auto">
                 <div id="description" class="tab-pane fade show active" role="tabpanel" aria-labeledby="description-tab">
                     <div id="descriptionText">
                         {{ data[0]['description'] | safe }}
@@ -119,42 +119,6 @@
                 </div>
                 <div id="results" class="tab-pane fade" role="tabpanel" aria-labelledby="results-tab">
                     <div id="terminalBlock">
-                        <!-- <h4 class="result-title" >Wrong Answer</h4>
-                        <div class="container">
-                            <div class="row wrong-answer-row">
-                                <div class="col-3 wrong-answer-text">Input:</div>
-                                <div class="col-9 shadow-sm wrong-answer">
-                                    <div class="wrong-answer-value"></div>
-                                </div>
-                            </div>
-                            <div class="row wrong-answer-row">
-                                <div class="col-3 wrong-answer-text">Stdout:</div>
-                                <div class="col-9 shadow-sm wrong-answer">
-                                    <div class="wrong-answer-value">asfafalhfsafsajfhsalkjfsafaslfsaflksagflksagflkafsa<br>sDAS<br>SDA<br>SFV<br>sasaf<br>sdsa</div>
-                                </div>
-                            </div>
-                            <div class="row wrong-answer-row">
-                                <div class="col-3 wrong-answer-text">Output:</div>
-                                <div class="col-9 shadow-sm wrong-answer">
-                                    <div class="wrong-answer-value"></div>
-                                </div>
-                            </div>
-                            <div class="row wrong-answer-row">
-                                <div class="col-3 wrong-answer-text">Expected:</div>
-                                <div class="col-9 shadow-sm wrong-answer">
-                                    <div class="wrong-answer-value"></div>
-                                </div>
-                            </div>
-
-                        </div>
-                        <h4 class="result-title" >Compile Error</h4>
-                        <div class="container">
-                            <div class="row error-row">
-                                <div class="col-9 shadow-sm error">
-                                    <div class="error-value">qwerrkqjlkhwqlkrwqlkrhjlkrwq<br>aljshfljahfsa</div>
-                                </div>
-                            </div>
-                        </div> -->
                     </div>
                 </div>
                 <button class="w-100" onclick="submit()">Submit</button>
@@ -182,9 +146,8 @@
     <script src="https://www.gstatic.com/firebasejs/6.2.3/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/6.2.3/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/6.2.3/firebase-firestore.js"></script>
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.min.js"></script>
     <script src="http://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.2/modernizr.js"></script>
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="{{url_for('static', filename='js/ace.js')}}" type="text/javascript" charset="utf-8"></script>
     <script src="{{url_for('static', filename='js/ext-language_tools.js')}}" type="text/javascript" charset="utf-8"></script>
     <script src="{{url_for('static', filename='js/firebase.js')}}" type="text/javascript" charset="utf-8"></script>
@@ -216,7 +179,6 @@
     </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 </body>
 
 </html>
