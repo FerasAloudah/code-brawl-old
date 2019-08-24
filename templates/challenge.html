@@ -15,7 +15,7 @@
 <body style="height:100%">
     <div class="se-pre-con"></div>
 
-    <nav class="navbar navbar-dark justify-content-start m-0">
+    <nav class="navbar navbar-dark justify-content-start m-0" style="background-color: #415764">
 
         <!-- Current Player Info START -->
         <div class="navbar-brand d-flex align-items-center mr-auto">
@@ -92,7 +92,7 @@
                     <li class="nav-item">
                         <a class="nav-link" data-toggle="tab" href="#rules" aria-controls="rules">RULES</a>
                     </li>
-                    <li id="resultsTab" class="nav-item" aria-controls="results" style="display:none">
+                    <li id="resultsTab" class="nav-item" aria-controls="results" style="display: none;">
                         <a class="nav-link" data-toggle="tab" href="#results">RESULTS</a>
                     </li>
                </ul>
@@ -119,10 +119,42 @@
                 </div>
                 <div id="results" class="tab-pane fade" role="tabpanel" aria-labelledby="results-tab">
                     <div id="terminalBlock">
-                        <h4>Errors:</h4>
-                        <div class="h-100 bg-dark">
-                            <h4 class="text-danger" id='errors'></h4>
+                        <!-- <h4 class="result-title" >Wrong Answer</h4>
+                        <div class="container">
+                            <div class="row wrong-answer-row">
+                                <div class="col-3 wrong-answer-text">Input:</div>
+                                <div class="col-9 shadow-sm wrong-answer">
+                                    <div class="wrong-answer-value"></div>
+                                </div>
+                            </div>
+                            <div class="row wrong-answer-row">
+                                <div class="col-3 wrong-answer-text">Stdout:</div>
+                                <div class="col-9 shadow-sm wrong-answer">
+                                    <div class="wrong-answer-value">asfafalhfsafsajfhsalkjfsafaslfsaflksagflksagflkafsa<br>sDAS<br>SDA<br>SFV<br>sasaf<br>sdsa</div>
+                                </div>
+                            </div>
+                            <div class="row wrong-answer-row">
+                                <div class="col-3 wrong-answer-text">Output:</div>
+                                <div class="col-9 shadow-sm wrong-answer">
+                                    <div class="wrong-answer-value"></div>
+                                </div>
+                            </div>
+                            <div class="row wrong-answer-row">
+                                <div class="col-3 wrong-answer-text">Expected:</div>
+                                <div class="col-9 shadow-sm wrong-answer">
+                                    <div class="wrong-answer-value"></div>
+                                </div>
+                            </div>
+
                         </div>
+                        <h4 class="result-title" >Compile Error</h4>
+                        <div class="container">
+                            <div class="row error-row">
+                                <div class="col-9 shadow-sm error">
+                                    <div class="error-value">qwerrkqjlkhwqlkrwqlkrhjlkrwq<br>aljshfljahfsa</div>
+                                </div>
+                            </div>
+                        </div> -->
                     </div>
                 </div>
                 <button class="w-100" onclick="submit()">Submit</button>

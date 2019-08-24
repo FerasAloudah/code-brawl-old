@@ -100,3 +100,79 @@ pre {
 	z-index: 9999;
 	background: url(../images/loader-128x/Preloader_2.gif) center no-repeat #fff;
 }
+
+.wrong-answer{
+    background-color: rgb(238, 238, 238);
+    border-radius: 3px;
+    border: solid 1px #ccc;
+    /* font-size: 15px; */
+    display: flex;
+    overflow-x: auto;
+    border-width: 1px;
+    border-style: solid;
+    border-image: initial;
+    flex: 1 1 0%;
+}
+
+.wrong-answer-value{
+    cursor: pointer;
+    font-size: 15px;
+    line-height: 18px;
+    min-height: 20px;
+    max-height: 70px;
+    white-space: pre-wrap;
+    padding: 6px 10px;
+}
+
+.wrong-answer-text{
+    font-size: 20px;
+    margin-top: 6px;
+}
+
+.wrong-answer-row{
+    margin-top: 20px;
+}
+
+.error-row{
+    background-color: rgb(252, 228, 236);
+    position: relative;
+    border-radius: 3px;
+    overflow: auto hidden;
+}
+
+.error-value{
+    color: rgb(233, 30, 99);
+    font-size: 15px;
+    white-space: pre-wrap;
+    font-family: monospace;
+    text-overflow: ellipsis;
+}
+
+.error{
+    cursor: auto;
+    display: flex;
+    max-height: 65px;
+    padding: 7px 10px;
+}
+
+.result-title{
+    color: red;
+    margin-bottom: 30px; 
+    margin-left: 12px;
+}
+
+
+::-webkit-scrollbar-thumb {
+    background: rgba(158, 158, 158, 0.3);
+    border-radius: 0;
+    outline: none;
+    border: 2px solid transparent;
+    background-clip: padding-box;
+}
+::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+}
+::-webkit-scrollbar-track {
+    background: transparent;
+}
