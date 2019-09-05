@@ -1,6 +1,7 @@
 var challengeRef = db.collection('challenges').doc(challenge_id);
 var submitting = false;
 var finished = false;
+var transitioning = false;
 
 function editProblem() {
     var url = window.location.origin + '/problem-editor'; // API url.
@@ -29,9 +30,8 @@ function editProblem() {
 }
 
 function calculateScore(progress, remainingTime) {
-    var val = 50,
-        min = 240,
-        max = 270;
+    var val = 50, min = 240, max = 270;
+
     switch (progress) {
         case 1:
             val = 100;
@@ -44,18 +44,24 @@ function calculateScore(progress, remainingTime) {
             max = 120;
             break;
     }
+
     return Math.round(val + val * inBetween(remainingTime, min, max));
 }
 
 async function submit() {
     var remainingTime = await getRemainingTime();
 
+    if (transitioning) {
+        console.log("Transitioning!");
+        return;
+    }
+
+    submitting = true;
+
     // if (finished) {
     //     console.log("The challenge is over!");
     //     return;
     // }
-
-    submitting = true;
 
     var url = window.location.origin + '/code-brawl'; // API url.
     var data = getData();
@@ -68,11 +74,13 @@ async function submit() {
         method: "POST"
     };
 
-    fetch(url, otherPram)
+    console.log(data);
+
+    await fetch(url, otherPram)
         .then(data => {
             return data.json();
         })
-        .then(async (res) => {
+        .then(async(res) => {
             console.log(res);
 
             var statusCode = res.status_code;
@@ -85,43 +93,47 @@ async function submit() {
 
             switch (res.status_code) {
                 case 201:
-                    // Correct Answer
-                    // TODO: Transition to the next problem.
-                    await increaseProgress(remainingTime);
-                    var score = calculateScore(await getProgress(1), remainingTime);
-                    document.getElementById('resultsTab').style.display = 'none';
+                    var progress = await getProgress(playerNumber);
+                    var score = calculateScore(progress, remainingTime);
                     swal({
                         title: "Good job!",
                         text: "Your score is:" + score,
                         icon: "success",
                         button: "Go to the next question!",
-                    }).then(() => {
-
+                    }).then(async() => {
+                        $('.nav-tabs a[href="#description"]').tab('show');
+                        document.getElementById('resultsTab').style.display = 'none';
+                        await increaseProgress(remainingTime);
+                        transitioning = true;
+                        setTimeout(stopTransitioning, 5000);
                     });
                     break;
                 case 400:
                     swal("Oops", "Wrong Answer!", "error").then(() => {
                         document.getElementById('resultsTab').style.display = '';
                         document.getElementById('terminalBlock').innerHTML = getWrongAnswer(statusMessage, lastInput, stdout, lastOutput, lastExpectedOutput);
-                         $('.nav-tabs a[href="#results"]').tab('show');
+                        $('.nav-tabs a[href="#results"]').tab('show');
                     })
                     break;
                 default:
-                    // Error
-                    // Show error in red?
                     swal("Oops", "Something went wrong!", "error").then(() => {
                         document.getElementById('resultsTab').style.display = '';
                         document.getElementById('terminalBlock').innerHTML = getError(statusMessage, consoleOutput);
-                         $('.nav-tabs a[href="#results"]').tab('show');
+                        $('.nav-tabs a[href="#results"]').tab('show');
                     })
 
             }
 
             submitting = false;
         })
-        .catch(error => console.log(error))
+        .catch(error => {
+            console.log(error);
+            submitting = false;
+        })
+}
 
-    // Show alert after code submission with submission details...
+function stopTransitioning() {
+    transitioning = false;
 }
 
 function getWrongAnswer(title, input, stdout, output, expected) {
@@ -136,7 +148,7 @@ function getWrongAnswer(title, input, stdout, output, expected) {
 
     stdoutHTML = "";
 
-    if (stdout) {
+    if (stdout[0]) {
         var stdoutHTML = `<div class="row wrong-answer-row">
             <div class="col-3 wrong-answer-text">Stdout:</div>
             <div class="col-9 shadow-sm wrong-answer">
@@ -191,40 +203,31 @@ async function increaseProgress(remainingTime) {
 
             var progress = playerNumber == 1 ? data.playerOneProgress : data.playerTwoProgress;
             var points = playerNumber == 1 ? data.playerOnePoints : data.playerTwoPoints;
+            var time = playerNumber == 1 ? data.playerOneTime : data.playerTwoTime;
 
             if (progress < 3) {
-                var val = 50,
-                    min = 240,
-                    max = 270;
+                points[progress] = calculateScore(progress, remainingTime)
+                problem = data.questions[progress];
 
-                switch (progress) {
-                    case 1:
-                        val = 100;
-                        min = 150;
-                        max = 210;
-                        break;
-                    case 2:
-                        val = 150;
-                        min = 0;
-                        max = 120;
-                        break;
-                }
-
-                points[progress] = Math.round(val + val * inBetween(remainingTime, min, max));
-
+                var elapsedTime = 300 - remainingTime;
+                var minutes = parseInt(elapsedTime / 60);
+                var seconds = parseInt(elapsedTime % 60);
+                time[progress] = remainingTime < 0 ? "5:00" : minutes + ":" + (seconds < 10 ? "0" + seconds : seconds);
                 var status = ++progress == 3 ? 'Finished' : 'Playing';
 
                 if (playerNumber == 1) {
                     transaction.update(challengeRef, {
                         'playerOnePoints': points,
                         'playerOneProgress': progress,
-                        'playerOneStatus': status
+                        'playerOneStatus': status,
+                        'playerOneTime': time
                     });
                 } else {
                     transaction.update(challengeRef, {
                         'playerTwoPoints': points,
                         'playerTwoProgress': progress,
-                        'playerTwoStatus': status
+                        'playerTwoStatus': status,
+                        'playerTwoTime': time
                     });
                 }
 

@@ -95,16 +95,16 @@
         </table>
     </div>
 
-    <script type="text/javascript">
-        var challenge_id = '{{challenge_id}}';
-        loadResults(challenge_id);
-    </script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://www.gstatic.com/firebasejs/6.2.3/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/6.2.3/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/6.2.3/firebase-firestore.js"></script>
     <script src="{{url_for('static', filename='js/firebase.js')}}"></script>
     <script src="{{url_for('static', filename='js/result.js')}}"></script>
+    <script type="text/javascript">
+        var challenge_id = '{{challenge_id}}';
+        loadResults(challenge_id);
+    </script>
 </body>
 
 </html>

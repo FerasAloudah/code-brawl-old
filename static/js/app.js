@@ -1,10 +1,13 @@
 var playing = false;
+var showingResult = false;
 
 function animateIn() {
     $(".result1").animate({
-        top: '48%'
+        top: '52%'
     }, "slow");
-    $(".container").fadeIn("slow");
+    if (!showingResult) {
+        $(".container").fadeIn("slow");
+    }
 }
 
 function animateOut() {
@@ -15,6 +18,7 @@ function animateOut() {
 }
 
 function transitionToResults() {
+    showingResult = true;
     $("#table1").fadeOut("slow");
     $("#table1").promise().done(function() {
         $("#table2").fadeIn("slow");
@@ -22,11 +26,14 @@ function transitionToResults() {
 }
 
 function transitionToLeaderboard() {
+    showingResult = false;
     $("#table2").fadeOut("slow");
     $("#table2").promise().done(function() {
         if (!playing) {
             $(".container").css("display", "none");
             $(".result1").css("top", "45%");
+        } else {
+            $(".container").fadeIn("slow");
         }
         $("#table1").fadeIn("slow");
     });
@@ -57,11 +64,12 @@ function create(counter, name, time, points) {
             break;
     }
 
-    let rankElement = `<td>${rank}</td>`;
+    let rankElement = `<td class="table-rank">${rank}</td>`;
     $(`.tr${counter}`).append(rankElement);
 
     let nameElement = document.createElement("td");
     let nameNode = document.createTextNode(name);
+    nameElement.setAttribute("class", "table-name");
     nameElement.appendChild(nameNode);
 
     let timeElement = document.createElement("td");

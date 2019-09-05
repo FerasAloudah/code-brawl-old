@@ -14,95 +14,101 @@
 <body>
     <img src="{{url_for('static', filename='images/logo.png')}}" class="logo">
 
-    <div class="lines">
-        <div class="line"></div>
-        <div class="line"></div>
-    </div>
-
     <div id="table1">
         <div id="players" class="container">
-            <div>
-                <h1 id="p1Name" class="playerName1"></h1>
-                <h1 id="p1Points" class="score1"></h1>
+            <div class="current1">
+                <div>
+                    <span id="p1Name"></span>
+                    <br>
+                    <span id="p1Points"></span>
+                </div>
             </div>
-            <div style="float: left;">
-                <div class="time-left"> <img src="{{url_for('static', filename='images/wait.gif')}}" style="height: 35px; width: 35px;"> </div>
-                <div id="timer" class="time">4:55</div>
+
+            <div class="time" style="color: white">
+                <div class="time-cell">
+                    <!-- <img src="{{url_for('static', filename='images/wait.gif')}}" style="height: 35px; width: 35px;"> -->
+                    <!-- <span style="font-size:20px">Time Left - <span id="timer"></span></span> -->
+                    <span id="timer"></span>
+                </div>
             </div>
-            <div>
-                <h1 id="p2Points" class="score2"></h1>
-                <h1 id="p2Name" class="playerName2"></h1>
+
+            <div class="current2">
+                <div>
+                    <span id="p2Name"></span>
+                    <br>
+                    <span id="p2Points"></span>
+                </div>
             </div>
         </div>
 
         <div class="result1">
-            <div class="leaderboard">Leaderboard</div>
+            <div class="leaderboard">LEADERBOARD</div>
             <table class="table1">
-                <thead style="background-image: linear-gradient(to right, #449ce9 ,#7d58b9); margin-bottom: 30px;">
+                <thead style="margin-bottom: 30px;">
                     <tr>
-                        <th>Rank</th>
-                        <th>Player</th>
+                        <th class="table-rank">Rank</th>
+                        <th class="table-name">Player</th>
                         <th>Time</th>
                         <th>Score</th>
                     </tr>
-                    <thead>
+                </thead>
                     <tbody id="playersList">
                         <tr>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td></td>
+                            <td class="table-rank"></td>
                             <td></td>
                             <td></td>
                             <td></td>
                         </tr>
                         <tr>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td></td>
+                            <td class="table-rank"></td>
                             <td></td>
                             <td></td>
                             <td></td>
                         </tr>
                         <tr>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td></td>
+                            <td class="table-rank"></td>
                             <td></td>
                             <td></td>
                             <td></td>
                         </tr>
                         <tr>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td></td>
+                            <td class="table-rank"></td>
                             <td></td>
                             <td></td>
                             <td></td>
                         </tr>
                         <tr>
-                            <td></td>
+                            <td class="table-rank"></td>
                             <td></td>
                             <td></td>
                             <td></td>
                         </tr>
                         <tr>
+                            <td class="table-rank"></td>
                             <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td class="table-rank"></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td class="table-rank"></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td class="table-rank"></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td class="table-rank"></td>
                             <td></td>
                             <td></td>
                             <td></td>
@@ -113,16 +119,16 @@
     </div>
 
     <div id="table2" class="result2">
-        <div class="goodGame">Good Game!</div>
+        <div class="leaderboard" style="margin-top: 0%;">GOOD GAME!</div>
         <div class="score" style="margin: 10px 17px 10px 0px;">
-            <h1 id="player1"></h1>
+            <h1 id="player1">Feras</h1>
         </div>
         <div class="score" style="margin: 10px 0px 10px 17px;">
-            <h1 id="player2"></h1>
+            <h1 id="player2">Badr</h1>
         </div>
 
         <table class="table2" style="margin: 10px 17px 10px 0px;">
-            <thead style="background-image: linear-gradient(to right, #449ce9 , #7d58b9);">
+            <thead>
                 <tr>
                     <th>Question</th>
                     <th>Time</th>
@@ -154,7 +160,7 @@
         </table>
 
         <table class="table2" style="margin: 10px 0px 10px 17px;">
-            <thead style="background-image: linear-gradient(to right, #449ce9 , #7d58b9);">
+            <thead>
                 <tr>
                     <th>Question</th>
                     <th>Time</th>
