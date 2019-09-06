@@ -186,7 +186,7 @@ td, th {
 }
 
 .table-rank {
-    min-width: 80px !important;
+    /* min-width: 80px !important; */
 }
 
 .table2 {
@@ -313,7 +313,7 @@ td, th {
     -webkit-transform: translate(-50%, -50%);
     transform: translate(-50%, -50%);
     width: 180px;
-    height: 100px;
+    height: 80px;
     background: -webkit-linear-gradient(top, #3a404d, #3a404d);
     background: linear-gradient(to bottom, #3a404d, #3a404d);
     border-radius: 3px;
@@ -338,7 +338,7 @@ td, th {
     -webkit-transform: translate(-50%, -50%);
     transform: translate(-50%, -50%);
     width: 180px;
-    height: 100px;
+    height: 80px;
     background: -webkit-linear-gradient(top, #3a404d, #3a404d);
     background: linear-gradient(to bottom, #3a404d, #3a404d);
     border-radius: 3px;

@@ -55,13 +55,8 @@ async function initChallenge() {
         var data = doc.data();
 
         if (data.status == 'Finished') {
-            playing = false;
-            await loadResults(id);
-            transitionToResults();
-            setTimeout(transitionToLeaderboard, 15000);
-            id = -1;
-            // finishChallenge();
-            // getLeaderboard();
+            setTimeout(changeToResults, 5000);
+            getLeaderboard();
         } else {
             // Points.
             var playerOnePoints = data.playerOnePoints.reduce((a, b) => a + b, 0);
@@ -76,10 +71,16 @@ async function initChallenge() {
             // Current question.
             var playerOneProgress = data.playerOneProgress;
             var playerTwoProgress = data.playerTwoProgress;
-
-            // TODO: Render information
         }
     });
+}
+
+async function changeToResults() {
+    playing = false;
+    await loadResults(id);
+    transitionToResults();
+    setTimeout(transitionToLeaderboard, 15000);
+    id = -1;
 }
 
 async function getName(userID) {
@@ -99,14 +100,19 @@ async function getLeaderboard() {
 
     await usersRef.get().then(function(querySnapshot) {
         querySnapshot.forEach(function(doc) {
-            var data = doc.data()
+            var data = doc.data();
 
             var name = data.name;
             var points = data.points;
-            console.log(name, points);
-            currentList.push([name, points]);
+            var time = data.time;
+            console.log(name, time, points);
+            currentList.push([name, time, points]);
         });
     });
+
+    currentList.sort((a, b) => {
+        return b[2] - a[2] || a[1] - b[1];
+    })
 
     if (currentList.join('') != prevList.join('')) {
         $("#playersList").fadeOut("fast");
@@ -114,7 +120,13 @@ async function getLeaderboard() {
             document.getElementById("playersList").innerHTML = "";
 
             currentList.forEach((element, idx) => {
-                create(idx+1, element[0], "4:20", element[1]);
+                var time = element[1] == 999 ? "5:00" : element[1];
+
+                if (time != "5:00") {
+                    time = parseInt(time / 60) + ":" + parseInt(time % 60);
+                }
+
+                create(idx+1, element[0], time, element[2]);
             });
 
             for (let i = currentList.length; i < 10; i++) {

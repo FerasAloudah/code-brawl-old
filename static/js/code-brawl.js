@@ -56,12 +56,12 @@ async function submit() {
         return;
     }
 
-    submitting = true;
+    if (finished || submitting) {
+        console.log("The challenge is over!");
+        return;
+    }
 
-    // if (finished) {
-    //     console.log("The challenge is over!");
-    //     return;
-    // }
+    submitting = true;
 
     var url = window.location.origin + '/code-brawl'; // API url.
     var data = getData();
@@ -105,7 +105,7 @@ async function submit() {
                         document.getElementById('resultsTab').style.display = 'none';
                         await increaseProgress(remainingTime);
                         transitioning = true;
-                        setTimeout(stopTransitioning, 5000);
+                        setTimeout(stopTransitioning, 2500);
                     });
                     break;
                 case 400:
@@ -244,36 +244,40 @@ async function increaseProgress(remainingTime) {
 }
 
 function endPlayerSession() {
-    db.runTransaction(function(transaction) {
-        return transaction.get(challengeRef).then(async function(doc) {
-            if (!doc.exists) {
-                throw "Document does not exist!";
-            }
-
-            var data = doc.data();
-            var status = playerNumber == 1 ? data.playerOneStatus : data.playerTwoStatus;
-
-            if (status != 'Finished') {
-                if (playerNumber == 1) {
-                    transaction.update(challengeRef, {
-                        'playerOneStatus': 'Finished'
-                    });
-                } else {
-                    transaction.update(challengeRef, {
-                        'playerTwoStatus': 'Finished'
-                    });
+    if (submitting) {
+        setTimeout(endPlayerSession, 1000);
+    } else {
+        db.runTransaction(function(transaction) {
+            return transaction.get(challengeRef).then(async function(doc) {
+                if (!doc.exists) {
+                    throw "Document does not exist!";
                 }
 
-                return 'Finished';
-            } else {
-                return Promise.reject("Sorry! Player status has already been set to Finished.");
-            }
+                var data = doc.data();
+                var status = playerNumber == 1 ? data.playerOneStatus : data.playerTwoStatus;
+
+                if (status != 'Finished') {
+                    if (playerNumber == 1) {
+                        transaction.update(challengeRef, {
+                            'playerOneStatus': 'Finished'
+                        });
+                    } else {
+                        transaction.update(challengeRef, {
+                            'playerTwoStatus': 'Finished'
+                        });
+                    }
+
+                    return 'Finished';
+                } else {
+                    return Promise.reject("Sorry! Player status has already been set to Finished.");
+                }
+            });
+        }).then(function(status) {
+            console.log("Player's status has been changed to ", status, "!");
+        }).catch(function(err) {
+            console.error(err);
         });
-    }).then(function(status) {
-        console.log("Player's status has been changed to ", status, "!");
-    }).catch(function(err) {
-        console.error(err);
-    });
+    }
 }
 
 function inBetween(val, min, max) {

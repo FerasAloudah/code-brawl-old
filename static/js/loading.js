@@ -25,27 +25,29 @@ function checkPlayer() {
             var startingTime = data.startingTime;
             var remainingTime = 300 - (currentTime.getTime() - startingTime.toDate().getTime()) / 1000 + 5;
 
-            if (remainingTime <= 0) {
-                // Change page.
-            }
-
             var player = getPlayer();
             var playerOne = data.playerOne;
             var playerTwo = data.playerTwo;
 
-            // TODO: Check time of challenge if it's <= 0.
-
             var result = (player == playerOne ? 1 : 0) + (player == playerTwo ? 2 : 0);
 
             if (result) {
+                var playerStatus = result == 1 ? data.playerOneStatus : data.playerTwoStatus;
+
+                if (remainingTime <= 0 || data.status == "Finished" || playerStatus == "Finished") {
+                    // Change page.
+                    var url = Flask.url_for("result", {
+                        challenge_id: challenge_id
+                    });
+                    window.location.replace(window.location.origin + url);
+                }
+
+
                 playerNumber = result;
                 progressListener();
                 await setUpPlayers(data);
                 await setUpTimer();
                 startTimer();
-                // Set up the rest of the page. (Progress, and points)
-
-                // Start timer here.
                 $(".se-pre-con").fadeOut("slow");
             } else {
                 $(".se-pre-con").fadeOut("slow");
@@ -95,32 +97,52 @@ async function getPoints(playerNumber) {
 }
 
 function progressListener() {
-    challengeRef.onSnapshot(doc => {
+    challengeRef.onSnapshot(async(doc) => {
         var data = doc.data();
 
+        var currentPlayer = data.playerOne;
         var currentPlayerPoints = data.playerOnePoints;
         var currentPlayerProgress = data.playerOneProgress;
         var currentPlayerStatus = data.playerOneStatus;
+        var currentPlayerTime = data.playerOneTime;
 
+        var enemyPlayer = data.playerTwo;
         var enemyPlayerPoints = data.playerTwoPoints;
         var enemyPlayerProgress = data.playerTwoProgress;
         var enemyPlayerStatus = data.playerTwoStatus;
+        var enemyPlayerTime = data.playerTwoTime;
 
         if (playerNumber == 2) {
+            currentPlayer = data.playerTwo;
             currentPlayerPoints = data.playerTwoPoints;
             currentPlayerProgress = data.playerTwoProgress;
             currentPlayerStatus = data.playerTwoStatus;
+            currentPlayerTime = data.playerTwoTime;
 
+            enemyPlayer = data.playerOne;
             enemyPlayerPoints = data.playerOnePoints;
             enemyPlayerProgress = data.playerOneProgress;
             enemyPlayerStatus = data.playerOneStatus;
+            enemyPlayerTime = data.playerTwoTime;
         }
 
+        await addPoints(currentPlayer, currentPlayerPoints, currentPlayerTime);
+
         // Status == 'Finished' when progress == 3.
-        if (currentPlayerStatus == 'Finished' && enemyPlayerStatus == 'Finished') {
+        if (currentPlayerStatus == 'Finished') {
             // Finish the challenge.
+            finished = true;
             console.log('Challenge has been finished!');
+
+            if (enemyPlayerStatus == "Finished") {
+                await finishChallenge();
+            }
+
             // Change window.
+            var url = Flask.url_for("result", {
+                challenge_id: challenge_id
+            });
+            window.location.replace(window.location.origin + url);
         }
 
         for (var i = 0; i < 3; i++) {
@@ -138,10 +160,10 @@ function progressListener() {
                 changeProblem(2);
                 break;
             case 3:
-                $('#descriptionText').innerHTML=descriptions[progress];
-                java.setValue(java_code[2]);
-                python.setValue(python_code[2]);
-                finished = true;
+                // $('#descriptionText').innerHTML = descriptions[progress];
+                // java.setValue(java_code[2]);
+                // python.setValue(python_code[2]);
+                // finished = true;
         }
 
         animateCircle(currentPlayerProgress, "cQuestion");
@@ -151,10 +173,57 @@ function progressListener() {
     });
 }
 
+async function finishChallenge() {
+    await db.runTransaction(function(transaction) {
+        return transaction.get(challengeRef).then(function(doc) {
+            if (!doc.exists) {
+                throw "Document does not exist!";
+            }
+
+            var data = doc.data();
+            var status = data.status;
+
+            if (status != "Finished") {
+                transaction.update(challengeRef, {
+                    'status': "Finished"
+                });
+
+                return "Finished";
+            } else {
+                return Promise.reject("Sorry! Challenge has already been finished.");
+            }
+        });
+    }).then(function(status) {
+        console.log("Challenge status has been changed to ", status, "!");
+    }).catch(function(err) {
+        console.error(err);
+    });
+}
+
+async function addPoints(playerId, playerPoints, currentPlayerTime) {
+    var userRef = db.collection('users').doc(playerId);
+    var points = playerPoints.reduce((a, b) => a + b, 0);
+    var time = toSeconds(currentPlayerTime[2]);
+
+    await userRef.update({
+        'points': points,
+        'time': time
+    });
+}
+
+function toSeconds(elapsedTime) {
+    if (elapsedTime) {
+        var timeArray = elapsedTime.split(/[:]+/);
+        return parseInt(timeArray[0]) * 60 + parseInt(timeArray[1]);
+    } else {
+        return 999;
+    }
+}
+
 function changeProblem(progress) {
     $("#description").fadeOut("slow");
     $("#description").promise().done(function() {
-        document.getElementById('descriptionText').innerHTML=descriptions[progress];
+        document.getElementById('descriptionText').innerHTML = descriptions[progress];
         java.setValue(java_code[progress]);
         python.setValue(python_code[progress]);
         $("#description").fadeIn("slow");

@@ -1,19 +1,35 @@
 var button = document.getElementById("Login");
+var clicked = false;
 
-button.addEventListener("click", () => {
-    findChallenge();
+button.addEventListener("click", async() => {
+    if (clicked) {
+        return;
+    }
+
+    clicked = true;
+
+    await findChallenge();
+    await createUser();
+
     swal({
         title: "You successfully joined the room!",
         text: " Waiting for your friend!",
         icon: "success",
         button: "Cancel",
+        closeOnClickOutside: false,
+        dangerMode: false
     }).then(() => {
         cancelChallenge();
+        deleteUser();
     })
+
+    clicked = false;
 })
 
 var currentChallenge = null;
+var currentUser = null;
 var challengeListener = null;
+var joining = false;
 
 async function findChallenge() {
     await signOut();
@@ -62,7 +78,10 @@ async function createChallenge() {
     newChallengeRef.onSnapshot(async function(doc) {
         data = doc.data();
         if (data.status == 'Started') {
-            await createUser();
+            // await createUser();
+
+            joining = true;
+
             console.log(data.playerTwo + ' Joined!');
 
             // Change page.
@@ -91,7 +110,8 @@ async function joinChallenge(id) {
 
             var status = data.status;
             if (status == 'Waiting') {
-                await createUser();
+                // await createUser();
+                joining = true;
 
                 transaction.update(challengeRef, {
                     'playerTwo': firebase.auth().currentUser.uid,
@@ -121,6 +141,10 @@ async function joinChallenge(id) {
 }
 
 function cancelChallenge() {
+    if (joining) {
+        return;
+    }
+
     currentChallenge.delete().then(function() {
         console.log("Document successfully deleted!");
     }).catch(function(error) {
@@ -136,17 +160,30 @@ async function createUser() {
         'name': name,
         'number': number,
         'points': 0,
+        'time': 999
     }
 
-    var newUserRef = db.collection("users").doc(firebase.auth().currentUser.uid);
+    currentUser = db.collection("users").doc(firebase.auth().currentUser.uid);
 
-    await newUserRef.set(data)
+    await currentUser.set(data)
         .then(function() {
             console.log("User's Document was successfully written!");
         })
         .catch(function(error) {
             console.error("Error writing document: ", error);
         });
+}
+
+function deleteUser() {
+    if (joining) {
+        return;
+    }
+
+    currentUser.delete().then(function() {
+        console.log("Document successfully deleted!");
+    }).catch(function(error) {
+        console.error("Error removing document: ", error);
+    });
 }
 
 function generateQuestions() {
