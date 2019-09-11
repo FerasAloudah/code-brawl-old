@@ -11,13 +11,15 @@
     <link rel="shortcut icon" href="#" />
     {{ JSGlue.include() }}
 </head>
-
 <body>
     <div class="login">
         <h1>Code Brawl</h1>
-        <input id="name" type="text" name="u" placeholder="Enter your name" required="required" />
-        <input id="number" type="text" name="u" placeholder="05XXXXXXXX" required="required" />
-        <button id="Login" type="submit" class="btn btn-primary btn-block btn-large">Let me in!</button>
+        <input id="name" type="text" name="u" placeholder="Enter your name" required="required" tabindex="1" />
+        <input id="number" type="text" name="u" placeholder="05XXXXXXXX" required="required" tabindex="2" onkeypress="isInputNumber(event)" />
+        <button id="Login" type="submit" class="btn btn-primary btn-block btn-large">Let me in!</button>   
+    </div>
+    <div class="footer">
+        <p>Made with <span style="font-size:150%;color:red;">&hearts;</span> By Badr, Feras, Fahad, and Fares</p>
     </div>
 
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>

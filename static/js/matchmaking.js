@@ -1,11 +1,30 @@
+var getName = document.getElementById("name");
+var getNumber = document.getElementById("number");
 var button = document.getElementById("Login");
 var clicked = false;
 
-button.addEventListener("click", async() => {
+getNumber.addEventListener("keyup", function (event) {
+    if (event.keyCode === 13) {
+        event.preventDefault();
+        button.click();
+    }
+});
+
+function isInputNumber(event) {
+    var char = String.fromCharCode(event.which);
+    if (!(/[0-9]/.test(char))) {
+        event.preventDefault();
+    }
+}
+
+button.addEventListener("click", async () => {
     if (clicked) {
         return;
     }
-
+    if (getName.value == "" || getNumber.value == "") {
+        swal("Sorry", "You have to full your name or number", "error");
+        return;
+    }
     clicked = true;
 
     await findChallenge();
@@ -37,8 +56,8 @@ async function findChallenge() {
     var challenges = db.collection("challenges").where("status", "==", 'Waiting');
     var challengeFound = false;
 
-    await challenges.get().then(function(querySnapshot) {
-        querySnapshot.forEach(function(doc) {
+    await challenges.get().then(function (querySnapshot) {
+        querySnapshot.forEach(function (doc) {
             var data = doc.data()
             console.log(doc.id, ' => ', data);
 
@@ -75,7 +94,7 @@ async function createChallenge() {
         return;
     }
 
-    newChallengeRef.onSnapshot(async function(doc) {
+    newChallengeRef.onSnapshot(async function (doc) {
         data = doc.data();
         if (data.status == 'Started') {
             // await createUser();
@@ -97,8 +116,8 @@ async function joinChallenge(id) {
     var challengeRef = db.collection("challenges").doc(id);
     var name = document.getElementById("name").value;
 
-    db.runTransaction(function(transaction) {
-        return transaction.get(challengeRef).then(async function(doc) {
+    db.runTransaction(function (transaction) {
+        return transaction.get(challengeRef).then(async function (doc) {
             if (!doc.exists) {
                 throw "Document does not exist!";
             }
@@ -127,7 +146,7 @@ async function joinChallenge(id) {
                 return Promise.reject("Sorry! Challenge has already started.");
             }
         });
-    }).then(function(id) {
+    }).then(function (id) {
         console.log("Challenge status has been changed to Started!");
 
         // Change page.
@@ -135,7 +154,7 @@ async function joinChallenge(id) {
             challenge_id: id
         });
         window.location.replace(window.location.origin + url);
-    }).catch(function(err) {
+    }).catch(function (err) {
         console.error(err);
     });
 }
@@ -145,9 +164,9 @@ function cancelChallenge() {
         return;
     }
 
-    currentChallenge.delete().then(function() {
+    currentChallenge.delete().then(function () {
         console.log("Document successfully deleted!");
-    }).catch(function(error) {
+    }).catch(function (error) {
         console.error("Error removing document: ", error);
     });
 }
@@ -166,10 +185,10 @@ async function createUser() {
     currentUser = db.collection("users").doc(firebase.auth().currentUser.uid);
 
     await currentUser.set(data)
-        .then(function() {
+        .then(function () {
             console.log("User's Document was successfully written!");
         })
-        .catch(function(error) {
+        .catch(function (error) {
             console.error("Error writing document: ", error);
         });
 }
@@ -179,9 +198,9 @@ function deleteUser() {
         return;
     }
 
-    currentUser.delete().then(function() {
+    currentUser.delete().then(function () {
         console.log("Document successfully deleted!");
-    }).catch(function(error) {
+    }).catch(function (error) {
         console.error("Error removing document: ", error);
     });
 }
