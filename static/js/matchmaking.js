@@ -3,6 +3,13 @@ var getNumber = document.getElementById("number");
 var button = document.getElementById("Login");
 var clicked = false;
 
+getName.addEventListener("keyup", function (event) {
+    if (event.keyCode === 13) {
+        event.preventDefault();
+        button.click();
+    }
+});
+
 getNumber.addEventListener("keyup", function (event) {
     if (event.keyCode === 13) {
         event.preventDefault();
@@ -21,16 +28,20 @@ button.addEventListener("click", async () => {
     if (clicked) {
         return;
     }
-    if (getName.value == "" || getNumber.value == "") {
-        swal("Sorry", "You have to full your name or number", "error");
+
+    if (getName.value == "" || getNumber.value.length < 10) {
+        swal("Sorry", "You have to enter your name, and phone number first!", "error");
         return;
     }
+
+    $("#Login").addClass("running");
+    // $("#button-title").text("Now Loading...");
     clicked = true;
 
     await findChallenge();
     await createUser();
 
-    swal({
+    await swal({
         title: "You successfully joined the room!",
         text: " Waiting for your friend!",
         icon: "success",
@@ -42,6 +53,8 @@ button.addEventListener("click", async () => {
         deleteUser();
     })
 
+    $("#Login").removeClass("running");
+    // $("#button-title").text("Let me in!");
     clicked = false;
 })
 

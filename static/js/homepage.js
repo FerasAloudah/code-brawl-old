@@ -8,7 +8,7 @@ challengesRef.onSnapshot(snapshot => {
     snapshot.forEach(doc => {
         var data = doc.data();
         if (data.status == 'Started') {
-            if (id != doc.id) {
+            if (id != doc.id && !playing) {
                 id = doc.id;
                 initChallenge();
             }
@@ -18,6 +18,7 @@ challengesRef.onSnapshot(snapshot => {
 
 async function initChallenge() {
     challengeRef = db.collection('challenges').doc(id);
+    playing = true;
 
     var playerOne = '';
     var playerTwo = '';
@@ -36,8 +37,6 @@ async function initChallenge() {
 
             document.getElementById("p2Name").innerHTML = playerTwo;
             document.getElementById("p2Points").innerHTML = 0;
-
-            playing = true;
 
             animateIn();
             startTimer();
