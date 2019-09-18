@@ -1,0 +1,43 @@
+@import url('https://fonts.googleapis.com/css?family=Bowlby+One+SC|Quicksand&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Khand|Press+Start+2P&display=swap');
+
+html, body {
+    height: 100%;
+    width: 100%;
+}
+
+body {
+    display: table;
+    width: 100%;
+    height: 100%;
+    background-color: #171717;
+    color: #000;
+    line-height: 1.6;
+    position: relative;
+    font-family: 'Press Start 2P', cursive;
+    overflow: hidden;
+    background: -webkit-radial-gradient(ellipse farthest-corner at center top, #008573 0%, #10003d 100%);
+    background: radial-gradient(ellipse farthest-corner at center top, #008573 0%, #10003d 100%);
+}
+
+.container{
+    text-align: center;
+    margin-top: 10%;
+}
+
+.error {
+
+    font-size: 70px;
+    opacity: 0.6;
+    font-family: 'Press Start 2P', cursive;
+    color: white;
+    text-shadow: -6px 0 black, 0 6px black, 6px 0 black, 0 -6px black;
+}
+
+.pnf{
+    font-size: 40px;
+    opacity: 0.6;
+    font-family: 'Press Start 2P', cursive;
+    color: white;
+    text-shadow: -6px 0 black, 0 6px black, 6px 0 black, 0 -6px black;
+}

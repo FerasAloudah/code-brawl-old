@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css?family=Bowlby+One+SC|Quicksand&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Khand|Press+Start+2P&display=swap');
 
 html, body {
     height: 100%;
@@ -13,7 +14,7 @@ body {
     color: #000;
     line-height: 1.6;
     position: relative;
-    font-family: 'Quicksand';
+    font-family: 'Press Start 2P', cursive;
     overflow: hidden;
     background: -webkit-radial-gradient(ellipse farthest-corner at center top, #008573 0%, #10003d 100%);
     background: radial-gradient(ellipse farthest-corner at center top, #008573 0%, #10003d 100%);
@@ -151,11 +152,12 @@ body {
 
 .table1 {
     opacity: 0.8;
+    margin-top: 50px;
     border-collapse: collapse;
     background: white;
     border-radius: 3px;
     overflow: hidden;
-    font-size: 20px;
+    font-size: 15px;
     width: 100%;
     box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.75);
     background: -webkit-linear-gradient(top, #3a404d, #181c26);
@@ -206,13 +208,14 @@ td, th {
 }
 
 .logo {
-    opacity: 0.4;
-    top: 49%;
-    left: 50%;
+    opacity: 0.5;
+    /* height: 200px; */
+    top: 50%;
+    left: 14%;
     -webkit-transform: translate(-50%, -50%);
     transform: translate(-50%, -50%);
-    height: 1200px;
-    width: 1200px;
+    height: 320px;
+    width: 320px;
     position: absolute;
 }
 
@@ -227,14 +230,15 @@ td, th {
 
 .leaderboard {
     text-align: center;
-    /* margin-bottom: 25px; */
+    opacity: 0.6;
+    font-family: 'Press Start 2P', cursive;
     margin-top: 5%;
-    font-family: atarian;
-    opacity: 0.8;
-    font-size: 120px;
-    background: -webkit-linear-gradient(grey, white);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+    /* font-family: 'Khand', sans-serif; */
+    font-size: 58px;
+    color: white;
+    /* -webkit-background-clip: text; */
+    /* -webkit-text-fill-color: transparent; */
+    text-shadow: -6px 0 black, 0 6px black, 6px 0 black, 0 -6px black;
 }
 
 .container {
@@ -326,7 +330,7 @@ td, th {
     vertical-align: middle;
     text-align: center;
     display: table-cell;
-    font-size: 20px;
+    font-size: 16px;
 }
 
 .current2 {
@@ -351,7 +355,7 @@ td, th {
     vertical-align: middle;
     text-align: center;
     display: table-cell;
-    font-size: 20px;
+    font-size: 16px;
 }
 
 .time {
@@ -380,5 +384,16 @@ td, th {
     vertical-align: middle;
     text-align: center;
     display: table-cell;
-    font-size: 30px;
+    font-size: 18px;
+}
+
+.code-brawl {
+    text-align: center;
+    margin-left: 73%;
+    margin-top: 23%;
+    font-size: 70px;
+    opacity: 0.6;
+    font-family: 'Press Start 2P', cursive;
+    color: white;
+    text-shadow: -6px 0 black, 0 6px black, 6px 0 black, 0 -6px black;
 }
