@@ -7,21 +7,29 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel='stylesheet prefetch' href='https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css'>
-    <link rel="stylesheet" type="text/css" media="screen" href="{{url_for('static', filename='css/main.css')}}" />
+    <link rel="stylesheet" type="text/css" media="screen" href="{{url_for('static', filename='css/main.css')}}"/>
+    <link rel="stylesheet" type="text/css" media="screen" href="{{url_for('static', filename='css/loading.css')}}"/>
+    <link rel="stylesheet" type="text/css" media="screen" href="{{url_for('static', filename='css/loading-btn.css')}}"/>
     <link rel="shortcut icon" href="#" />
     {{ JSGlue.include() }}
 </head>
-
 <body>
     <div class="login">
         <h1>Code Brawl</h1>
-        <input id="name" type="text" name="u" placeholder="Enter your name" required="required" />
-        <input id="number" type="text" name="u" placeholder="05XXXXXXXX" required="required" />
-        <button id="Login" type="submit" class="btn btn-primary btn-block btn-large">Let me in!</button>
+        <input id="name" type="text" name="u" placeholder="Enter your name" required="required" tabindex="1" />
+        <input id="number" type="text" name="u" placeholder="05XXXXXXXX" required="required" tabindex="2" onkeypress="isInputNumber(event)" />
+        <button id="Login" type="submit" class="btn btn-primary btn-block btn-large ld-over-inverse">
+            <span id="button-title">Let me in!</span>
+            <div class="ld ld-loader loader-gif"></div>
+        </button>
+    </div>
+    <div class="footer">
+        <p>Made with <span style="color: #d63031;">&#x2764;</span> By Badr, Fahd, Fares, and Feras</p>
     </div>
 
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://www.gstatic.com/firebasejs/6.2.3/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/6.2.3/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/6.2.3/firebase-firestore.js"></script>

@@ -172,3 +172,67 @@ input:focus {
         transform: rotate(360deg);
     }
 }
+
+.loader-gif {
+    background-image: url(../images/loader-pacman-alt.gif);
+    width: 2em !important;
+    height: 2em !important;
+    top: 30% !important;
+}
+
+.footer {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    background-color: transparent;
+    font-size: 23px;
+    opacity: 1;
+    color: white;
+    text-align: center;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.heart {
+    position: relative;
+    width: 100px;
+    height: 90px;
+    float: left;
+}
+
+.heart:before,
+.heart:after {
+    position: absolute;
+    content: "";
+    left: 17px;
+    top: 0;
+    width: 17px;
+    height: 30px;
+    background: black;
+    -moz-border-radius: 50px 50px 0 0;
+    border-radius: 50px 50px 0 0;
+    -webkit-transform: rotate(-45deg);
+    -moz-transform: rotate(-45deg);
+    -ms-transform: rotate(-45deg);
+    -o-transform: rotate(-45deg);
+    transform: rotate(-45deg);
+    -webkit-transform-origin: 0 100%;
+    -moz-transform-origin: 0 100%;
+    -ms-transform-origin: 0 100%;
+    -o-transform-origin: 0 100%;
+    transform-origin: 0 100%;
+}
+
+.heart:after {
+    left: 0;
+    -webkit-transform: rotate(45deg);
+    -moz-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    -o-transform: rotate(45deg);
+    transform: rotate(45deg);
+    -webkit-transform-origin: 100% 100%;
+    -moz-transform-origin: 100% 100%;
+    -ms-transform-origin: 100% 100%;
+    -o-transform-origin: 100% 100%;
+    transform-origin: 100% 100%;
+}
