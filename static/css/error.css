@@ -22,22 +22,20 @@ body {
 
 .container{
     text-align: center;
-    margin-top: 10%;
-}
-
-.error {
-
-    font-size: 70px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translateX(-50%) translateY(-50%);
     opacity: 0.6;
     font-family: 'Press Start 2P', cursive;
     color: white;
     text-shadow: -6px 0 black, 0 6px black, 6px 0 black, 0 -6px black;
+}
+
+.error {
+    font-size: 70px;
 }
 
 .pnf{
     font-size: 40px;
-    opacity: 0.6;
-    font-family: 'Press Start 2P', cursive;
-    color: white;
-    text-shadow: -6px 0 black, 0 6px black, 6px 0 black, 0 -6px black;
 }
