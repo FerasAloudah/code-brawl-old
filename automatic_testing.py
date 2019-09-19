@@ -42,6 +42,16 @@ def get_file_lines(file_name):
     return lines
 
 
+def get_test_cases(folder_name, file_name):
+    test_cases = []
+
+    for i in range(1, 11):
+        test_case_file = f'{folder_name}/{i}/{file_name}'
+        test_cases.append(get_file_lines(test_case_file))
+
+    return test_cases
+
+
 class Program:
     def __init__(self, file_name, input_file, output_file, stdout_file, timeout, expected_output_file):
         self.file_name = file_name                        # Full name of the source code file
@@ -126,7 +136,7 @@ class Program:
 
         try:
             # TODO: Split output files for each input.
-            input = self.actual_output_file + '\n' + input
+            input = self.actual_output_file + '\n' + '\n'.join(input)
             with open(self.stdout_file, 'w+') as fout:
                 proc = subprocess.run(
                     command.split(),
@@ -163,7 +173,7 @@ class Program:
         if os.path.isfile(self.stdout_file):
             stdout = get_file_lines(self.stdout_file)
 
-        if os.path.isfile(self.actual_output_file) and os.path.isfile(self.expected_output_file):
+        if os.path.isfile(self.actual_output_file):
             actual_output = get_last_line(self.actual_output_file)
 
             print(f'Actual Output: {actual_output}')
@@ -178,7 +188,7 @@ class Program:
             return 404, 'Missing output files', None, None
 
 
-def evaluate(file_name, input_file=None, output_file=None, stdout_file=None, expected_output_file=None, timeout=1):
+def evaluate(file_name, input_file=None, output_file=None, stdout_file=None, expected_output_file=None, timeout=1, folder_location=None):
     prog = Program(
         file_name=file_name,
         input_file=input_file,
@@ -205,8 +215,8 @@ def evaluate(file_name, input_file=None, output_file=None, stdout_file=None, exp
             return compile_result, STATUS_CODES[compile_result], compile_errors, None, None, None, None
 
     # Get input lines.
-    input_lines = get_file_lines(input_file)
-    output_lines = get_file_lines(expected_output_file)
+    input_lines = get_test_cases(folder_location, 'input.txt') # get_file_lines(input_file)
+    output_lines = get_test_cases(folder_location, 'expected_output_file.txt') # get_file_lines(expected_output_file)
 
     # Run the program.
     for i, (input, output) in enumerate(zip(input_lines, output_lines)):
@@ -233,8 +243,9 @@ def evaluate(file_name, input_file=None, output_file=None, stdout_file=None, exp
 
 
 def submit(dir_name, file_name, data, slug):
-    input_file = 'input.txt' # f'./problems/{slug}/input.txt'
-    expected_output_file = 'expectedoutput.txt' # f'./problems/{slug}/expected_output_file.txt'
+    input_file = f'./problems/{slug}' # 'input.txt' # f'./problems/{slug}/input.txt'
+    expected_output_file = f'./problems/{slug}' # 'expectedoutput.txt' # f'./problems/{slug}/expected_output_file.txt'
+    folder_location =  f'./problems/{slug}'
     full_name = f'{dir_name}/{file_name}'
 
     if not os.path.exists(os.path.dirname(full_name)):
@@ -253,7 +264,8 @@ def submit(dir_name, file_name, data, slug):
         output_file=f'{dir_name}/output.txt',
         stdout_file=f'{dir_name}/stdout.txt',
         expected_output_file=expected_output_file,
-        timeout=15
+        timeout=15,
+        folder_location=folder_location
     )
 
     data = {

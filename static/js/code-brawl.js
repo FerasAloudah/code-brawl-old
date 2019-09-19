@@ -4,7 +4,7 @@ var finished = false;
 var transitioning = false;
 
 function editProblem() {
-    var url = window.location.origin + '/problem-editor'; // API url.
+    var url = location.origin + '/problem-editor'; // API url.
     var data = {
         'java': java.getValue(),
         'python': python.getValue(),
@@ -62,8 +62,9 @@ async function submit() {
     }
 
     submitting = true;
+    $("#submit").addClass("running");
 
-    var url = window.location.origin + '/code-brawl'; // API url.
+    var url = location.origin + '/code-brawl'; // API url.
     var data = getData();
 
     var otherPram = {
@@ -101,10 +102,10 @@ async function submit() {
                         icon: "success",
                         button: "Go to the next question!",
                     }).then(async() => {
+                        transitioning = true;
+                        await increaseProgress(remainingTime);
                         $('.nav-tabs a[href="#description"]').tab('show');
                         document.getElementById('resultsTab').style.display = 'none';
-                        await increaseProgress(remainingTime);
-                        transitioning = true;
                         setTimeout(stopTransitioning, 2500);
                     });
                     break;
@@ -125,10 +126,12 @@ async function submit() {
             }
 
             submitting = false;
+            $("#submit").removeClass("running");
         })
         .catch(error => {
             console.log(error);
             submitting = false;
+            $("#submit").removeClass("running");
         })
 }
 
@@ -142,9 +145,15 @@ function getWrongAnswer(title, input, stdout, output, expected) {
         <div class="row wrong-answer-row">
             <div class="col-3 wrong-answer-text">Input:</div>
             <div class="col-9 shadow-sm wrong-answer">
-                <div class="wrong-answer-value">${input}</div>
-            </div>
-        </div>`;
+                <div class="wrong-answer-value">`;
+
+    var i = 0;
+
+    for (; i < input.length - 1; i++) {
+        inputHTML += input[i] + '<br>'
+    }
+
+    inputHTML += input[i] + '</div></div></div>';
 
     stdoutHTML = "";
 
@@ -154,25 +163,25 @@ function getWrongAnswer(title, input, stdout, output, expected) {
             <div class="col-9 shadow-sm wrong-answer">
                 <div class="wrong-answer-value">`;
 
-        var i = 0;
+        i = 0;
 
         for (; i < stdout.length - 1; i++) {
             stdoutHTML += stdout[i] + '<br>';
         }
 
-        stdoutHTML += stdout[i] + '</div>';
+        stdoutHTML += stdout[i] + '</div></div></div>';
 
         stdoutHTML += `</div></div>`;
     }
 
     var outputHTML = `<div class="row wrong-answer-row">
-        <div class="col-3 wrong-answer-text">Output:</div>
+        <div class="col-3 wrong-answer-text">Your Output:</div>
         <div class="col-9 shadow-sm wrong-answer">
             <div class="wrong-answer-value">${output}</div>
         </div>
     </div>`;
     var expectedHTML = `<div class="row wrong-answer-row">
-        <div class="col-3 wrong-answer-text">Expected:</div>
+        <div class="col-3 wrong-answer-text">Expected Output:</div>
         <div class="col-9 shadow-sm wrong-answer">
             <div class="wrong-answer-value">${expected}</div>
         </div>
@@ -359,5 +368,5 @@ function restoreDefaultCode() {
 
 function changeWindow() {
     // Change to error page later?
-    window.location.replace(window.location.origin);
+    location.assign(location.origin);
 }

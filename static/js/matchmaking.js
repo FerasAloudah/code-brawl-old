@@ -120,7 +120,7 @@ async function createChallenge() {
             var url = Flask.url_for("challenge", {
                 challenge_id: doc.id
             });
-            window.location.replace(window.location.origin + url);
+            location.assign(location.origin + url);
         }
     });
 }
@@ -166,7 +166,7 @@ async function joinChallenge(id) {
         var url = Flask.url_for("challenge", {
             challenge_id: id
         });
-        window.location.replace(window.location.origin + url);
+        location.assign(location.origin + url);
     }).catch(function (err) {
         console.error(err);
     });

@@ -131,7 +131,7 @@ pre {
 }
 
 .wrong-answer-text {
-    font-size: 20px;
+    font-size: 18px;
     margin-top: 6px;
 }
 
@@ -185,4 +185,12 @@ pre {
 
 ::-webkit-scrollbar-track {
     background: transparent;
+}
+
+.loader-gif {
+    background-image: url(../images/loader-pacman-submit.gif);
+    width: 2em !important;
+    height: 2em !important;
+    top: 30% !important;
+    right: 30% !important;
 }

@@ -13,16 +13,11 @@
 
 <body>
     <div class="se-pre-con"></div>
-    <img src="{{url_for('static', filename='images/logo.png')}}" class="logo">
-
-    <div class="lines">
-        <div class="line"></div>
-        <div class="line"></div>
-        <div class="line"></div>
-    </div>
+    <img src="{{url_for('static', filename='images/pixel_logo.png')}}" class="logo">
+    <div class="code-brawl">Code <br> Brawl</div>
 
     <div class="result">
-        <div class="goodGame">Good Game!</div>
+        <div class="goodGame" style="margin-top: 0%;">GOOD GAME!</div>
         <div class="score" style="margin: 10px 17px 10px 0px;">
             <h1 id="player1"></h1>
         </div>
@@ -30,8 +25,8 @@
             <h1 id="player2"></h1>
         </div>
 
-        <table style="margin: 10px 17px 10px 0px;">
-            <thead style="background-image: linear-gradient(to right, #449ce9 , #7d58b9);">
+        <table class="table" style="margin: 10px 17px 10px 0px;">
+            <thead>
                 <tr>
                     <th>Question</th>
                     <th>Time</th>
@@ -62,8 +57,8 @@
             </tbody>
         </table>
 
-        <table style="margin: 10px 0px 10px 17px;">
-            <thead style="background-image: linear-gradient(to right, #449ce9 , #7d58b9);">
+        <table class="table" style="margin: 10px 0px 10px 17px;">
+            <thead>
                 <tr>
                     <th>Question</th>
                     <th>Time</th>
@@ -93,7 +88,11 @@
                 </tr>
             </tbody>
         </table>
-        <a href="#" class="btn btn-white btn-animation-1">BACK TO HOME!</a>
+        <a href="{{url_for('home')}}" class="btn btn-white btn-animation-1">BACK TO HOME!</a>
+    </div>
+
+    <div class="footer">
+        <p>Made with <img src="{{url_for('static', filename='images/heart.png')}}" alt="Love" width="20" height="20"> by Badr, Fahd, Fares, and Feras</p>
     </div>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>

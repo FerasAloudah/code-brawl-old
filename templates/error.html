@@ -1,16 +1,27 @@
 <!DOCTYPE html>
-<html lang="en" dir="ltr">
-    <head>
-        <meta charset="utf-8">
-        <title>Code brawl | Page not found</title>
-        <link rel="stylesheet" type="text/css" href="../static/css/error.css">
-    </head>
-    <body>
+<html>
+
+<head>
+        <title>Code Brawl</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='css/error.css')}}">
+        <link rel="shortcut icon" href="#"/>
+</head>
+
+<body>
 
     <div class="container">
         <div class="error">404</div>
         <div class="pnf">Page not found D:</div>
+        <a href="{{url_for('home')}}" class="btn btn-white btn-animation-1">BACK TO HOME!</a>
     </div>
 
-    </body>
+    <div class="footer">
+        <p>Made with <img src="{{url_for('static', filename='images/heart.png')}}" alt="Love" width="20" height="20"> by Badr, Fahd, Fares, and Feras</p>
+    </div>
+
+</body>
+
 </html>

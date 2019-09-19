@@ -55,6 +55,12 @@ def result(challenge_id=None):
     return render_template('result.html', challenge_id=challenge_id)
 
 
+@app.route('/e/')
+@app.route('/e/<int:error_code>')
+def error(error_code=404):
+    return render_template('error.html')
+
+
 class CodeBrawl(Resource):
     def get(self):
         return None

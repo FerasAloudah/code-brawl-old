@@ -55,7 +55,6 @@ async function initChallenge() {
 
         if (data.status == 'Finished') {
             setTimeout(changeToResults, 5000);
-            getLeaderboard();
         } else {
             // Points.
             var playerOnePoints = data.playerOnePoints.reduce((a, b) => a + b, 0);
@@ -78,6 +77,7 @@ async function changeToResults() {
     playing = false;
     await loadResults(id);
     transitionToResults();
+    getLeaderboard();
     setTimeout(transitionToLeaderboard, 15000);
     id = -1;
 }

@@ -8,6 +8,8 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" media="screen" href="{{url_for('static', filename='css/challenge.css')}}"/>
+    <link rel="stylesheet" type="text/css" media="screen" href="{{url_for('static', filename='css/loading.css')}}"/>
+    <link rel="stylesheet" type="text/css" media="screen" href="{{url_for('static', filename='css/loading-btn.css')}}"/>
     <link rel="shortcut icon" href="#" />
     <script src="https://kit.fontawesome.com/7740345d3d.js"></script>
     {{ JSGlue.include() }}
@@ -124,7 +126,10 @@
                     <div id="terminalBlock">
                     </div>
                 </div>
-                <button class="btn btn-success" onclick="submit()" style="margin-bottom: 20px;">Submit</button>
+                <button id="submit" class="btn btn-success btn-block btn-large ld-over-inverse" onclick="submit()" style="margin-left:auto; margin-right:auto; max-width: 200px; margin-bottom: 20px;">
+                    Submit!
+                    <div class="ld ld-loader loader-gif"></div>
+                </button>
             </div>
             <!-- Tab Content END -->
 

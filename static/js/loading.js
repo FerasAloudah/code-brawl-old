@@ -39,7 +39,7 @@ function checkPlayer() {
                     var url = Flask.url_for("result", {
                         challenge_id: challenge_id
                     });
-                    window.location.replace(window.location.origin + url);
+                    location.assign(location.origin + url);
                 }
 
 
@@ -142,7 +142,7 @@ function progressListener() {
             var url = Flask.url_for("result", {
                 challenge_id: challenge_id
             });
-            window.location.replace(window.location.origin + url);
+            location.assign(location.origin + url);
         }
 
         for (var i = 0; i < 3; i++) {
@@ -287,5 +287,5 @@ function getPlayerInfo(playerId) {
 
 function changeWindow() {
     // Change to error page later?
-    window.location.replace(window.location.origin);
+    location.assign(location.origin);
 }
