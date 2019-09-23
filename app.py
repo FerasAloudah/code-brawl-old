@@ -78,7 +78,7 @@ class CodeBrawl(Resource):
         # TODO: change 'input.txt' and 'expectedoutput.txt' + combine user's input with a master run class.
         # a master run class is a class used to run all files, and gives their output.
 
-        data = submit(dir_name, file_name, json_data.get('data'), slug)
+        data = submit(dir_name, file_name, json_data.get('data'), slug, extension)
 
         return data
 

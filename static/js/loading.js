@@ -150,21 +150,22 @@ function progressListener() {
             document.getElementById("epQ" + (i + 1)).innerHTML = enemyPlayerPoints[i];
         }
 
-        progress = currentPlayerProgress; // This is used when reseting the starter code.
-
-        switch (currentPlayerProgress) {
-            case 1:
-                changeProblem(1);
-                break;
-            case 2:
-                changeProblem(2);
-                break;
-            case 3:
-                // $('#descriptionText').innerHTML = descriptions[progress];
-                // java.setValue(java_code[2]);
-                // python.setValue(python_code[2]);
-                // finished = true;
+        if (progress != currentPlayerProgress) {
+            switch (currentPlayerProgress) {
+                case 1:
+                    changeProblem(1);
+                    break;
+                case 2:
+                    changeProblem(2);
+                    break;
+                case 3:
+                    // $('#descriptionText').innerHTML = descriptions[progress];
+                    // java.setValue(java_code[2]);
+                    // python.setValue(python_code[2]);
+                    // finished = true;
+            }
         }
+        progress = currentPlayerProgress; // This is used when reseting the starter code.
 
         animateCircle(currentPlayerProgress, "cQuestion");
         animateCircle(enemyPlayerProgress, "eQuestion");

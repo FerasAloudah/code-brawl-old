@@ -46,10 +46,27 @@ def get_test_cases(folder_name, file_name):
     test_cases = []
 
     for i in range(1, 11):
-        test_case_file = f'{folder_name}/{i}/{file_name}'
-        test_cases.append(get_file_lines(test_case_file))
+        test_case_file = f'{folder_name}/testcases/{i}/{file_name}'
+        lines = get_file_lines(test_case_file)
+
+        if 'output' in file_name:
+            lines = lines[0]
+
+        test_cases.append(lines)
 
     return test_cases
+
+
+def concatenate_files(main_file, submitted_data, out_file):
+    with open(out_file, 'w+') as outfile:
+        if '.py' in out_file:
+            outfile.write('from typing import *\n\n')
+
+        outfile.write(submitted_data)
+        outfile.write('\n\n')
+
+        with open(main_file) as infile:
+            outfile.write(infile.read())
 
 
 class Program:
@@ -237,16 +254,20 @@ def evaluate(file_name, input_file=None, output_file=None, stdout_file=None, exp
             print(match_errors, file=sys.stderr)
             return match_result, STATUS_CODES[match_result], match_errors, None, None, None, None
         elif match_result == 400:
+            if i > 6:
+                output = 'Hidden'
+
             return match_result, STATUS_CODES[match_result], None, input, output, last_output, stdout
 
     return match_result, STATUS_CODES[match_result], None, None, None, None, None
 
 
-def submit(dir_name, file_name, data, slug):
+def submit(dir_name, file_name, data, slug, extension):
     input_file = f'./problems/{slug}' # 'input.txt' # f'./problems/{slug}/input.txt'
     expected_output_file = f'./problems/{slug}' # 'expectedoutput.txt' # f'./problems/{slug}/expected_output_file.txt'
     folder_location =  f'./problems/{slug}'
     full_name = f'{dir_name}/{file_name}'
+    main_file = f'./problems/{slug}/{slug}{extension}'
 
     if not os.path.exists(os.path.dirname(full_name)):
         try:
@@ -255,8 +276,10 @@ def submit(dir_name, file_name, data, slug):
             if exc.errno != errno.EEXIST:
                 raise
 
-    with open(full_name, 'w+') as file:
-        file.write(data)
+    # with open(full_name, 'w+') as file:
+    #     file.write(data)
+
+    concatenate_files(main_file, data, full_name)
 
     status_code, status_message, console_output, last_input, last_expected_output, last_output, stdout = evaluate(
         file_name=full_name,
