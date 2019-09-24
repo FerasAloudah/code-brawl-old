@@ -170,8 +170,6 @@ function getWrongAnswer(title, input, stdout, output, expected) {
         }
 
         stdoutHTML += stdout[i] + '</div></div></div>';
-
-        stdoutHTML += `</div></div>`;
     }
 
     var outputHTML = `<div class="row wrong-answer-row">
