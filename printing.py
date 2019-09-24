@@ -46,6 +46,14 @@ def strip_string(string):
     return string[1:len(string)-1]
 
 
+def format_bool(boolean):
+    return str(boolean).lower()
+
+
+def format_str(string):
+    return f'"{string}"'
+
+
 def input_to_list(string_list):
     result = []
 
