@@ -30,7 +30,7 @@ def input_to_2d_list(string_list):
 
     inner_lists = strip_string(string_list).split('],[')
 
-    for inner_list in inner_lists[:len(inner_lists)-1]:
+    for inner_list in inner_lists[:-1]:
         if first:
             result.append(input_to_list(inner_list + ']'))
             first = False
@@ -43,7 +43,7 @@ def input_to_2d_list(string_list):
 
 
 def strip_string(string):
-    return string[1:len(string)-1]
+    return string[1:-1]
 
 
 def format_bool(boolean):
@@ -60,7 +60,7 @@ def input_to_list(string_list):
     for item in strip_string(string_list).split(','):
         if '"' in item:
             item = item.strip()
-            result.append(item[1:len(item)-1])
+            result.append(item[1:-1])
         else:
             result.append(int(item))
 

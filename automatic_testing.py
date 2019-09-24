@@ -61,12 +61,19 @@ def concatenate_files(main_file, submitted_data, out_file):
     with open(out_file, 'w+') as outfile:
         if '.py' in out_file:
             outfile.write('from typing import *\n\n')
+        else:
+            outfile.write('import java.util.stream.Collectors;\nimport java.util.*;\nimport java.io.*;\n\n')
+
+            with open('Formatter.java') as formatter:
+                outfile.write(formatter.read())
+                outfile.write('\n\n')
 
         outfile.write(submitted_data)
         outfile.write('\n\n')
 
         with open(main_file) as infile:
             outfile.write(infile.read())
+
 
 
 class Program:
@@ -141,7 +148,8 @@ class Program:
         if self.language in ['c', 'cpp']:
             command = self.name
         elif self.language == 'java':
-            command = f'java {self.name}'
+            cp = '/'.join(self.name.split('/')[:-1])
+            command = f'java -cp {cp} Main'
         elif self.language == 'js':
             command = f'node {self.file_name}'
         elif self.language == 'py':
@@ -266,8 +274,13 @@ def submit(dir_name, file_name, data, slug, extension):
     input_file = f'./problems/{slug}' # 'input.txt' # f'./problems/{slug}/input.txt'
     expected_output_file = f'./problems/{slug}' # 'expectedoutput.txt' # f'./problems/{slug}/expected_output_file.txt'
     folder_location =  f'./problems/{slug}'
-    full_name = f'{dir_name}/{file_name}'
-    main_file = f'./problems/{slug}/{slug}{extension}'
+
+    if extension == '.py':
+        full_name = f'{dir_name}/{file_name}'
+        main_file = f'./problems/{slug}/{slug}{extension}'
+    else:
+        full_name = f'{dir_name}/Main.java'
+        main_file = f'./problems/{slug}/Main.java'
 
     if not os.path.exists(os.path.dirname(full_name)):
         try:
