@@ -219,10 +219,13 @@ function deleteUser() {
 }
 
 function generateQuestions() {
+    var range = [12, 10, 6]
     var questions = []
+    var current = 0;
     for (var i = 0; i < 3; i++) {
-        var question = Math.floor(Math.random() * 10);
-        questions.push(question + 10 * i);
+        var question = Math.floor(Math.random() * range[i]);
+        questions.push(question + current);
+        current += range[i];
     }
     return questions;
 }
