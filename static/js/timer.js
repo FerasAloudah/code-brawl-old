@@ -16,7 +16,7 @@ function getTime() {
 async function getRemainingTime() {
     var currentTime = new Date();
     var startingTime = await getTime();
-    return 300 - (currentTime.getTime() - startingTime.toDate().getTime()) / 1000 + 5;
+    return 600 - (currentTime.getTime() - startingTime.toDate().getTime()) / 1000 + 5;
 }
 
 async function setUpTimer() {
