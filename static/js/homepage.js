@@ -121,7 +121,7 @@ async function getLeaderboard() {
             currentList.forEach((element, idx) => {
                 var time = element[1] == 999 ? maxTimeString : element[1];
 
-                if (time != "5:00") {
+                if (time != maxTimeString) {
                     time = parseInt(time / 60) + ":" + parseInt(time % 60);
                 }
 
