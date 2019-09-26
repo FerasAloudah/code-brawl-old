@@ -39,11 +39,11 @@ async function loadResults(challenge_id) {
             // Start timer here.
             $(".se-pre-con").fadeOut("slow");
         } else {
-            $(".se-pre-con").fadeOut("slow");
-            // changeWindow();
+            // $(".se-pre-con").fadeOut("slow");
+            changeWindow(401);
         }
     }).catch(function(error) {
         console.log(error);
-        // changeWindow();
+        changeWindow(500);
     });
 }

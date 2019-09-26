@@ -58,7 +58,16 @@ def result(challenge_id=None):
 @app.route('/e/')
 @app.route('/e/<int:error_code>')
 def error(error_code=404):
-    return render_template('error.html')
+    error_messages = {
+        404: 'Page Not Found',
+        401: 'Unauthorized Access',
+        500: 'Internarl Server Error'
+    }
+
+    if error_code not in error_messages.keys():
+        error_code = 404
+
+    return render_template('error.html', error_code=error_code, error_message=error_messages[error_code])
 
 
 class CodeBrawl(Resource):

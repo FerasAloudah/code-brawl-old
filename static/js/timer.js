@@ -1,3 +1,6 @@
+var maxTime = 600
+var maxTimeString = "10:00"
+
 function getTime() {
     var startingTime = challengeRef.get().then(function(doc) {
         if (doc.exists) {
@@ -16,7 +19,7 @@ function getTime() {
 async function getRemainingTime() {
     var currentTime = new Date();
     var startingTime = await getTime();
-    return 600 - (currentTime.getTime() - startingTime.toDate().getTime()) / 1000 + 5;
+    return maxTime - (currentTime.getTime() - startingTime.toDate().getTime()) / 1000 + 5;
 }
 
 async function setUpTimer() {

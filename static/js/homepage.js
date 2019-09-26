@@ -119,7 +119,7 @@ async function getLeaderboard() {
             document.getElementById("playersList").innerHTML = "";
 
             currentList.forEach((element, idx) => {
-                var time = element[1] == 999 ? "5:00" : element[1];
+                var time = element[1] == 999 ? maxTimeString : element[1];
 
                 if (time != "5:00") {
                     time = parseInt(time / 60) + ":" + parseInt(time % 60);

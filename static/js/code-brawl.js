@@ -216,10 +216,10 @@ async function increaseProgress(remainingTime) {
                 points[progress] = calculateScore(progress, remainingTime)
                 problem = data.questions[progress];
 
-                var elapsedTime = 300 - remainingTime;
+                var elapsedTime = maxTime - remainingTime;
                 var minutes = parseInt(elapsedTime / 60);
                 var seconds = parseInt(elapsedTime % 60);
-                time[progress] = remainingTime < 0 ? "5:00" : minutes + ":" + (seconds < 10 ? "0" + seconds : seconds);
+                time[progress] = remainingTime <= 0 ? maxTimeString : minutes + ":" + (seconds < 10 ? "0" + seconds : seconds);
                 var status = ++progress == 3 ? 'Finished' : 'Playing';
 
                 if (playerNumber == 1) {
@@ -362,9 +362,4 @@ function restoreDefaultCode() {
     } else {
         editor.setValue(python_code[progress], 1);
     }
-}
-
-function changeWindow() {
-    // Change to error page later?
-    location.assign(location.origin);
 }

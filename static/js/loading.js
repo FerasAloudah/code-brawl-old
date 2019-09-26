@@ -50,16 +50,16 @@ function checkPlayer() {
                 startTimer();
                 $(".se-pre-con").fadeOut("slow");
             } else {
-                $(".se-pre-con").fadeOut("slow");
-                // changeWindow();
+                // $(".se-pre-con").fadeOut("slow");
+                changeWindow(401);
             }
         } else {
-            $(".se-pre-con").fadeOut("slow");
-            // changeWindow();
+            // $(".se-pre-con").fadeOut("slow");
+            changeWindow(404);
         }
     }).catch(function(error) {
         console.log(error);
-        // changeWindow();
+        changeWindow(500);
     });
 }
 
@@ -286,7 +286,7 @@ function getPlayerInfo(playerId) {
     return playerName;
 }
 
-function changeWindow() {
-    // Change to error page later?
-    location.assign(location.origin);
+function changeWindow(error_code) {
+    var url = location.origin + "/e/" + error_code;
+    location.assign(url);
 }
