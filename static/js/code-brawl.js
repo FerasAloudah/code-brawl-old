@@ -135,6 +135,14 @@ async function submit() {
         })
 }
 
+function exit(){
+    swal({
+        title: 'Are you sure?',
+        text: "You won't be able to revert this!",
+        icon: 'warning',
+        buttons: true})
+}
+
 function stopTransitioning() {
     transitioning = false;
 }
