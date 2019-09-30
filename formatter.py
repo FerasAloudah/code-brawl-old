@@ -50,7 +50,7 @@ def format_bool(boolean):
     return str(boolean).lower()
 
 
-def format_str(string):
+def format_string(string):
     return f'"{string}"'
 
 

@@ -219,7 +219,7 @@ function deleteUser() {
 }
 
 function generateQuestions() {
-    var range = [12, 10, 6]
+    var range = [10, 12, 5]
     var questions = []
     var current = 0;
     for (var i = 0; i < 3; i++) {

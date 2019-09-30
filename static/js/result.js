@@ -30,10 +30,10 @@ async function loadResults(challenge_id) {
                 $(`#p2q${i+1}p`).html(playerTwo[2][i] || "-");
             }
 
-            $("#p1tt").html(playerOne[1][2] || "5:00");
+            $("#p1tt").html(playerOne[1][2] || maxTimeString);
             $("#p1tp").html(playerOne[2].reduce((a, b) => a + b, 0));
 
-            $("#p2tt").html(playerTwo[1][2] || "5:00");
+            $("#p2tt").html(playerTwo[1][2] || maxTimeString);
             $("#p2tp").html(playerTwo[2].reduce((a, b) => a + b, 0));
 
             // Start timer here.
@@ -46,4 +46,9 @@ async function loadResults(challenge_id) {
         console.log(error);
         changeWindow(500);
     });
+}
+
+function changeWindow(error_code) {
+    var url = location.origin + "/e/" + error_code;
+    location.assign(url);
 }

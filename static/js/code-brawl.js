@@ -30,18 +30,18 @@ function editProblem() {
 }
 
 function calculateScore(progress, remainingTime) {
-    var val = 50, min = 240, max = 270;
+    var val = 50, min = 420, max = 540;
 
     switch (progress) {
         case 1:
             val = 100;
-            min = 150;
-            max = 210;
+            min = 240;
+            max = 360;
             break;
         case 2:
             val = 150;
             min = 0;
-            max = 120;
+            max = 210;
             break;
     }
 
@@ -135,12 +135,26 @@ async function submit() {
         })
 }
 
-function exit(){
+function exit() {
     swal({
         title: 'Are you sure?',
         text: "You won't be able to revert this!",
         icon: 'warning',
-        buttons: true})
+        buttons: true,
+        dangerMode: true
+    }).then(async(leaveMatch) => {
+        if (leaveMatch) {
+          swal("See you next time!", {
+            icon: "error",
+          });
+          await endPlayerSession();
+        } else {
+          swal({
+            title: "You're still in the game!",
+            icon: 'success'
+          });
+        }
+    });
 }
 
 function stopTransitioning() {

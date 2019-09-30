@@ -63,6 +63,10 @@
                 </div>
             </div>
             <a id="enemyPlayer"  class="ml-2" ></a>
+            <button id="exit" class="d-inline ml-2 btn btn-secondary btn-block btn-large ld-over-inverse" onclick="exit()" style="max-width: 60px; display: inline-block;">
+                <img src="{{url_for('static', filename='images/Door_Out-512.png')}}" style="height: 20px;">
+                <div class="ld ld-loader loader-gif"></div>
+            </button>
         </div>
         <!-- Enemy Player Info END -->
 
@@ -126,17 +130,10 @@
                     <div id="terminalBlock">
                     </div>
                 </div>
-                <div>
-                    <button id="submit" class="btn btn-success btn-block btn-large ld-over-inverse" onclick="submit()" style="max-width: 200px; display: inline-block; margin-bottom: 11px;">
-                        Submit!
-                        <div class="ld ld-loader loader-gif"></div>
-                    </button>
-    
-                    <button id="submit" class="btn btn-danger btn-block btn-large ld-over-inverse" onclick="exit()" style="max-width: 60px; display: inline-block; margin-bottom: 20px;">
-                        <img src="../static/images/Door_Out-512.png" style="height: 20px;">
-                        <div class="ld ld-loader loader-gif"></div>
-                    </button>
-                </div>
+                <button id="submit" class="btn btn-success btn-block btn-large ld-over-inverse" onclick="submit()" style="margin-left:auto; margin-right:auto; max-width: 200px; display: inline-block; margin-bottom: 11px;">
+                    Submit!
+                    <div class="ld ld-loader loader-gif"></div>
+                </button>
             </div>
             <!-- Tab Content END -->
 
@@ -158,17 +155,16 @@
         var challenge_id = '{{challenge_id}}';
     </script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/6.2.3/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/6.2.3/firebase-auth.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/6.2.3/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.0.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.0.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.0.0/firebase-firestore.js"></script>
     <script src="http://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.2/modernizr.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="{{url_for('static', filename='js/ace.js')}}" type="text/javascript" charset="utf-8"></script>
     <script src="{{url_for('static', filename='js/ext-language_tools.js')}}" type="text/javascript" charset="utf-8"></script>
     <script src="{{url_for('static', filename='js/firebase.js')}}" type="text/javascript" charset="utf-8"></script>
     <script src="{{url_for('static', filename='js/timer.js')}}"></script>
-    <!-- <script src="{{url_for('static', filename='js/code-brawl.js')}}" type="text/javascript" charset="utf-8"></script> -->
-    <script src="../static/js/code-brawl.js" type="text/javascript" charset="utf-8"></script>
+    <script src="{{url_for('static', filename='js/code-brawl.js')}}" type="text/javascript" charset="utf-8"></script>
     <script src="{{url_for('static', filename='js/loading.js')}}" type="text/javascript" charset="utf-8"></script>
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <script type="text/javascript">
